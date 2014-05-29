@@ -1,0 +1,9 @@
+    // Workaround for problem with new release of Chrome on Android
+// @if user.agent safari {
+// }
+
+	body {
+	    color: white;
+        background-color: black;
+        background-image: none;  
+	}
