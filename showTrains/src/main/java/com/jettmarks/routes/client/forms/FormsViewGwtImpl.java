@@ -63,11 +63,12 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView {
     
 		container.add(widgetList);
 
-		scrollPanel.setScrollingEnabledX(false);
-		scrollPanel.setWidget(container);
+		// TODO: put this back -- Map can't use it.
+//		scrollPanel.setScrollingEnabledX(false);
+//		scrollPanel.setWidget(container);
 		// workaround for android formfields jumping around when using
 		// -webkit-transform
-		scrollPanel.setUsePos(MGWT.getOsDetection().isAndroid());
+//		scrollPanel.setUsePos(MGWT.getOsDetection().isAndroid());
 	}
 
   /**

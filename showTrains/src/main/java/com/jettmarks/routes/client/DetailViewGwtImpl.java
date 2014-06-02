@@ -1,5 +1,8 @@
 package com.jettmarks.routes.client;
 
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -9,12 +12,12 @@ import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 
 public abstract class DetailViewGwtImpl implements DetailView {
 
 	protected LayoutPanel main;
-	protected ScrollPanel scrollPanel;
+//	protected ScrollPanel scrollPanel;
+	protected AbsolutePanel mapPanel;
 	protected HeaderPanel headerPanel;
 	protected HeaderButton headerBackButton;
 	protected HeaderButton headerMainButton;
@@ -22,8 +25,9 @@ public abstract class DetailViewGwtImpl implements DetailView {
 
 	public DetailViewGwtImpl() {
 		main = new LayoutPanel();
+		mapPanel = new AbsolutePanel();
 
-		scrollPanel = new ScrollPanel();
+//		scrollPanel = new ScrollPanel();
 
 		headerPanel = new HeaderPanel();
 		title = new HTML();
@@ -43,7 +47,9 @@ public abstract class DetailViewGwtImpl implements DetailView {
 		}
 
 		main.add(headerPanel);
-		main.add(scrollPanel);
+//		main.add(scrollPanel);
+    mapPanel.setSize("100%", "100%");
+		main.add(mapPanel);
 	}
 
 	@Override
