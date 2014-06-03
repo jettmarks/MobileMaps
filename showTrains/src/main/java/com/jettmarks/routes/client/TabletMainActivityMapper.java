@@ -7,6 +7,7 @@ import com.jettmarks.routes.client.activities.showGroup.ShowGroupActivity;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupPlace;
 import com.jettmarks.routes.client.forms.FormsActivity;
 import com.jettmarks.routes.client.forms.FormsPlace;
+import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.place.HomePlace;
 
 public class TabletMainActivityMapper implements ActivityMapper {
@@ -36,6 +37,10 @@ public class TabletMainActivityMapper implements ActivityMapper {
 //  		return getAboutActivity();
   	}
   	
+  	if (newPlace instanceof EventPlace) {
+  	  return new ShowGroupActivity(newPlace, clientFactory);
+  	}
+  
   	if (newPlace instanceof ShowGroupPlace) {
   	  return new ShowGroupActivity(newPlace, clientFactory);
   	}

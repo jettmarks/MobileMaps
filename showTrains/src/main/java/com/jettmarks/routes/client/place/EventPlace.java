@@ -13,18 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Apr 20, 2014
+ * Created Jun 02, 2014
  */
 package com.jettmarks.routes.client.place;
 
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 
-public class EventMapPlace extends Place {
+public class EventPlace extends Place {
 	/**
+	 * An EventPlace specifies the displayGroupName which matches one-to-one with
+	 * a date and a description of the event, as well as bundling the bike trains
+	 * that are being conducted as part of that event.
+	 * 
    * @param displayGroupName
    */
-  public EventMapPlace(String displayGroupName)
+  public EventPlace(String displayGroupName)
   {
     super();
     this.displayGroupName = displayGroupName;
@@ -33,19 +37,30 @@ public class EventMapPlace extends Place {
   /**
    * 
    */
-  public EventMapPlace()
+  public EventPlace()
   {
   }
 
-  public static class Tokenizer implements PlaceTokenizer<EventMapPlace> {
+  /**
+   * @param dispGroup
+   * @param description
+   */
+  public EventPlace(String dispGroup, String description)
+  {
+    super();
+    this.displayGroupName = dispGroup;
+    this.description = description;
+  }
+
+  public static class Tokenizer implements PlaceTokenizer<EventPlace> {
 
 		@Override
-		public EventMapPlace getPlace(String token) {
-			return new EventMapPlace();
+		public EventPlace getPlace(String token) {
+			return new EventPlace();
 		}
 
 		@Override
-		public String getToken(EventMapPlace place) {
+		public String getToken(EventPlace place) {
 			return "";
 		}
 

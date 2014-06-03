@@ -19,6 +19,7 @@ package com.jettmarks.routes.client.activities;
 
 import com.google.code.p.gwtchismes.client.GWTCProgress;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
@@ -34,6 +35,7 @@ import com.jettmarks.routes.client.bean.RouteRequest;
 import com.jettmarks.routes.client.bean.RouteRequestRouteName;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.ServiceWrapper;
+import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.RouteContainer;
 import com.jettmarks.routes.client.util.RouteScheduledCommand;
 
@@ -67,24 +69,24 @@ public class MapActivity extends DetailActivity implements RouteContainer
    * @param view
    * @param clientFactory
    */
-  ShowGroupView mapView = null;
+  EventView mapView = null;
   
-  public MapActivity(DetailView detailView, ClientFactory cf)
+  public MapActivity(DetailView view, ClientFactory cf)
   {
-    super(detailView, "");
+    super(view, "");
     clientFactory = cf;
     
-    if (detailView instanceof ShowGroupView) {
-      ShowGroupView showGroupView = (ShowGroupView) detailView;
-      mapView = showGroupView;
+    if (view instanceof EventView) {
+      EventView eventView = (EventView) view;
+      mapView = eventView;
       ServiceWrapper serviceWrapper = new ServiceWrapper(this);
       DisplayGroupDTO dispGroup = new DisplayGroupDTO();
-      dispGroup.setDisplayName(showGroupView.getDisplayGroupName());
+      dispGroup.setDisplayName(eventView.getDisplayGroupName());
 //      if (dispGroup.getDisplayName() == null || dispGroup.getDisplayName().length() == 0)
 //      {
 //        dispGroup.setDisplayName("bt1405-BTW");
 //      }
-      addHandlerRegistration(showGroupView.getViewDetailButton().addTapHandler(new TapHandler()
+      addHandlerRegistration(eventView.getViewDetailButton().addTapHandler(new TapHandler()
       {
         @Override
         public void onTap(TapEvent event)
@@ -107,7 +109,7 @@ public class MapActivity extends DetailActivity implements RouteContainer
     
   }
 
-  /* (non-Javadoc)
+  /**
    * @see com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks.routes.client.bean.RouteRequest)
    */
   @Override
@@ -117,12 +119,8 @@ public class MapActivity extends DetailActivity implements RouteContainer
     currentRouteRequest = routeRequest;
     openProgressBar(routeRequest);
     
-//    ServiceWrapper serviceWrapper = ServiceWrapper.getInstance();
     ServiceWrapper serviceWrapper = new ServiceWrapper(this);
-//    while (routeRequest.hasNext()) {
-      serviceWrapper.requestElement((DisplayElementDTO)routeRequest.next());
-//    }
-    
+    serviceWrapper.requestElement((DisplayElementDTO)routeRequest.next());
   }
 
   /**

@@ -60,7 +60,7 @@ public class ShowTrainsEntryPoint implements EntryPoint
 
     historyHandler.register(clientFactory.getPlaceController(),
         clientFactory.getEventBus(),
-        new com.jettmarks.routes.client.activities.showGroup.ShowGroupPlace(
+        new com.jettmarks.routes.client.place.EventPlace(
             "bt1406-Jun-IB", "2014 June Commuter Breakfast"));
 
     if ((MGWT.getOsDetection().isTablet()))

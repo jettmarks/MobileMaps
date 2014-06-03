@@ -25,6 +25,7 @@ import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
+import com.googlecode.mgwt.ui.client.widget.tabbar.TabPanel;
 
 /**
  * Description.
@@ -39,12 +40,12 @@ public abstract class MapDetailViewGwtImpl implements DetailView
   protected HeaderButton headerBackButton;
   protected HTML title;
   protected HeaderPanel headerPanel;
+  protected TabPanel tabPanel;
 	
 
   public MapDetailViewGwtImpl() {
     main = new LayoutPanel();
     main.setSize("100%", "100%");
-    
 		headerPanel = new HeaderPanel();
 		
 		headerMainButton = new HeaderButton();
@@ -53,7 +54,12 @@ public abstract class MapDetailViewGwtImpl implements DetailView
 		headerBackButton = new HeaderButton();
 		headerBackButton.setBackButton(true);
 		headerBackButton.setVisible(!MGWT.getOsDetection().isAndroid());
+		
+    tabPanel = new TabPanel();
+    main.add(headerPanel);
+    main.add(tabPanel);
   }
+  
   /**
    * @see com.google.gwt.user.client.ui.IsWidget#asWidget()
    */

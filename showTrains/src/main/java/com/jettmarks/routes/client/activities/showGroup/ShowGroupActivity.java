@@ -25,19 +25,31 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.activities.MapActivity;
+import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.place.HomePlace;
+import com.jettmarks.routes.client.ui.EventView;
 
 public class ShowGroupActivity extends DetailActivity {
 
 	private final ClientFactory clientFactory;
 
+	private EventView view;
+	
 	public ShowGroupActivity(Place newPlace, ClientFactory clientFactory) {
 		super(clientFactory.getShowGroupView(), "nav");
-		if (newPlace instanceof ShowGroupPlace) {
-		  ShowGroupPlace place = (ShowGroupPlace)newPlace;
+//		if (newPlace instanceof ShowGroupPlace) {
+//		  ShowGroupPlace place = (ShowGroupPlace)newPlace;
+//		  String description = place.getDescription();
+//		  String displayGroupName = place.getDisplayGroupName();
+//		  ShowGroupView view = clientFactory.getShowGroupView();
+//		  view.setDisplayGroupName(displayGroupName);
+//		  view.setDescription(description);
+//		} else if (newPlace instanceof EventPlace){
+		if (newPlace instanceof EventPlace) {
+		  EventPlace place = (EventPlace)newPlace;
 		  String description = place.getDescription();
 		  String displayGroupName = place.getDisplayGroupName();
-		  ShowGroupView view = clientFactory.getShowGroupView();
+		  view = clientFactory.getEventView();
 		  view.setDisplayGroupName(displayGroupName);
 		  view.setDescription(description);
 		}
@@ -47,10 +59,8 @@ public class ShowGroupActivity extends DetailActivity {
 	@Override
   	public void start(AcceptsOneWidget panel, EventBus eventBus) {
   		super.start(panel, eventBus);
-  		final ShowGroupView view = clientFactory.getShowGroupView();
   		view.getMainButtonText().setText("Nav");
   		view.getBackbuttonText().setText("UI");
-//  		view.getHeader().setText("Map");
   		
 		  MapActivity mapActivity = new MapActivity(view, clientFactory);
   		panel.setWidget(view);

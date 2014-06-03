@@ -17,13 +17,11 @@
  */
 package com.jettmarks.routes.client.activities.showGroup;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.LatLngBounds;
-import com.google.gwt.user.client.Command;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.MTextBox;
 import com.jettmarks.routes.client.DetailViewGwtImpl;

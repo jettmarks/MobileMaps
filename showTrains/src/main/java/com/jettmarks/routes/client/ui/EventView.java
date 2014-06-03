@@ -17,14 +17,34 @@
  */
 package com.jettmarks.routes.client.ui;
 
+import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.jettmarks.routes.client.DetailView;
+import com.jettmarks.routes.client.bean.Route;
 
 /**
- * Description.
+ * An Event corresponds to a set of Bike Trains on a given date.
+ * 
+ * The view itself will have a Group that is used to bundle up the bike trains
+ * for a given date and present the event in either a map, a list, or both.
  *
  * @author jett
  */
-public interface EventMapView extends DetailView
+public interface EventView extends DetailView
 {
+  public abstract void setDisplayGroupName(String displayGroupName);
 
+  public abstract String getDisplayGroupName();
+
+  public abstract void setDescription(String description);
+
+  public abstract String getDescription();
+  
+  public abstract void add(Route route);
+
+  public abstract HeaderButton getViewDetailButton();
+
+  /**
+   * 
+   */
+  public abstract void resize();
 }
