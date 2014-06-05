@@ -28,7 +28,6 @@ import com.google.gwt.maps.client.base.LatLngBounds;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.tabbar.BookmarkTabBarButton;
-import com.googlecode.mgwt.ui.client.widget.tabbar.MoreTabBarButton;
 import com.googlecode.mgwt.ui.client.widget.tabbar.SearchTabBarButton;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
@@ -172,8 +171,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   @Override
   public void setDescription(String description)
   {
-    // TODO Auto-generated method stub
-
+    title.setHTML(description);
   }
 
   /*
