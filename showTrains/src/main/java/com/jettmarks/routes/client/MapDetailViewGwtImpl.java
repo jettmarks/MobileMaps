@@ -29,89 +29,81 @@ import com.googlecode.mgwt.ui.client.widget.tabbar.TabPanel;
 
 /**
  * Description.
- *
+ * 
  * @author jett
  */
-public abstract class MapDetailViewGwtImpl implements DetailView
-{
+public abstract class MapDetailViewGwtImpl implements DetailView {
 
 	protected LayoutPanel main;
-  protected HeaderButton headerMainButton;
-  protected HeaderButton headerBackButton;
-  protected HTML title;
-  protected HeaderPanel headerPanel;
-  protected TabPanel tabPanel;
-	
+	protected HeaderButton headerMainButton;
+	protected HeaderButton headerBackButton;
+	protected HTML title;
+	protected HeaderPanel headerPanel;
+	protected TabPanel tabPanel;
 
-  public MapDetailViewGwtImpl() {
-    main = new LayoutPanel();
-    main.setSize("100%", "100%");
+	public MapDetailViewGwtImpl() {
+		main = new LayoutPanel();
+		main.setSize("100%", "100%");
 		headerPanel = new HeaderPanel();
-		
+
 		headerMainButton = new HeaderButton();
 		headerMainButton.setRoundButton(true);
-		
+
 		headerBackButton = new HeaderButton();
 		headerBackButton.setBackButton(true);
 		headerBackButton.setVisible(!MGWT.getOsDetection().isAndroid());
-		
-    tabPanel = new TabPanel();
-    main.add(headerPanel);
-    main.add(tabPanel);
-  }
-  
-  /**
-   * @see com.google.gwt.user.client.ui.IsWidget#asWidget()
-   */
-  @Override
-  public Widget asWidget()
-  {
-    return main;
-  }
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getHeader()
-   */
-  @Override
-  public HasText getHeader()
-  {
-    return title;
-  }
+		tabPanel = new TabPanel();
+		main.add(headerPanel);
+		main.add(tabPanel);
+	}
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getBackbuttonText()
-   */
-  @Override
-  public HasText getBackbuttonText()
-  {
-    return headerBackButton;
-  }
+	/**
+	 * @see com.google.gwt.user.client.ui.IsWidget#asWidget()
+	 */
+	@Override
+	public Widget asWidget() {
+		return main;
+	}
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getBackbutton()
-   */
-  @Override
-  public HasTapHandlers getBackbutton()
-  {
-    return headerBackButton;
-  }
+	/**
+	 * @see com.jettmarks.routes.client.DetailView#getHeader()
+	 */
+	@Override
+	public HasText getHeader() {
+		return title;
+	}
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getMainButtonText()
-   */
-  @Override
-  public HasText getMainButtonText()
-  {
-    return headerMainButton;
-  }
+	/**
+	 * @see com.jettmarks.routes.client.DetailView#getBackbuttonText()
+	 */
+	@Override
+	public HasText getBackbuttonText() {
+		return headerBackButton;
+	}
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getMainButton()
-   */
-  @Override
-  public HasTapHandlers getMainButton()
-  {
-    return headerMainButton;
-  }
+	/**
+	 * @see com.jettmarks.routes.client.DetailView#getBackbutton()
+	 */
+	@Override
+	public HasTapHandlers getBackbutton() {
+		return headerBackButton;
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.DetailView#getMainButtonText()
+	 */
+	@Override
+	public HasText getMainButtonText() {
+		return headerMainButton;
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.DetailView#getMainButton()
+	 */
+	@Override
+	public HasTapHandlers getMainButton() {
+		return headerMainButton;
+	}
 
 }
