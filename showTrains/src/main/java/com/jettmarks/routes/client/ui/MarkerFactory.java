@@ -19,6 +19,7 @@
  */
 package com.jettmarks.routes.client.ui;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.Point;
 import com.google.gwt.maps.client.overlays.Marker;
@@ -35,10 +36,11 @@ public class MarkerFactory {
 		START_MARKER, END_MARKER, SNAP_MARKER
 	};
 
-	private static MarkerImage beginIcon = MarkerImage
-			.newInstance("images/dd-start.png");
-	private static MarkerImage endIcon = MarkerImage
-			.newInstance("images/dd-end.png");
+  private static MarkerImage beginIcon = MarkerImage.newInstance(GWT.getModuleName()
+                                                                 + "/images/dd-start.png");
+
+  private static MarkerImage endIcon = MarkerImage.newInstance(GWT.getModuleName()
+                                                               + "/images/dd-end.png");
 //	private static MarkerImage crosshairIcon = MarkerImage
 //			.newInstance("images/squareCrosshair.png");
 

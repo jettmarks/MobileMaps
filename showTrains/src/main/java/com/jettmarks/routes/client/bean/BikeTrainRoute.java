@@ -17,6 +17,8 @@
  */
 package com.jettmarks.routes.client.bean;
 
+import com.google.gwt.maps.client.overlays.Marker;
+
 /**
  * Description.
  *
@@ -118,6 +120,22 @@ public class BikeTrainRoute extends DisplayOnlyRoute
         + name
         + "\" target=\"_blank\""
         + ">Cue Sheet</a> (and waypoints if any)");
+  }
+
+  /**
+   * @return
+   */
+  public Marker getStartMarker()
+  {
+    return startMarker;
+  }
+
+  /**
+   * @return
+   */
+  public Marker getEndMarker()
+  {
+    return endMarker;
   }
   
 }

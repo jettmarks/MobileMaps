@@ -33,6 +33,7 @@ import com.googlecode.mgwt.ui.client.widget.tabbar.SearchTabBarButton;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
 import com.jettmarks.routes.client.MapDetailViewGwtImpl;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
 import com.jettmarks.routes.client.util.ScreenSize;
@@ -136,13 +137,13 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	}
 
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.jettmarks.routes.client.ui.EventView#add(com.jettmarks.routes.client
-	 * .bean.Route)
-	 */
+  /**
+   * Adjusts bounds, adds markers and puts it on the mapWidget that is part of
+   * this view.
+   * 
+   * @see com.jettmarks.routes.client.ui.EventView#add(com.jettmarks.routes.client
+   *      .bean.Route)
+   */
 	@Override
 	public void add(Route route) {
 		LatLngBounds routeBounds = route.getBounds();
@@ -153,10 +154,18 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 			mapBounds.extend(routeBounds.getSouthWest());
 		}
 		routes.add(route);
-		addBeginEndMarkers(route, mapWidget);
+    ((BikeTrainRoute) route).getStartMarker().setMap(mapWidget);
+    ((BikeTrainRoute) route).getEndMarker().setMap(mapWidget);
+    // addBeginEndMarkers(route, mapWidget);
 		route.getPolyline().setMap(mapWidget);
 	}
 
+  /**
+   * Hides details of figuring out where to put the markers on the route.
+   * 
+   * @param route
+   * @param mapWidget2
+   */
 	private void addBeginEndMarkers(Route route, MapWidget mapWidget2) {
 		if (route.getPoints() == null) return;
 		int pointCount = route.getPoints().length;
