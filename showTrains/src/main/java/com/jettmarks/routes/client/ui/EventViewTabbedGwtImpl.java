@@ -54,6 +54,10 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 
 	private List<Route> routes = new ArrayList<Route>();
 
+  private String description;
+
+  private String displayGroupName;
+
 	public EventViewTabbedGwtImpl() {
 		// Take care of the header for navigation
 		setupHeader();
@@ -131,52 +135,6 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 		headerPanel.setRightWidget(viewDetailButton);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.jettmarks.routes.client.ui.EventView#setDisplayGroupName(java.lang.
-	 * String)
-	 */
-	@Override
-	public void setDisplayGroupName(String displayGroupName) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jettmarks.routes.client.ui.EventView#getDisplayGroupName()
-	 */
-	@Override
-	public String getDisplayGroupName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.jettmarks.routes.client.ui.EventView#setDescription(java.lang.String)
-	 */
-	@Override
-	public void setDescription(String description) {
-		// TODO Auto-generated method stub
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jettmarks.routes.client.ui.EventView#getDescription()
-	 */
-	@Override
-	public String getDescription() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -236,5 +194,39 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 		}
 		mapWidget.fitBounds(mapBounds);
 	}
+
+  /**
+   * @return the dispGroupName
+   */
+  public String getDisplayGroupName()
+  {
+    return displayGroupName;
+  }
+
+  /**
+   * @param dispGroupName
+   *          the dispGroupName to set
+   */
+  public void setDisplayGroupName(String dispGroupName)
+  {
+    this.displayGroupName = dispGroupName;
+  }
+
+  /**
+   * @return the description
+   */
+  public String getDescription()
+  {
+    return description;
+  }
+
+  /**
+   * @param description
+   *          the description to set
+   */
+  public void setDescription(String description)
+  {
+    this.description = description;
+  }
 
 }
