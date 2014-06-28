@@ -34,6 +34,7 @@ import com.jettmarks.routes.client.common.FacilityType;
 public class Route
 {
   private LatLng[] points;
+  private LatLngBounds bounds = null;
   protected String name = null;
   protected String description = null;
   protected Polyline polyline = null;
@@ -41,7 +42,10 @@ public class Route
   protected Polyline highlightedPolyline = null;
 //  protected EncodedPolyline encodedPolyline = null;
   protected EncodedTrack encodedTrack = null;
-  private LatLngBounds bounds = null;
+
+  // TODO: These should be on either the map or the request for a group
+  protected static Route selectedRoute = null;
+
   protected double distance;
   private String[] elevations;
   /** Holds link to external source if appropriate; null otherwise. */
@@ -49,13 +53,63 @@ public class Route
   /** Human Readable name instead of "ID". */
   protected String displayName = null;
   
-  protected static Route selectedRoute = null;
   /**
    * Holds the name of the route that goes along with a particular Polyline
    * instance.
    */
   protected static HashMap<Polyline, String> namePerPolyline = new HashMap<Polyline, String>();
   protected int facilityType = FacilityType.UNKNOWN;
+  //  protected PolyStyleOptions highlightedStyleOptions = 
+  //    PolyStyleOptions.getInstance(); 
+  //  protected PolyStyleOptions bikeLaneStyleOptions =
+  //    PolyStyleOptions.getInstance();
+  //  protected PolyStyleOptions bikeRouteStyleOptions =
+  //    PolyStyleOptions.getInstance();
+  //  protected PolyStyleOptions segregatedStyleOptions =
+  //    PolyStyleOptions.getInstance();
+  
+    /**
+     * Route isn't useful until we can put it on the map.
+     */
+    public Route(String name)
+    {
+      this.name = name;
+      
+      unselectedStyleOptions.setStrokeColor("#0000CC");
+      unselectedStyleOptions.setStrokeWeight(4);
+      unselectedStyleOptions.setStrokeOpacity(0.5);
+      
+      highlightedStyleOptions.setStrokeColor("#0000CC");
+      highlightedStyleOptions.setStrokeWeight(6);
+      highlightedStyleOptions.setStrokeOpacity(0.9);
+  //    
+  //    segregatedStyleOptions.setColor("#006633");
+  //    segregatedStyleOptions.setWeight(4);
+  //    segregatedStyleOptions.setOpacity(0.8);
+  //    
+  //    bikeLaneStyleOptions.setColor("#339966");
+  //    bikeLaneStyleOptions.setWeight(4);
+  //    bikeLaneStyleOptions.setOpacity(0.8);
+  //    
+  //    bikeRouteStyleOptions.setColor("#66FFFF");
+  //    bikeRouteStyleOptions.setWeight(4);
+  //    bikeRouteStyleOptions.setOpacity(0.8);
+  //    
+  //    selectedStyleOptions.setColor("#CC00CC");
+  //    selectedStyleOptions.setWeight(4);
+  //    selectedStyleOptions.setOpacity(0.5);
+    }
+
+  /**
+     * @param mapWidget
+     */
+    public void setMap(MapWidget mapWidget)
+    {
+      polyline.setMap(mapWidget);
+      highlightedPolyline.setMap(mapWidget);
+      highlight(false);
+    }
+
   /**
    * @return the facilityType
    */
@@ -86,38 +140,6 @@ public class Route
 //  protected PolyStyleOptions segregatedStyleOptions =
 //    PolyStyleOptions.getInstance();
 
-  /**
-   * Route isn't useful until we can put it on the map.
-   */
-  public Route(String name)
-  {
-    this.name = name;
-    
-    unselectedStyleOptions.setStrokeColor("#0000CC");
-    unselectedStyleOptions.setStrokeWeight(4);
-    unselectedStyleOptions.setStrokeOpacity(0.5);
-    
-    highlightedStyleOptions.setStrokeColor("#0000CC");
-    highlightedStyleOptions.setStrokeWeight(6);
-    highlightedStyleOptions.setStrokeOpacity(0.9);
-//    
-//    segregatedStyleOptions.setColor("#006633");
-//    segregatedStyleOptions.setWeight(4);
-//    segregatedStyleOptions.setOpacity(0.8);
-//    
-//    bikeLaneStyleOptions.setColor("#339966");
-//    bikeLaneStyleOptions.setWeight(4);
-//    bikeLaneStyleOptions.setOpacity(0.8);
-//    
-//    bikeRouteStyleOptions.setColor("#66FFFF");
-//    bikeRouteStyleOptions.setWeight(4);
-//    bikeRouteStyleOptions.setOpacity(0.8);
-//    
-//    selectedStyleOptions.setColor("#CC00CC");
-//    selectedStyleOptions.setWeight(4);
-//    selectedStyleOptions.setOpacity(0.5);
-  }
-  
   /**
    * Takes several parameters from an EncodedTrack to create a Route:
    * <UL>
@@ -158,6 +180,7 @@ public class Route
     highlightedPolyline = Polyline.newInstance(highlightedStyleOptions);
 
 //    polyline.setPath(EncodingUtils.decodePath(encodedTrack.getEncodedPoints()));
+    @SuppressWarnings("unchecked")
     JsArray<LatLng> path = (JsArray<LatLng>) JsArray.createArray();
     double[] lats = encTrk.getLats();
     double[] lons = encTrk.getLons();
@@ -401,16 +424,6 @@ public class Route
   public void setDisplayName(String displayName)
   {
     this.displayName = displayName;
-  }
-
-  /**
-   * @param mapWidget
-   */
-  public void setMap(MapWidget mapWidget)
-  {
-    polyline.setMap(mapWidget);
-    highlightedPolyline.setMap(mapWidget);
-    highlight(false);
   }
 
 }
