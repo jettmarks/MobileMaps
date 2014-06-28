@@ -88,15 +88,21 @@ public class MapActivity extends DetailActivity implements RouteContainer
       // {
       // dispGroup.setDisplayName("bt1405-BTW");
       // }
-      addHandlerRegistration(eventView.getViewDetailButton().addTapHandler(
-          new TapHandler()
-          {
-            @Override
-            public void onTap(TapEvent event)
+
+      // Only add handler for button if we have a button to handle
+      if (eventView.getViewDetailButton() != null)
+      {
+        addHandlerRegistration(eventView.getViewDetailButton().addTapHandler(
+            new TapHandler()
             {
-              clientFactory.getPlaceController().goTo(new RouteDetailsPlace());
-            }
-          }));
+              @Override
+              public void onTap(TapEvent event)
+              {
+                clientFactory.getPlaceController()
+                             .goTo(new RouteDetailsPlace());
+              }
+            }));
+      }
 
       serviceWrapper.showRoutes(dispGroup);
     }
@@ -127,7 +133,7 @@ public class MapActivity extends DetailActivity implements RouteContainer
     openProgressBar(routeRequest);
     DisplayElementDTO firstRequest = (DisplayElementDTO) routeRequest.next();
     MapActivity target = this;
-    
+
     Scheduler.get().scheduleDeferred(
         new GetElementScheduledCommand(target, firstRequest));
   }
@@ -203,23 +209,23 @@ public class MapActivity extends DetailActivity implements RouteContainer
   public void put(String routeName, Route route)
   {
     // loadedRoutes.put(routeName, route);
-  
+
     mapView.add(route);
   }
 
   class GetElementScheduledCommand implements ScheduledCommand
   {
     MapActivity target = null;
-  
+
     DisplayElementDTO request = null;
-  
+
     GetElementScheduledCommand(MapActivity target, DisplayElementDTO request)
     {
       super();
       this.target = target;
       this.request = request;
     }
-  
+
     /*
      * (non-Javadoc)
      * 

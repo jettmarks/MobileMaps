@@ -130,10 +130,10 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
    * 
    */
 	private void setupHeader() {
-		viewDetailButton = new HeaderButton();
-		viewDetailButton.setForwardButton(true);
-		viewDetailButton.setText("Details");
-		headerPanel.setRightWidget(viewDetailButton);
+    // viewDetailButton = new HeaderButton();
+    // viewDetailButton.setForwardButton(true);
+    // viewDetailButton.setText("Details");
+    // headerPanel.setRightWidget(viewDetailButton);
 	}
 
 
