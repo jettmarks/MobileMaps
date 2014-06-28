@@ -17,6 +17,7 @@
  */
 package com.jettmarks.routes.client.bean;
 
+import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.overlays.Marker;
 
 /**
@@ -136,6 +137,20 @@ public class BikeTrainRoute extends DisplayOnlyRoute
   public Marker getEndMarker()
   {
     return endMarker;
+  }
+
+  /**
+   * Calls super before adding the markers to the map.
+   * 
+   * @see com.jettmarks.routes.client.bean.Route#setMap(com.google.gwt.maps.client
+   *      .MapWidget)
+   */
+  @Override
+  public void setMap(MapWidget mapWidget)
+  {
+    super.setMap(mapWidget);
+    startMarker.setMap(mapWidget);
+    endMarker.setMap(mapWidget);
   }
   
 }

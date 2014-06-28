@@ -20,6 +20,7 @@ package com.jettmarks.routes.client.bean;
 import java.util.HashMap;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Polyline;
@@ -154,6 +155,8 @@ public class Route
 //        numLevels);
     
     polyline = Polyline.newInstance(unselectedStyleOptions);
+    highlightedPolyline = Polyline.newInstance(highlightedStyleOptions);
+
 //    polyline.setPath(EncodingUtils.decodePath(encodedTrack.getEncodedPoints()));
     JsArray<LatLng> path = (JsArray<LatLng>) JsArray.createArray();
     double[] lats = encTrk.getLats();
@@ -163,6 +166,7 @@ public class Route
       path.set(i, point);
     }
     polyline.setPath(path);
+    highlightedPolyline.setPath(path);
     
 //    if (facilityType == FacilityType.SEGREGATED)
 //      polyline.setStrokeStyle(segregatedStyleOptions);
@@ -397,6 +401,16 @@ public class Route
   public void setDisplayName(String displayName)
   {
     this.displayName = displayName;
+  }
+
+  /**
+   * @param mapWidget
+   */
+  public void setMap(MapWidget mapWidget)
+  {
+    polyline.setMap(mapWidget);
+    highlightedPolyline.setMap(mapWidget);
+    highlight(false);
   }
 
 }

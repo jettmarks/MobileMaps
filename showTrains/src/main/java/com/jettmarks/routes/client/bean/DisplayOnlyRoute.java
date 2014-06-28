@@ -18,7 +18,10 @@
 package com.jettmarks.routes.client.bean;
 
 
+import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
+import com.google.gwt.maps.client.events.click.ClickMapEvent;
+import com.google.gwt.maps.client.events.click.ClickMapHandler;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.google.gwt.maps.client.overlays.Polyline;
 import com.jettmarks.routes.client.ui.MarkerFactory;
@@ -38,6 +41,8 @@ public class DisplayOnlyRoute extends Route
   protected Marker startMarker = null;
   protected Marker endMarker = null;
   protected StringBuffer infoContent = null;
+
+  private boolean highlightOn = false;
   protected static String previousRouteName = null;
   
   /**
@@ -81,25 +86,51 @@ public class DisplayOnlyRoute extends Route
   protected void addMouseHandlers(Polyline p)
   { 
     namePerPolyline.put(p, name);
-//    p.addPolylineMouseOutHandler(new PolylineMouseOutHandler()
-//    {
-//      public void onMouseOut(PolylineMouseOutEvent event)
-//      {
-//        String routeName = namePerPolyline.get(event.getSender());
-//        RoutePanel.highlight(routeName, false);
-//        InfoPanel.highlight(routeName, false);
-//      }
-//    });
-//
-//    p.addPolylineMouseOverHandler(new PolylineMouseOverHandler()
-//    {
-//      public void onMouseOver(PolylineMouseOverEvent event)
-//      {
-//        String routeName = namePerPolyline.get(event.getSender());
-//        RoutePanel.highlight(routeName, true);
-//        InfoPanel.highlight(routeName, true);
-//      }
-//    });
+    p.addClickHandler(new ClickMapHandler()
+    {
+
+      @Override
+      public void onEvent(ClickMapEvent event)
+      {
+        toggleHighlight();
+      }
+    });
+  }
+
+  /**
+   * 
+   */
+  protected void toggleHighlight()
+  {
+    highlightOn ^= true;
+    highlight(highlightOn);
+  }
+
+  /**
+   * This handles the end markers which only exist in this branch of the class
+   * hierarchy.
+   * 
+   * @see com.jettmarks.routes.client.bean.Route#highlight(boolean)
+   */
+  @Override
+  public void highlight(boolean on)
+  {
+    super.highlight(on);
+    // Workaround for android chrome; unable to use the 'boolean' passed in !?!
+    if (on)
+    {
+      if (startMarker != null)
+        startMarker.setVisible(true);
+      if (endMarker != null)
+        endMarker.setVisible(true);
+    }
+    else
+    {
+      if (startMarker != null)
+        startMarker.setVisible(false);
+      if (endMarker != null)
+        endMarker.setVisible(false);
+    }
   }
 
   protected void addPolyline(Polyline p)
@@ -184,21 +215,6 @@ public class DisplayOnlyRoute extends Route
   }
 
   /**
-   * This handles the end markers which only exist in this branch of the class
-   * hierarchy.
-   * 
-   * @see com.jettmarks.routes.client.bean.Route#highlight(boolean)
-   */
-  @Override
-  public void highlight(boolean on)
-  {
-    super.highlight(on);
-    // These can use the same boolean as passed
-    if (startMarker != null) startMarker.setVisible(on);
-    if (endMarker != null) endMarker.setVisible(on);
-  }
-
-  /**
    * @return
    */
   public String getInfoContent()
@@ -208,6 +224,21 @@ public class DisplayOnlyRoute extends Route
       initInfoContent("0.00");
     }
     return infoContent.toString();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.jettmarks.routes.client.bean.Route#setMap(com.google.gwt.maps.client
+   * .MapWidget)
+   */
+  @Override
+  public void setMap(MapWidget mapWidget)
+  {
+    super.setMap(mapWidget);
+    addMouseHandlers(polyline);
+    addMouseHandlers(highlightedPolyline);
   }
 
 }

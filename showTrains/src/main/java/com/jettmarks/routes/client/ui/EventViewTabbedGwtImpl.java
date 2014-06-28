@@ -141,23 +141,25 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
    * Adjusts bounds, adds markers and puts it on the mapWidget that is part of
    * this view.
    * 
+   * Passed as a generic Route, but understood to be a BikeTrainRoute.
+   * 
    * @see com.jettmarks.routes.client.ui.EventView#add(com.jettmarks.routes.client
    *      .bean.Route)
    */
 	@Override
 	public void add(Route route) {
-		LatLngBounds routeBounds = route.getBounds();
+    BikeTrainRoute bikeRoute = (BikeTrainRoute) route;
+    LatLngBounds routeBounds = bikeRoute.getBounds();
 		if (mapBounds == null) {
 			mapBounds = routeBounds;
 		} else {
 			mapBounds.extend(routeBounds.getNorthEast());
 			mapBounds.extend(routeBounds.getSouthWest());
 		}
-		routes.add(route);
-    ((BikeTrainRoute) route).getStartMarker().setMap(mapWidget);
-    ((BikeTrainRoute) route).getEndMarker().setMap(mapWidget);
-    // addBeginEndMarkers(route, mapWidget);
-		route.getPolyline().setMap(mapWidget);
+    routes.add(bikeRoute);
+    addBeginEndMarkers(route, mapWidget);
+    bikeRoute.setMap(mapWidget);
+    bikeRoute.highlight(false);
 	}
 
   /**
