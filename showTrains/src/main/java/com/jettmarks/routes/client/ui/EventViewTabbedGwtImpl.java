@@ -28,14 +28,14 @@ import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
-import com.googlecode.mgwt.ui.client.widget.tabbar.BookmarkTabBarButton;
-import com.googlecode.mgwt.ui.client.widget.tabbar.SearchTabBarButton;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
 import com.jettmarks.routes.client.MapDetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
+import com.jettmarks.routes.client.ui.tab.ListTabBarButton;
+import com.jettmarks.routes.client.ui.tab.MapTabBarButton;
 import com.jettmarks.routes.client.util.ScreenSize;
 
 /**
@@ -75,7 +75,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	private Tab prepareListTab(CellList<Route> listWidget) {
 		Tab tab = new Tab();
 
-		TabBarButtonBase button = new BookmarkTabBarButton();
+    TabBarButtonBase button = new ListTabBarButton();
 		tab.setButton(button);
 		tab.setWidget(listWidget);
 		return tab;
@@ -88,7 +88,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	private Tab prepareMapTab(MapWidget mapWidget2) {
 		Tab tab = new Tab();
 
-		TabBarButtonBase button = new SearchTabBarButton();
+    TabBarButtonBase button = new MapTabBarButton();
 		tab.setButton(button);
 		tab.setWidget(mapWidget2);
 		return tab;
