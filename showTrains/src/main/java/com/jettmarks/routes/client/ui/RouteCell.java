@@ -26,31 +26,43 @@ import com.jettmarks.routes.client.bean.Route;
 
 /**
  * Builds the contents of our Route Cells.
- *
+ * 
  * @author jett
  */
 public class RouteCell implements Cell<Route>
 {
   private static Template TEMPLATE = GWT.create(Template.class);
 
-  public interface Template extends SafeHtmlTemplates {
+  public interface Template extends SafeHtmlTemplates
+  {
     @SafeHtmlTemplates.Template("<div>{0}</div>")
     SafeHtml content(String text);
   }
-  
-  /* (non-Javadoc)
-   * @see com.googlecode.mgwt.ui.client.widget.celllist.Cell#render(com.google.gwt.safehtml.shared.SafeHtmlBuilder, java.lang.Object)
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.googlecode.mgwt.ui.client.widget.celllist.Cell#render(com.google.gwt
+   * .safehtml.shared.SafeHtmlBuilder, java.lang.Object)
    */
   @Override
   public void render(SafeHtmlBuilder safeHtmlBuilder, Route model)
   {
-    if (model == null) return;
-    SafeHtml content = TEMPLATE.content(model.getDisplayName());
+    if (model == null)
+      return;
+    SafeHtml content = TEMPLATE.content((model.getDisplayName() != null)
+                                                                       ? model.getDisplayName()
+                                                                        : model.getName());
     safeHtmlBuilder.append(content);
   }
 
-  /* (non-Javadoc)
-   * @see com.googlecode.mgwt.ui.client.widget.celllist.Cell#canBeSelected(java.lang.Object)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.googlecode.mgwt.ui.client.widget.celllist.Cell#canBeSelected(java.lang
+   * .Object)
    */
   @Override
   public boolean canBeSelected(Route model)

@@ -59,11 +59,13 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 
   private String displayGroupName;
 
+  private CellList<Route> listWidget;
+
 	public EventViewTabbedGwtImpl() {
 		// Take care of the header for navigation
 		setupHeader();
 		mapWidget = prepareMap();
-		CellList<Route> listWidget = prepareList();
+    listWidget = prepareList();
 		tabPanel.addTab(prepareMapTab(mapWidget));
 		tabPanel.addTab(prepareListTab(listWidget));
 	}
@@ -149,6 +151,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	@Override
 	public void add(Route route) {
     BikeTrainRoute bikeRoute = (BikeTrainRoute) route;
+    // Take care of the map
     LatLngBounds routeBounds = bikeRoute.getBounds();
 		if (mapBounds == null) {
 			mapBounds = routeBounds;
@@ -161,6 +164,14 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
     bikeRoute.setMap(mapWidget);
     bikeRoute.highlight(false);
 	}
+
+  /**
+   * Called after last route has been loaded.
+   */
+  public void renderList()
+  {
+    listWidget.render(routes);
+  }
 
   /**
    * Hides details of figuring out where to put the markers on the route.
@@ -200,6 +211,8 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public void resize() {
+    // See if this works here
+    renderList();
 		if (mapBounds == null) {
 			return;
 		}
