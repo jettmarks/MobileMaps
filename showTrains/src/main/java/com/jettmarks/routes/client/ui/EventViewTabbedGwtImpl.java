@@ -28,14 +28,14 @@ import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
-import com.googlecode.mgwt.ui.client.widget.tabbar.BookmarkTabBarButton;
-import com.googlecode.mgwt.ui.client.widget.tabbar.SearchTabBarButton;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
 import com.jettmarks.routes.client.MapDetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
+import com.jettmarks.routes.client.ui.tab.ListTabBarButton;
+import com.jettmarks.routes.client.ui.tab.MapTabBarButton;
 import com.jettmarks.routes.client.util.ScreenSize;
 
 /**
@@ -59,11 +59,13 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 
   private String displayGroupName;
 
+  private CellList<Route> listWidget;
+
 	public EventViewTabbedGwtImpl() {
 		// Take care of the header for navigation
 		setupHeader();
 		mapWidget = prepareMap();
-		CellList<Route> listWidget = prepareList();
+    listWidget = prepareList();
 		tabPanel.addTab(prepareMapTab(mapWidget));
 		tabPanel.addTab(prepareListTab(listWidget));
 	}
@@ -75,7 +77,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	private Tab prepareListTab(CellList<Route> listWidget) {
 		Tab tab = new Tab();
 
-		TabBarButtonBase button = new BookmarkTabBarButton();
+    TabBarButtonBase button = new ListTabBarButton();
 		tab.setButton(button);
 		tab.setWidget(listWidget);
 		return tab;
@@ -88,7 +90,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	private Tab prepareMapTab(MapWidget mapWidget2) {
 		Tab tab = new Tab();
 
-		TabBarButtonBase button = new SearchTabBarButton();
+    TabBarButtonBase button = new MapTabBarButton();
 		tab.setButton(button);
 		tab.setWidget(mapWidget2);
 		return tab;
@@ -130,10 +132,10 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
    * 
    */
 	private void setupHeader() {
-		viewDetailButton = new HeaderButton();
-		viewDetailButton.setForwardButton(true);
-		viewDetailButton.setText("Details");
-		headerPanel.setRightWidget(viewDetailButton);
+    // viewDetailButton = new HeaderButton();
+    // viewDetailButton.setForwardButton(true);
+    // viewDetailButton.setText("Details");
+    // headerPanel.setRightWidget(viewDetailButton);
 	}
 
 
@@ -141,24 +143,35 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
    * Adjusts bounds, adds markers and puts it on the mapWidget that is part of
    * this view.
    * 
+   * Passed as a generic Route, but understood to be a BikeTrainRoute.
+   * 
    * @see com.jettmarks.routes.client.ui.EventView#add(com.jettmarks.routes.client
    *      .bean.Route)
    */
 	@Override
 	public void add(Route route) {
-		LatLngBounds routeBounds = route.getBounds();
+    BikeTrainRoute bikeRoute = (BikeTrainRoute) route;
+    // Take care of the map
+    LatLngBounds routeBounds = bikeRoute.getBounds();
 		if (mapBounds == null) {
 			mapBounds = routeBounds;
 		} else {
 			mapBounds.extend(routeBounds.getNorthEast());
 			mapBounds.extend(routeBounds.getSouthWest());
 		}
-		routes.add(route);
-    ((BikeTrainRoute) route).getStartMarker().setMap(mapWidget);
-    ((BikeTrainRoute) route).getEndMarker().setMap(mapWidget);
-    // addBeginEndMarkers(route, mapWidget);
-		route.getPolyline().setMap(mapWidget);
+    routes.add(bikeRoute);
+    addBeginEndMarkers(route, mapWidget);
+    bikeRoute.setMap(mapWidget);
+    bikeRoute.highlight(false);
 	}
+
+  /**
+   * Called after last route has been loaded.
+   */
+  public void renderList()
+  {
+    listWidget.render(routes);
+  }
 
   /**
    * Hides details of figuring out where to put the markers on the route.
@@ -198,6 +211,8 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public void resize() {
+    // See if this works here
+    renderList();
 		if (mapBounds == null) {
 			return;
 		}

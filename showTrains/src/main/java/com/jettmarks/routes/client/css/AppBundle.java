@@ -2,6 +2,7 @@ package com.jettmarks.routes.client.css;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.TextResource;
 
 public interface AppBundle extends ClientBundle {
@@ -11,4 +12,9 @@ public interface AppBundle extends ClientBundle {
 
 	public static final AppBundle INSTANCE = GWT.create(AppBundle.class);
 
+  @Source("list.png")
+  ImageResource tabBarListImage();
+
+  @Source("map.png")
+  ImageResource tabBarMapImage();
 }

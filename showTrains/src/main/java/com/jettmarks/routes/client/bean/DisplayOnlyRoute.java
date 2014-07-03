@@ -17,29 +17,38 @@
  */
 package com.jettmarks.routes.client.bean;
 
-
+import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
+import com.google.gwt.maps.client.events.click.ClickMapEvent;
+import com.google.gwt.maps.client.events.click.ClickMapHandler;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.google.gwt.maps.client.overlays.Polyline;
 import com.jettmarks.routes.client.ui.MarkerFactory;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
 
 /**
- * Extension of Route intended to display an information balloon instead of
- * being edited when clicked.
+ * Extension of Route intended to display route details instead of being edited
+ * when clicked.
+ * 
+ * Tells listeners when a route is clicked so they know which route is selected.
+ * 
+ * Also modifies the highlighted routes to indicate which is selected on the
+ * map.
  * 
  * @author jett
- * 
  */
 public class DisplayOnlyRoute extends Route
 {
-  /** What we put in the Info Bubble. */
-//  protected InfoWindowContent infoBubbleContent = null;
   protected Marker startMarker = null;
+
   protected Marker endMarker = null;
+
   protected StringBuffer infoContent = null;
+
+  private boolean highlightOn = false;
+
   protected static String previousRouteName = null;
-  
+
   /**
    * @param name
    */
@@ -54,24 +63,22 @@ public class DisplayOnlyRoute extends Route
   public void setEncodedTrack(EncodedTrack encodedTrack)
   {
     super.setEncodedTrack(encodedTrack);
-    
+
     /* polyline and selectedPolyline are created from the encodedTrack. */
     addPolyline(polyline);
     addPolyline(selectedPolyline);
     addPolyline(highlightedPolyline);
-//    addMouseHandlers(polyline);
-    LatLng point = LatLng.newInstance(encodedTrack.getStartLat(), 
+    // addMouseHandlers(polyline);
+    LatLng point = LatLng.newInstance(encodedTrack.getStartLat(),
         encodedTrack.getStartLon());
-    startMarker = 
-      MarkerFactory.getInstance(MarkerType.START_MARKER, point);
-    point = LatLng.newInstance(encodedTrack.getEndLat(), 
+    startMarker = MarkerFactory.getInstance(MarkerType.START_MARKER, point);
+    point = LatLng.newInstance(encodedTrack.getEndLat(),
         encodedTrack.getEndLon());
-    endMarker = 
-      MarkerFactory.getInstance(MarkerType.END_MARKER, point);
-//    MapPanel.getMap().addOverlay(startMarker);
-//    MapPanel.getMap().addOverlay(endMarker);
+    endMarker = MarkerFactory.getInstance(MarkerType.END_MARKER, point);
+    // MapPanel.getMap().addOverlay(startMarker);
+    // MapPanel.getMap().addOverlay(endMarker);
     deSelect();
-//    highlight(false);
+    // highlight(false);
   }
 
   /**
@@ -79,107 +86,43 @@ public class DisplayOnlyRoute extends Route
    */
   @Override
   protected void addMouseHandlers(Polyline p)
-  { 
+  {
     namePerPolyline.put(p, name);
-//    p.addPolylineMouseOutHandler(new PolylineMouseOutHandler()
-//    {
-//      public void onMouseOut(PolylineMouseOutEvent event)
-//      {
-//        String routeName = namePerPolyline.get(event.getSender());
-//        RoutePanel.highlight(routeName, false);
-//        InfoPanel.highlight(routeName, false);
-//      }
-//    });
-//
-//    p.addPolylineMouseOverHandler(new PolylineMouseOverHandler()
-//    {
-//      public void onMouseOver(PolylineMouseOverEvent event)
-//      {
-//        String routeName = namePerPolyline.get(event.getSender());
-//        RoutePanel.highlight(routeName, true);
-//        InfoPanel.highlight(routeName, true);
-//      }
-//    });
-  }
-
-  protected void addPolyline(Polyline p)
-  {
-//    MapPanel.getMap().addOverlay(p);
-//    
-//    namePerPolyline.put(p, name);
-//
-////    final InfoWindowContent content = 
-////      createInfoBubbleContent();
-//
-//    p.addPolylineClickHandler(new PolylineClickHandler()
-//    {
-//
-//      public void onClick(PolylineClickEvent event)
-//      {
-//        Polyline sender = event.getSender();
-////        LatLng point = event.getLatLng();
-//        String routeName = namePerPolyline.get(sender);
-//        if (selectedRoute != null)
-//        {
-//          selectedRoute.deSelect();
-//          RoutePanel.highlight(previousRouteName, false);
-//          InfoPanel.highlight(previousRouteName, false);
-//        }
-////        RoutePanel.select(namePerPolyline.get(event.getSender()));
-//        RoutePanel.select(routeName);
-////        MapPanel.getMap().getInfoWindow().open(point, content);
-//        RoutePanel.highlight(routeName, true);
-//        InfoPanel.highlight(routeName, true);
-//        previousRouteName = routeName;
-//      }
-//    });
-  }
-
-//  public void setInfoBubbleContent(InfoWindowContent infoBubbleContent)
-//  {
-//    this.infoBubbleContent = infoBubbleContent;
-//  }
-
-  /**
-   * Creates a string in HTML that provides information about this Route.
-   * 
-   * Includes a link to bikely.com even though this route may not have come
-   * from there.
-   * 
-   * @param name
-   * @return
-  protected InfoWindowContent createInfoBubbleContent()
-  {
-    String temp = Double.toString(distance);
-    String distanceStr = temp.substring(0, temp.indexOf('.')+2);
-    
-    initInfoContent(distanceStr);
-    return new InfoWindowContent(infoContent.toString());
-  }
-   */
-
-  /**
-   * @param data.name
-   * @param dStr - String representation of the route's distance.
-   */
-  protected void initInfoContent(String dStr)
-  {
-    infoContent = new StringBuffer();
-    if (this.encodedTrack.getSourceUrl() == null)
+    p.addClickHandler(new ClickMapHandler()
     {
-      infoContent.append("Route Name: ")
-      .append(name)
-      .append("<BR><a href=\"http://www.bikely.com/maps/bike-path/")
-      .append(name)
-      .append("\">On bikely.com</a><BR>Distance: ")
-      .append(dStr);
-    } else {
-      infoContent.append("Route Name: ")
-      .append(name)
-      .append("<BR><a href=\"")
-      .append(encodedTrack.getSourceUrl())
-      .append("\">On RideWithGPS.com</a><BR>Distance: ")
-      .append(dStr);
+
+      @Override
+      public void onEvent(ClickMapEvent event)
+      {
+        toggleHighlight();
+      }
+    });
+  }
+
+  /**
+   * Handles the highlight for this and all other routes as well as setting up
+   * the new selected route.
+   * 
+   */
+  protected void toggleHighlight()
+  {
+    highlightOn ^= true;
+    highlight(highlightOn);
+    if (highlightOn)
+    {
+      // We've turned on this route; are there any to turn off?
+      if (selectedRoute != null && selectedRoute != this)
+      {
+        // Need to turn off the previously selected route and name a new one
+        selectedRoute.highlight(false);
+      }
+      // New selected Route
+      selectedRoute = this;
+    }
+    else
+    {
+      // Turning off the highlight on what had been the selected route
+      selectedRoute = null;
     }
   }
 
@@ -193,9 +136,105 @@ public class DisplayOnlyRoute extends Route
   public void highlight(boolean on)
   {
     super.highlight(on);
-    // These can use the same boolean as passed
-    if (startMarker != null) startMarker.setVisible(on);
-    if (endMarker != null) endMarker.setVisible(on);
+    highlightOn = on;
+
+    // Workaround for android chrome; unable to use the 'boolean' passed in !?!
+    if (on)
+    {
+      if (startMarker != null)
+        startMarker.setVisible(true);
+      if (endMarker != null)
+        endMarker.setVisible(true);
+    }
+    else
+    {
+      if (startMarker != null)
+        startMarker.setVisible(false);
+      if (endMarker != null)
+        endMarker.setVisible(false);
+    }
+  }
+
+  protected void addPolyline(Polyline p)
+  {
+    // MapPanel.getMap().addOverlay(p);
+    //
+    // namePerPolyline.put(p, name);
+    //
+    // // final InfoWindowContent content =
+    // // createInfoBubbleContent();
+    //
+    // p.addPolylineClickHandler(new PolylineClickHandler()
+    // {
+    //
+    // public void onClick(PolylineClickEvent event)
+    // {
+    // Polyline sender = event.getSender();
+    // // LatLng point = event.getLatLng();
+    // String routeName = namePerPolyline.get(sender);
+    // if (selectedRoute != null)
+    // {
+    // selectedRoute.deSelect();
+    // RoutePanel.highlight(previousRouteName, false);
+    // InfoPanel.highlight(previousRouteName, false);
+    // }
+    // // RoutePanel.select(namePerPolyline.get(event.getSender()));
+    // RoutePanel.select(routeName);
+    // // MapPanel.getMap().getInfoWindow().open(point, content);
+    // RoutePanel.highlight(routeName, true);
+    // InfoPanel.highlight(routeName, true);
+    // previousRouteName = routeName;
+    // }
+    // });
+  }
+
+  // public void setInfoBubbleContent(InfoWindowContent infoBubbleContent)
+  // {
+  // this.infoBubbleContent = infoBubbleContent;
+  // }
+
+  /**
+   * Creates a string in HTML that provides information about this Route.
+   * 
+   * Includes a link to bikely.com even though this route may not have come from
+   * there.
+   * 
+   * @param name
+   * @return protected InfoWindowContent createInfoBubbleContent() { String temp
+   *         = Double.toString(distance); String distanceStr = temp.substring(0,
+   *         temp.indexOf('.')+2);
+   * 
+   *         initInfoContent(distanceStr); return new
+   *         InfoWindowContent(infoContent.toString()); }
+   */
+
+  /**
+   * @param data
+   *          .name
+   * @param dStr
+   *          - String representation of the route's distance.
+   */
+  protected void initInfoContent(String dStr)
+  {
+    infoContent = new StringBuffer();
+    if (this.encodedTrack.getSourceUrl() == null)
+    {
+      infoContent.append("Route Name: ")
+                 .append(name)
+                 .append("<BR><a href=\"http://www.bikely.com/maps/bike-path/")
+                 .append(name)
+                 .append("\">On bikely.com</a><BR>Distance: ")
+                 .append(dStr);
+    }
+    else
+    {
+      infoContent.append("Route Name: ")
+                 .append(name)
+                 .append("<BR><a href=\"")
+                 .append(encodedTrack.getSourceUrl())
+                 .append("\">On RideWithGPS.com</a><BR>Distance: ")
+                 .append(dStr);
+    }
   }
 
   /**
@@ -208,6 +247,21 @@ public class DisplayOnlyRoute extends Route
       initInfoContent("0.00");
     }
     return infoContent.toString();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.jettmarks.routes.client.bean.Route#setMap(com.google.gwt.maps.client
+   * .MapWidget)
+   */
+  @Override
+  public void setMap(MapWidget mapWidget)
+  {
+    super.setMap(mapWidget);
+    addMouseHandlers(polyline);
+    addMouseHandlers(highlightedPolyline);
   }
 
 }
