@@ -17,49 +17,119 @@
  */
 package com.jettmarks.db;
 
-import org.hibernate.Session;
+import java.io.IOException;
+import java.util.Properties;
 
-import com.jettmarks.db.HibernateUtil;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 
 import junit.framework.TestCase;
+
+import org.hibernate.Session;
+
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 
 /*
  * Description.
  * 
  * @author jett
  */
-public abstract class DAOTestBase extends TestCase
-{
+public abstract class DAOTestBase extends TestCase {
 
-  protected Session session = null;
+	protected Session session = null;
 
-  /**
+	/**
    * 
    */
-  public DAOTestBase()
-  {
-    super();
-  }
+	public DAOTestBase() {
+		super();
+	}
 
-  /**
-   * @param name
-   */
-  public DAOTestBase(String name)
-  {
-    super(name);
-  }
+	/**
+	 * @param name
+	 */
+	public DAOTestBase(String name) {
+		super(name);
+	}
 
-  protected void setUp() throws Exception
-  {
-    super.setUp();
-    session = HibernateUtil.getSession();
-  }
+	protected void setUp() throws Exception {
+		super.setUp();
 
-  protected void tearDown() throws Exception
-  {
-    super.tearDown();
-    session.close();
-//    HibernateUtil.shutdown();
-  }
+		initializeContext();
+		session = HibernateUtil.getSession();
+	}
+
+	/**
+ * 
+ */
+	void initializeContext() {
+
+		Properties userDBProperties = getUserDBProperties();
+		MysqlDataSource ds = getMySQLDataSource(userDBProperties);
+
+		// This introduces a dependency on Tomcat libraries
+		System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+				"org.apache.naming.java.javaURLContextFactory");
+		System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
+		String jndiName = "java:/comp/env/jdbc/TestDB";
+		InitialContext ic = null;
+		// See if the context is already available
+		try {
+			ic = new InitialContext();
+			ic.lookup(jndiName);
+			return; // We have the context; no need to initialize
+		} catch (NamingException e) {
+			System.out
+					.println("Initializing context for DataSource under the name "
+							+ jndiName);
+		}
+		try {
+			ic.createSubcontext("java:");
+			ic.createSubcontext("java:/comp");
+			ic.createSubcontext("java:/comp/env");
+			ic.createSubcontext("java:/comp/env/jdbc");
+
+			ic.bind("java:/comp/env/jdbc/TestDB", ds);
+		} catch (NamingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @param userDBProperties
+	 * @return
+	 */
+	MysqlDataSource getMySQLDataSource(Properties userDBProperties) {
+		MysqlDataSource ds;
+		ds = new MysqlDataSource();
+		ds.setURL(userDBProperties.getProperty("url"));
+		ds.setUser(userDBProperties.getProperty("username"));
+		ds.setPassword(userDBProperties.getProperty("password"));
+		return ds;
+	}
+
+	/**
+	 * @return
+	 */
+	Properties getUserDBProperties() {
+		Properties userDBProperties;
+		userDBProperties = new Properties();
+		try {
+			userDBProperties.load(this.getClass().getResourceAsStream(
+					"db.properties"));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return userDBProperties;
+	}
+
+	protected void tearDown() throws Exception {
+		super.tearDown();
+		session.close();
+		// HibernateUtil.shutdown();
+	}
 
 }

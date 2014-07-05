@@ -38,7 +38,7 @@ import com.jettmarks.routes.server.bean.BikeTrainDAO;
  *
  * @author jett
  */
-public class HibernateUtilTest
+public class HibernateUtilTest extends DAOTestBase
 {
 
   /**

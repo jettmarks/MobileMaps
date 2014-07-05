@@ -74,10 +74,16 @@ public class HibernateUtil
           "jdbc:mysql://phoenix/routes?");
       defaultProperties.put("hibernate.connection.driver_class",
           "com.mysql.jdbc.Driver");
-      // defaultProperties = cfg.getProperties();
-      cfg.addProperties(defaultProperties);
+      
+      // One option is to directly configure the session factory
+//      cfg.addProperties(defaultProperties);
 
-      jndiProperties = cfg.getProperties();
+      // Another option is to configure the DataSource in a JNDI object
+      jndiProperties = new Properties();
+      jndiProperties.put("hibernate.connection.datasource", "java:/comp/env/jdbc/TestDB");
+      jndiProperties.put("hibernate.connection.driver_class",
+          "com.mysql.jdbc.Driver");
+      cfg.addProperties(jndiProperties);
 
       sessionFactory = cfg.buildSessionFactory();
       } catch (Throwable ex) {
