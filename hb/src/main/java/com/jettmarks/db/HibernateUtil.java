@@ -17,10 +17,18 @@
  */
 package com.jettmarks.db;
 
+import java.util.Properties;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.cfg.AnnotationConfiguration;
+import org.hibernate.cfg.Configuration;
+
+import com.jettmarks.routes.server.bean.BikeTrain;
+import com.jettmarks.routes.server.bean.BikeTrainElementGroup;
+import com.jettmarks.routes.server.bean.DisplayElement;
+import com.jettmarks.routes.server.bean.DisplayGroup;
+import com.jettmarks.routes.server.bean.SuitabilitySegment;
 
 /**
  * @author jett
@@ -28,6 +36,18 @@ import org.hibernate.cfg.AnnotationConfiguration;
  */
 public class HibernateUtil
 {
+  /**
+   * Kept around for unit testing; SessionFactory is the useful object.
+   */
+  private static Configuration cfg = null;
+  private static Properties defaultProperties = null;
+  private static Properties jndiProperties = null;
+
+  private static EnvironmentType envType = EnvironmentType.TEST;
+
+  /** JNDI names. */
+  public final static String JNDI_DATA_SOURCE = "com.jettmarks.hb.dataSource";
+
   /**
    * @return the sessionFactory
    */
@@ -39,8 +59,27 @@ public class HibernateUtil
 
   static {
       try {
-          sessionFactory = 
-            new AnnotationConfiguration().configure().buildSessionFactory();
+      // cfg = new AnnotationConfiguration().configure();
+      cfg = new Configuration();
+      cfg.addAnnotatedClass(BikeTrain.class)
+         .addAnnotatedClass(DisplayGroup.class)
+         .addAnnotatedClass(BikeTrainElementGroup.class)
+         .addAnnotatedClass(SuitabilitySegment.class)
+         .addAnnotatedClass(DisplayElement.class);
+
+      defaultProperties = new Properties();
+      defaultProperties.put("hibernate.connection.username", "appId");
+      defaultProperties.put("hibernate.connection.password", "pushdata");
+      defaultProperties.put("hibernate.connection.url",
+          "jdbc:mysql://phoenix/routes?");
+      defaultProperties.put("hibernate.connection.driver_class",
+          "com.mysql.jdbc.Driver");
+      // defaultProperties = cfg.getProperties();
+      cfg.addProperties(defaultProperties);
+
+      jndiProperties = cfg.getProperties();
+
+      sessionFactory = cfg.buildSessionFactory();
       } catch (Throwable ex) {
           // Log exception!
           throw new ExceptionInInitializerError(ex);
@@ -56,5 +95,42 @@ public class HibernateUtil
   public static void shutdown() {
     // Close caches and connection pools
     getSessionFactory().close();
+  }
+
+  static Configuration getConfiguration()
+  {
+    return cfg;
+  }
+
+  static Properties getDefaultProperties()
+  {
+    return defaultProperties;
+  }
+
+  /**
+   * @return the jndiProperties
+   */
+  static Properties getJndiProperties()
+  {
+    return jndiProperties;
+  }
+
+  /**
+   * @return the envType
+   */
+  static EnvironmentType getEnvType()
+  {
+    return envType;
+  }
+
+  /**
+   * Intended for testing config changes; flushes out old Configuration and
+   * generates a new one.
+   * 
+   * @return
+   */
+  static boolean refreshConfig()
+  {
+    return true;
   }
 }
