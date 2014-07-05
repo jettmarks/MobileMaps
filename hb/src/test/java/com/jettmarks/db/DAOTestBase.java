@@ -117,8 +117,8 @@ public abstract class DAOTestBase extends TestCase {
 		Properties userDBProperties;
 		userDBProperties = new Properties();
 		try {
-			userDBProperties.load(this.getClass().getResourceAsStream(
-					"db.properties"));
+			userDBProperties.load(DAOTestBase.class
+					.getResourceAsStream("db.properties"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
