@@ -11,6 +11,7 @@ public class DumpBikeTrainsToLog {
 
 	private static final Logger logger = Logger
 			.getLogger(DumpBikeTrainsToLog.class);
+  private static BikeTrain bikeTrainRetrieved;
 
 	static {
 		testFindById();
@@ -24,8 +25,16 @@ public class DumpBikeTrainsToLog {
 	public static void testFindById() {
 		Session session = HibernateUtil.getSession();
 		BikeTrainDAO bikeTrainDAO = new BikeTrainDAO(session);
-		BikeTrain bikeTrainRetrieved = bikeTrainDAO.findById(3);
-		logger.trace("Retrieved: " + bikeTrainRetrieved);
+		bikeTrainRetrieved = bikeTrainDAO.findById(3);
+    logger.info("Retrieved: " + bikeTrainRetrieved);
 	}
+
+  /**
+   * @return the description from teh Bike Train (route name actually)
+   */
+  public String getDescription()
+  {
+    return bikeTrainRetrieved.getRouteName();
+  }
 
 }
