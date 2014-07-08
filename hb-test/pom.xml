@@ -25,7 +25,7 @@
 
 	<dependencies>
 
-		<!-- GWT dependencies (from central repo) -->
+		<!-- GWT dependencies (from central repo) 
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-servlet</artifactId>
@@ -39,14 +39,14 @@
 			<version>${gwt.version}</version>
 			<scope>provided</scope>
 		</dependency>
-
-		<!-- SmartGWT dependencies (from SmartGWT repo) -->
+-->
+		<!-- SmartGWT dependencies (from SmartGWT repo)
 		<dependency>
 			<groupId>com.smartgwt</groupId>
 			<artifactId>smartgwt</artifactId>
 			<version>${smartgwt.version}</version>
 		</dependency>
-
+ -->
 		<!-- test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -66,12 +66,12 @@
 		<!-- This will produce a war file named hb-test.war, rather than hb-test-${project.version}.war. -->
 		<finalName>hb-test</finalName>
 
-		<!-- Make sure lasses output dir matches hosted webapp WEB-INF/classes 
+		<!-- Make sure classes output dir matches hosted webapp WEB-INF/classes 
 			folder, so GWT Hosted browser can see the classes. -->
 		<outputDirectory>target/hostedWar/WEB-INF/classes</outputDirectory>
 
 		<plugins>
-
+<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
@@ -94,13 +94,16 @@
 
 					<draftCompile>true</draftCompile>
 					<debugSuspend>false</debugSuspend>
-
+  -->
 					<!--<runTarget>'http://localhost:7080/gwtApplication/org.example.Application/Application.html'</runTarget> -->
 					<!--<noServer>true</noServer> -->
 					<!--<inplace>false</inplace> -->
+<!-- 
 				</configuration>
 
 			</plugin>
+  -->
+  
 			<!-- If you want to use the target/web.xml file mergewebxml produces, 
 				tell the war plugin to use it. Also, exclude what you want from the final 
 				artifact here. <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-war-plugin</artifactId> 
@@ -133,14 +136,14 @@
 			<plugin>
 				<groupId>br.com.ingenieux</groupId>
 				<artifactId>beanstalk-maven-plugin</artifactId>
-				<version>0.2.6</version>
+				<version>1.3.1</version>
 				<configuration>
 					<s3Bucket>elasticbeanstalk-us-west-2-511094994272</s3Bucket>
 					<applicationName>hb_test</applicationName>
 					<cnamePrefix>jmc-hbTest-env</cnamePrefix>
 					<environmentName>hbTest-env</environmentName>
-					<region>us-west-2</region>
-					<beanstalk.region>us-west-2</beanstalk.region>
+					<!-- <region>us-west-2</region> -->
+					<beanstalker.region>us-west-2</beanstalker.region>
 					<!--<s3Key>${project.artifactId}/${maven.build.timestamp}-${project.build.finalName}.war</s3Key>  -->
 					<s3Key>${project.artifactId}/20140706-2002-${project.build.finalName}.war</s3Key>
 					<!-- will save as s3://[bucket name]/[artifactId]/artifactId-version-TIMESTAMP.war -->
