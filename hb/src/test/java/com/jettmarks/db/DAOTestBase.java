@@ -18,6 +18,7 @@
 package com.jettmarks.db;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import javax.naming.Context;
@@ -72,7 +73,7 @@ public abstract class DAOTestBase extends TestCase {
 		System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
 				"org.apache.naming.java.javaURLContextFactory");
 		System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
-		String jndiName = "java:/comp/env/jdbc/TestDB";
+		String jndiName = "java:/comp/env/jdbc/db/routes";
 		InitialContext ic = null;
 		// See if the context is already available
 		try {
@@ -90,7 +91,7 @@ public abstract class DAOTestBase extends TestCase {
 			ic.createSubcontext("java:/comp/env");
 			ic.createSubcontext("java:/comp/env/jdbc");
 
-			ic.bind("java:/comp/env/jdbc/TestDB", ds);
+			ic.bind("java:/comp/env/jdbc/db/routes", ds);
 		} catch (NamingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -115,10 +116,17 @@ public abstract class DAOTestBase extends TestCase {
 	 */
 	Properties getUserDBProperties() {
 		Properties userDBProperties;
+		String dbPropFileName = "db.properties";
 		userDBProperties = new Properties();
 		try {
-			userDBProperties.load(DAOTestBase.class
-					.getResourceAsStream("db.properties"));
+			InputStream inputStream = DAOTestBase.class
+					.getResourceAsStream(dbPropFileName);
+			if (inputStream == null) {
+				System.err.println("Database Properties file not found: "
+						+ dbPropFileName);
+			} else {
+				userDBProperties.load(inputStream);
+			}
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
