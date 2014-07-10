@@ -35,7 +35,7 @@ public class ScreenSize {
 				setWidth(event.getWidth());
 				for (Widget w : registeredResizeList) {
 //				  w.setPixelSize(width, height - 40);
-				  w.setHeight((height - 40)+"px");
+          w.setHeight((height - 80) + "px");
 				}
 			}
 		});
