@@ -61,35 +61,51 @@ public class HibernateUtil
       try {
       // cfg = new AnnotationConfiguration().configure();
       cfg = new Configuration();
-      cfg.addAnnotatedClass(BikeTrain.class)
-         .addAnnotatedClass(DisplayGroup.class)
-         .addAnnotatedClass(BikeTrainElementGroup.class)
-         .addAnnotatedClass(SuitabilitySegment.class)
-         .addAnnotatedClass(DisplayElement.class);
-
-      defaultProperties = new Properties();
-      defaultProperties.put("hibernate.connection.username", "appId");
-      defaultProperties.put("hibernate.connection.password", "pushdata");
-      defaultProperties.put("hibernate.connection.url",
-          "jdbc:mysql://phoenix/routes?");
-      defaultProperties.put("hibernate.connection.driver_class",
-          "com.mysql.jdbc.Driver");
-      
-      // One option is to directly configure the session factory
-//      cfg.addProperties(defaultProperties);
-
-      // Another option is to configure the DataSource in a JNDI object
-      jndiProperties = new Properties();
-      jndiProperties.put("hibernate.connection.datasource", "java:/comp/env/jdbc/TestDB");
-      jndiProperties.put("hibernate.connection.driver_class",
-          "com.mysql.jdbc.Driver");
-      cfg.addProperties(jndiProperties);
+      determineConfiguration();
+      addMappings();
 
       sessionFactory = cfg.buildSessionFactory();
       } catch (Throwable ex) {
           // Log exception!
           throw new ExceptionInInitializerError(ex);
       }
+  }
+
+  /**
+   * 
+   */
+  static void determineConfiguration()
+  {
+    defaultProperties = new Properties();
+    defaultProperties.put("hibernate.connection.username", "appId");
+    defaultProperties.put("hibernate.connection.password", "pushdata");
+    defaultProperties.put("hibernate.connection.url",
+        "jdbc:mysql://phoenix/routes?");
+    defaultProperties.put("hibernate.connection.driver_class",
+        "com.mysql.jdbc.Driver");
+    
+    // One option is to directly configure the session factory
+//      cfg.addProperties(defaultProperties);
+
+    // Another option is to configure the DataSource in a JNDI object
+    jndiProperties = new Properties();
+    jndiProperties.put("hibernate.connection.datasource",
+        "java:/comp/env/jdbc/db/routes");
+    jndiProperties.put("hibernate.connection.driver_class",
+        "com.mysql.jdbc.Driver");
+    cfg.addProperties(jndiProperties);
+  }
+
+  /**
+   * 
+   */
+  static void addMappings()
+  {
+    cfg.addAnnotatedClass(BikeTrain.class)
+       .addAnnotatedClass(DisplayGroup.class)
+       .addAnnotatedClass(BikeTrainElementGroup.class)
+       .addAnnotatedClass(SuitabilitySegment.class)
+       .addAnnotatedClass(DisplayElement.class);
   }
 
   public static Session getSession()

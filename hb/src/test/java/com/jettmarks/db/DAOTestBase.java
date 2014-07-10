@@ -90,6 +90,7 @@ public abstract class DAOTestBase extends TestCase {
 			ic.createSubcontext("java:/comp");
 			ic.createSubcontext("java:/comp/env");
 			ic.createSubcontext("java:/comp/env/jdbc");
+      ic.createSubcontext("java:/comp/env/jdbc/db");
 
 			ic.bind("java:/comp/env/jdbc/db/routes", ds);
 		} catch (NamingException e) {
