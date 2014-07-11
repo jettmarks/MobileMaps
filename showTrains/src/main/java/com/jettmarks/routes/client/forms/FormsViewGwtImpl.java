@@ -17,9 +17,8 @@ package com.jettmarks.routes.client.forms;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasText;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.widget.Button;
@@ -28,48 +27,61 @@ import com.googlecode.mgwt.ui.client.widget.MTextBox;
 import com.googlecode.mgwt.ui.client.widget.WidgetList;
 import com.jettmarks.routes.client.DetailViewGwtImpl;
 
-public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView {
+public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView
+{
   private String description;
+
   private String displayGroupName;
-	private	MTextBox mtbDescription = new MTextBox();
-	private	MTextBox mtbDisplayGroupName = new MTextBox();
-	private Button saveButton = null;
-  
-	public FormsViewGwtImpl() {
 
-		FlowPanel container = new FlowPanel();
+  private MTextBox mtbDescription = new MTextBox();
 
-		HTML header = new HTML("Display Group Details");
-		header.addStyleName(MGWTStyle.getTheme().getMGWTClientBundle().getListCss().listHeader());
+  private MTextBox mtbDisplayGroupName = new MTextBox();
 
-		container.add(header);
+  private Button saveButton = null;
 
-		WidgetList widgetList = new WidgetList();
-		widgetList.setRound(true);
-		
+  public FormsViewGwtImpl()
+  {
 
-		// lets put in some widgets
-		if (MGWT.getOsDetection().isPhone())
-		{
-		  widgetList.add(new FormListEntry("Description", mtbDescription));
-		  widgetList.add(new FormListEntry("Display Group Name", mtbDisplayGroupName ));
-		} else {
-		  widgetList.add(new FormListEntry("Description of Display Group (spaces allowed)", mtbDescription));
-		  widgetList.add(new FormListEntry("Display Group Name (used in URL; no spaces)", mtbDisplayGroupName));
-		}
-    
+    FlowPanel container = new FlowPanel();
+
+    HTML header = new HTML("Display Group Details");
+    header.addStyleName(MGWTStyle.getTheme()
+                                 .getMGWTClientBundle()
+                                 .getListCss()
+                                 .listHeader());
+
+    container.add(header);
+
+    WidgetList widgetList = new WidgetList();
+    widgetList.setRound(true);
+
+    // lets put in some widgets
+    if (MGWT.getOsDetection().isPhone())
+    {
+      widgetList.add(new FormListEntry("Description", mtbDescription));
+      widgetList.add(new FormListEntry("Display Group Name",
+                                       mtbDisplayGroupName));
+    }
+    else
+    {
+      widgetList.add(new FormListEntry("Description of Display Group (spaces allowed)",
+                                       mtbDescription));
+      widgetList.add(new FormListEntry("Display Group Name (used in URL; no spaces)",
+                                       mtbDisplayGroupName));
+    }
+
     saveButton = new Button("Save");
     widgetList.add(saveButton);
-    
-		container.add(widgetList);
 
-		// TODO: put this back -- Map can't use it.
-//		scrollPanel.setScrollingEnabledX(false);
-//		scrollPanel.setWidget(container);
-		// workaround for android formfields jumping around when using
-		// -webkit-transform
-//		scrollPanel.setUsePos(MGWT.getOsDetection().isAndroid());
-	}
+    container.add(widgetList);
+
+    // TODO: put this back -- Map can't use it.
+    // scrollPanel.setScrollingEnabledX(false);
+    // scrollPanel.setWidget(container);
+    // workaround for android formfields jumping around when using
+    // -webkit-transform
+    // scrollPanel.setUsePos(MGWT.getOsDetection().isAndroid());
+  }
 
   /**
    * @return the description
@@ -81,13 +93,14 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView {
   }
 
   /**
-   * @param description the description to set
+   * @param description
+   *          the description to set
    */
   @Override
   public void setDescription(String description)
   {
     this.description = description;
-		mtbDescription.setText(description);
+    mtbDescription.setText(description);
   }
 
   /**
@@ -100,13 +113,14 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView {
   }
 
   /**
-   * @param displayGroupName the displayGroupName to set
+   * @param displayGroupName
+   *          the displayGroupName to set
    */
   @Override
   public void setDisplayGroupName(String displayGroupName)
   {
     this.displayGroupName = displayGroupName;
-		mtbDisplayGroupName.setText(displayGroupName);
+    mtbDisplayGroupName.setText(displayGroupName);
   }
 
   /**
@@ -117,5 +131,17 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView {
   {
     return saveButton;
   }
-	
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.DetailView#getForwardbuttonText()
+   */
+  @Override
+  public HasText getForwardbuttonText()
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

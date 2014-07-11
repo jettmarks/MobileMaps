@@ -44,16 +44,17 @@ import com.jettmarks.routes.client.util.ScreenSize;
  * @author jett
  */
 public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
-		EventView {
-	private MapWidget mapWidget;
+                                                                EventView
+{
+  private MapWidget mapWidget;
 
-	private static LatLngBounds mapBounds = null;
+  private static LatLngBounds mapBounds = null;
 
-	private HeaderButton viewDetailButton;
+  private HeaderButton viewDetailButton;
 
-	private static int currentZoomLevel = 13;
+  private static int currentZoomLevel = 13;
 
-	private List<Route> routes = new ArrayList<Route>();
+  private List<Route> routes = new ArrayList<Route>();
 
   private String description;
 
@@ -61,83 +62,92 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 
   private CellList<Route> listWidget;
 
-	public EventViewTabbedGwtImpl() {
-		// Take care of the header for navigation
-		setupHeader();
-		mapWidget = prepareMap();
+  public EventViewTabbedGwtImpl()
+  {
+    super();
+    // Take care of the header for navigation
+    setupHeader();
+    mapWidget = prepareMap();
     listWidget = prepareList();
-		tabPanel.addTab(prepareMapTab(mapWidget));
-		tabPanel.addTab(prepareListTab(listWidget));
-	}
+    tabPanel.addTab(prepareMapTab(mapWidget));
+    tabPanel.addTab(prepareListTab(listWidget));
+  }
 
-	/**
-	 * @param listWidget
-	 * @return
-	 */
-	private Tab prepareListTab(CellList<Route> listWidget) {
-		Tab tab = new Tab();
-
-    TabBarButtonBase button = new ListTabBarButton();
-		tab.setButton(button);
-		tab.setWidget(listWidget);
-		return tab;
-	}
-
-	/**
-	 * @param mapWidget2
-	 * @return
-	 */
-	private Tab prepareMapTab(MapWidget mapWidget2) {
-		Tab tab = new Tab();
-
-    TabBarButtonBase button = new MapTabBarButton();
-		tab.setButton(button);
-		tab.setWidget(mapWidget2);
-		return tab;
-	}
-
-	/**
-	 * Setup the List of Bike Trains.
-	 * 
-	 * @return
-	 */
-	private CellList<Route> prepareList() {
-		return new CellList<Route>(new RouteCell());
-	}
-
-	/**
-	 * Setup the Map along with resize registration.
-	 * 
-	 * The mapWidget comes out of this.
-	 */
-	private MapWidget prepareMap() {
-		MapWidget mapWidget;
-
-		LatLng atlanta = LatLng.newInstance(33.757787d, -84.359741d);
-		MapOptions opts = MapOptions.newInstance();
-		opts.setZoom(currentZoomLevel);
-		opts.setCenter(atlanta);
-		opts.setMapTypeId(MapTypeId.ROADMAP);
-		opts.setScaleControl(true);
-
-		mapWidget = new MapWidget(opts);
-		// Only the height has to be spec'd
-		mapWidget.setSize("100%", "100%");
-    mapWidget.setHeight(ScreenSize.getHeight() - 80 + "px");
-		ScreenSize.addRegistration(mapWidget);
-		return mapWidget;
-	}
-
-	/**
+  /**
    * 
    */
-	private void setupHeader() {
+  private void setupHeader()
+  {
+    headerPanel.setRightWidget(headerForwardButton);
+    headerPanel.setLeftWidget(headerBackButton);
+
     // viewDetailButton = new HeaderButton();
     // viewDetailButton.setForwardButton(true);
     // viewDetailButton.setText("Details");
     // headerPanel.setRightWidget(viewDetailButton);
-	}
+  }
 
+  /**
+   * @param listWidget
+   * @return
+   */
+  private Tab prepareListTab(CellList<Route> listWidget)
+  {
+    Tab tab = new Tab();
+
+    TabBarButtonBase button = new ListTabBarButton();
+    tab.setButton(button);
+    tab.setWidget(listWidget);
+    return tab;
+  }
+
+  /**
+   * @param mapWidget2
+   * @return
+   */
+  private Tab prepareMapTab(MapWidget mapWidget2)
+  {
+    Tab tab = new Tab();
+
+    TabBarButtonBase button = new MapTabBarButton();
+    tab.setButton(button);
+    tab.setWidget(mapWidget2);
+    return tab;
+  }
+
+  /**
+   * Setup the List of Bike Trains.
+   * 
+   * @return
+   */
+  private CellList<Route> prepareList()
+  {
+    return new CellList<Route>(new RouteCell());
+  }
+
+  /**
+   * Setup the Map along with resize registration.
+   * 
+   * The mapWidget comes out of this.
+   */
+  private MapWidget prepareMap()
+  {
+    MapWidget mapWidget;
+
+    LatLng atlanta = LatLng.newInstance(33.757787d, -84.359741d);
+    MapOptions opts = MapOptions.newInstance();
+    opts.setZoom(currentZoomLevel);
+    opts.setCenter(atlanta);
+    opts.setMapTypeId(MapTypeId.ROADMAP);
+    opts.setScaleControl(true);
+
+    mapWidget = new MapWidget(opts);
+    // Only the height has to be spec'd
+    mapWidget.setSize("100%", "100%");
+    mapWidget.setHeight(ScreenSize.getHeight() - 80 + "px");
+    ScreenSize.addRegistration(mapWidget);
+    return mapWidget;
+  }
 
   /**
    * Adjusts bounds, adds markers and puts it on the mapWidget that is part of
@@ -148,22 +158,26 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
    * @see com.jettmarks.routes.client.ui.EventView#add(com.jettmarks.routes.client
    *      .bean.Route)
    */
-	@Override
-	public void add(Route route) {
+  @Override
+  public void add(Route route)
+  {
     BikeTrainRoute bikeRoute = (BikeTrainRoute) route;
     // Take care of the map
     LatLngBounds routeBounds = bikeRoute.getBounds();
-		if (mapBounds == null) {
-			mapBounds = routeBounds;
-		} else {
-			mapBounds.extend(routeBounds.getNorthEast());
-			mapBounds.extend(routeBounds.getSouthWest());
-		}
+    if (mapBounds == null)
+    {
+      mapBounds = routeBounds;
+    }
+    else
+    {
+      mapBounds.extend(routeBounds.getNorthEast());
+      mapBounds.extend(routeBounds.getSouthWest());
+    }
     routes.add(bikeRoute);
     addBeginEndMarkers(route, mapWidget);
     bikeRoute.setMap(mapWidget);
     bikeRoute.highlight(false);
-	}
+  }
 
   /**
    * Called after last route has been loaded.
@@ -179,45 +193,51 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
    * @param route
    * @param mapWidget2
    */
-	private void addBeginEndMarkers(Route route, MapWidget mapWidget2) {
-		if (route.getPoints() == null) return;
-		int pointCount = route.getPoints().length;
-		if (pointCount == 0) return;
-		
-		LatLng beginLatLng = route.getPoints()[0];
-		LatLng endLatLng = route.getPoints()[pointCount-1];
-		Marker beginMarker = MarkerFactory.getInstance(MarkerType.START_MARKER, 
-				beginLatLng);
-		Marker endMarker = MarkerFactory.getInstance(MarkerType.END_MARKER, 
-				endLatLng);
-		beginMarker.setMap(mapWidget2);
-		endMarker.setMap(mapWidget2);
-	}
+  private void addBeginEndMarkers(Route route, MapWidget mapWidget2)
+  {
+    if (route.getPoints() == null)
+      return;
+    int pointCount = route.getPoints().length;
+    if (pointCount == 0)
+      return;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jettmarks.routes.client.ui.EventView#getViewDetailButton()
-	 */
-	@Override
-	public HeaderButton getViewDetailButton() {
-		return viewDetailButton;
-	}
+    LatLng beginLatLng = route.getPoints()[0];
+    LatLng endLatLng = route.getPoints()[pointCount - 1];
+    Marker beginMarker = MarkerFactory.getInstance(MarkerType.START_MARKER,
+        beginLatLng);
+    Marker endMarker = MarkerFactory.getInstance(MarkerType.END_MARKER,
+        endLatLng);
+    beginMarker.setMap(mapWidget2);
+    endMarker.setMap(mapWidget2);
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jettmarks.routes.client.ui.EventView#resize()
-	 */
-	@Override
-	public void resize() {
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ui.EventView#getViewDetailButton()
+   */
+  @Override
+  public HeaderButton getViewDetailButton()
+  {
+    return viewDetailButton;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ui.EventView#resize()
+   */
+  @Override
+  public void resize()
+  {
     // See if this works here
     renderList();
-		if (mapBounds == null) {
-			return;
-		}
-		mapWidget.fitBounds(mapBounds);
-	}
+    if (mapBounds == null)
+    {
+      return;
+    }
+    mapWidget.fitBounds(mapBounds);
+  }
 
   /**
    * @return the dispGroupName
@@ -251,6 +271,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   public void setDescription(String description)
   {
     this.description = description;
+    title.setText(description);
   }
 
 }
