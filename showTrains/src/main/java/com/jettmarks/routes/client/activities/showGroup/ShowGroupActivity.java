@@ -29,72 +29,84 @@ import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.ui.EventView;
 
-public class ShowGroupActivity extends DetailActivity {
+public class ShowGroupActivity extends DetailActivity
+{
 
-	private final ClientFactory clientFactory;
+  private final ClientFactory clientFactory;
 
-	private EventView view;
-	
-	public ShowGroupActivity(Place newPlace, ClientFactory clientFactory) {
-		super(clientFactory.getShowGroupView(), "nav");
-//		if (newPlace instanceof ShowGroupPlace) {
-//		  ShowGroupPlace place = (ShowGroupPlace)newPlace;
-//		  String description = place.getDescription();
-//		  String displayGroupName = place.getDisplayGroupName();
-//		  ShowGroupView view = clientFactory.getShowGroupView();
-//		  view.setDisplayGroupName(displayGroupName);
-//		  view.setDescription(description);
-//		} else if (newPlace instanceof EventPlace){
-		if (newPlace instanceof EventPlace) {
-		  EventPlace place = (EventPlace)newPlace;
-		  String description = place.getDescription();
-		  String displayGroupName = place.getDisplayGroupName();
-		  view = clientFactory.getEventView();
-		  view.setDisplayGroupName(displayGroupName);
-		  view.setDescription(description);
-		}
-		this.clientFactory = clientFactory;
-	}
+  private EventView view;
 
-	@Override
-  	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-  		super.start(panel, eventBus);
-  		view.getMainButtonText().setText("Nav");
-  		view.getBackbuttonText().setText("UI");
-  		
-		  MapActivity mapActivity = new MapActivity(view, clientFactory);
-  		panel.setWidget(view);
-  	}
+  public ShowGroupActivity(Place newPlace, ClientFactory clientFactory)
+  {
+    super(clientFactory.getShowGroupView(), "nav");
+    // if (newPlace instanceof ShowGroupPlace) {
+    // ShowGroupPlace place = (ShowGroupPlace)newPlace;
+    // String description = place.getDescription();
+    // String displayGroupName = place.getDisplayGroupName();
+    // ShowGroupView view = clientFactory.getShowGroupView();
+    // view.setDisplayGroupName(displayGroupName);
+    // view.setDescription(description);
+    // } else if (newPlace instanceof EventPlace){
+    if (newPlace instanceof EventPlace)
+    {
+      EventPlace place = (EventPlace) newPlace;
+      String description = place.getDescription();
+      String displayGroupName = place.getDisplayGroupName();
+      view = clientFactory.getEventView();
+      view.setDisplayGroupName(displayGroupName);
+      view.setDescription(description);
+    }
+    this.clientFactory = clientFactory;
+  }
+
+  @Override
+  public void start(AcceptsOneWidget panel, EventBus eventBus)
+  {
+    super.start(panel, eventBus);
+    view.getMainButtonText().setText("Nav");
+    view.getBackbuttonText().setText("<");
+    view.getForwardbuttonText().setText(">");
+
+    MapActivity mapActivity = new MapActivity(view, clientFactory);
+    panel.setWidget(view);
+  }
 
   /**
    * Callback response for saving a Display Group.
    * 
    * After saving, we go to the Home Place.
-   *
+   * 
    * @author jett
    */
   public class SaveDisplayGroupCallback<T> implements AsyncCallback<Integer>
   {
-  
-    /* (non-Javadoc)
-     * @see com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.Throwable)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.Throwable
+     * )
      */
     @Override
     public void onFailure(Throwable caught)
     {
       // Not sure what to do here
     }
-  
-    /* (non-Javadoc)
-     * @see com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.Object)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.Object)
      */
     @Override
     public void onSuccess(Integer result)
     {
-      Window.alert("Saved Display Group as ID: "+result);
+      Window.alert("Saved Display Group as ID: " + result);
       clientFactory.getPlaceController().goTo(new HomePlace());
     }
-  
+
   }
 
 }

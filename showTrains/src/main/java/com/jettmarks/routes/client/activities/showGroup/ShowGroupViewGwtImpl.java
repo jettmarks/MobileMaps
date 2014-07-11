@@ -22,6 +22,7 @@ import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.LatLngBounds;
+import com.google.gwt.user.client.ui.HasText;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.MTextBox;
 import com.jettmarks.routes.client.DetailViewGwtImpl;
@@ -29,25 +30,33 @@ import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.util.ScreenSize;
 
 //public class ShowGroupViewGwtImpl extends MapDetailViewGwtImpl implements ShowGroupView {
-public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements ShowGroupView {
-	private	MTextBox mtbDescription = new MTextBox();
-	private	MTextBox mtbDisplayGroupName = new MTextBox();
-  private MapWidget mapWidget;
-  private HeaderButton viewDetailButton;
-  private static LatLngBounds mapBounds = null;
-  private static int currentZoomLevel = 13;
-  
-	public ShowGroupViewGwtImpl() {
-		
-	  // Take care of the header for navigation
-		viewDetailButton = new HeaderButton();
-		viewDetailButton.setForwardButton(true);
-		viewDetailButton.setText("Details");
-		headerPanel.setRightWidget(viewDetailButton);
+public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements
+                                                           ShowGroupView
+{
+  private MTextBox mtbDescription = new MTextBox();
 
-//		LayoutPanel container = new LayoutPanel();
-//		main.add(container);
-		
+  private MTextBox mtbDisplayGroupName = new MTextBox();
+
+  private MapWidget mapWidget;
+
+  private HeaderButton viewDetailButton;
+
+  private static LatLngBounds mapBounds = null;
+
+  private static int currentZoomLevel = 13;
+
+  public ShowGroupViewGwtImpl()
+  {
+
+    // Take care of the header for navigation
+    viewDetailButton = new HeaderButton();
+    viewDetailButton.setForwardButton(true);
+    viewDetailButton.setText("Details");
+    headerPanel.setRightWidget(viewDetailButton);
+
+    // LayoutPanel container = new LayoutPanel();
+    // main.add(container);
+
     LatLng atlanta = LatLng.newInstance(33.757787d, -84.359741d);
     MapOptions opts = MapOptions.newInstance();
     opts.setZoom(14);
@@ -58,16 +67,16 @@ public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements ShowGroup
     mapWidget = new MapWidget(opts);
     mapWidget.setSize("100%", "100%");
     ScreenSize.addRegistration(mapWidget);
-    
-//		mapWidget.setWidth(ScreenSize.getWidth()+"px");
-		mapWidget.setHeight(ScreenSize.getHeight() - 40 + "px");
-//    container.add(mapWidget);
+
+    // mapWidget.setWidth(ScreenSize.getWidth()+"px");
+    mapWidget.setHeight(ScreenSize.getHeight() - 40 + "px");
+    // container.add(mapWidget);
     mapPanel.add(mapWidget);
-//    scrollPanel.add(mapWidget);
-//    scrollPanel.setScrollingEnabledX(false);
-//    scrollPanel.setScrollingEnabledY(false);
-    
-	}
+    // scrollPanel.add(mapWidget);
+    // scrollPanel.setScrollingEnabledX(false);
+    // scrollPanel.setScrollingEnabledY(false);
+
+  }
 
   /**
    * @return the description
@@ -79,13 +88,14 @@ public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements ShowGroup
   }
 
   /**
-   * @param description the description to set
+   * @param description
+   *          the description to set
    */
   @Override
   public void setDescription(String description)
   {
-		mtbDescription.setText(description);
-		title.setHTML(description);
+    mtbDescription.setText(description);
+    title.setHTML(description);
   }
 
   /**
@@ -98,16 +108,21 @@ public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements ShowGroup
   }
 
   /**
-   * @param displayGroupName the displayGroupName to set
+   * @param displayGroupName
+   *          the displayGroupName to set
    */
   @Override
   public void setDisplayGroupName(String displayGroupName)
   {
-		mtbDisplayGroupName.setText(displayGroupName);
+    mtbDisplayGroupName.setText(displayGroupName);
   }
 
-  /* (non-Javadoc)
-   * @see com.jettmarks.routes.client.activities.showGroup.ShowGroupView#add(com.jettmarks.routes.client.bean.Route)
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.jettmarks.routes.client.activities.showGroup.ShowGroupView#add(com.
+   * jettmarks.routes.client.bean.Route)
    */
   @Override
   public void add(Route route)
@@ -119,20 +134,23 @@ public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements ShowGroup
     }
     else
     {
-//      if (!mapBounds.containsBounds(routeBounds))
-        mapBounds.extend(routeBounds.getNorthEast());
-        mapBounds.extend(routeBounds.getSouthWest());
+      // if (!mapBounds.containsBounds(routeBounds))
+      mapBounds.extend(routeBounds.getNorthEast());
+      mapBounds.extend(routeBounds.getSouthWest());
     }
     // Tell observers the new route is here
-//    if (observer != null)
-//    {
-//      observer.onChange(getInstance(), route);
-//    }
+    // if (observer != null)
+    // {
+    // observer.onChange(getInstance(), route);
+    // }
     route.getPolyline().setMap(mapWidget);
   }
 
-  /* (non-Javadoc)
-   * @see com.jettmarks.routes.client.activities.showGroup.ShowGroupView#getViewDetailButton()
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.activities.showGroup.ShowGroupView#
+   * getViewDetailButton()
    */
   @Override
   public HeaderButton getViewDetailButton()
@@ -150,12 +168,24 @@ public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements ShowGroup
     {
       return;
     }
-//    currentZoomLevel = mapBounds.;
-    
+    // currentZoomLevel = mapBounds.;
+
     mapWidget.fitBounds(mapBounds);
-//    LatLng center = mapBounds.getCenter();
-//    mapWidget.setCenter(center);
-//    mapWidget.setZoom(currentZoomLevel);
+    // LatLng center = mapBounds.getCenter();
+    // mapWidget.setCenter(center);
+    // mapWidget.setZoom(currentZoomLevel);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.DetailView#getForwardbuttonText()
+   */
+  @Override
+  public HasText getForwardbuttonText()
+  {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }
