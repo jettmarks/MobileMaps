@@ -99,10 +99,11 @@ public class HibernateUtil
       defaultProperties = new Properties();
       defaultProperties.put("hibernate.connection.username", "appId");
       defaultProperties.put("hibernate.connection.password", "pushdata");
-      defaultProperties.put("hibernate.connection.url",
-          "jdbc:mysql://phoenix/routes?");
       defaultProperties.put("hibernate.connection.driver_class",
           "com.mysql.jdbc.Driver");
+      // Allow System properties to override this default
+      String url = System.getProperty("db.url", "jdbc:mysql://phoenix/routes?");
+      defaultProperties.put("hibernate.connection.url", url);
       cfg.addProperties(defaultProperties);
     }
   }
