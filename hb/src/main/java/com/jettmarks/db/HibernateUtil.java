@@ -32,7 +32,7 @@ import com.jettmarks.routes.server.bean.SuitabilitySegment;
 
 /**
  * @author jett
- *
+ * 
  */
 public class HibernateUtil
 {
@@ -40,7 +40,9 @@ public class HibernateUtil
    * Kept around for unit testing; SessionFactory is the useful object.
    */
   private static Configuration cfg = null;
+
   private static Properties defaultProperties = null;
+
   private static Properties jndiProperties = null;
 
   private static EnvironmentType envType = EnvironmentType.TEST;
@@ -55,20 +57,25 @@ public class HibernateUtil
   {
     return sessionFactory;
   }
+
   private static final SessionFactory sessionFactory;
 
-  static {
-      try {
+  static
+  {
+    try
+    {
       // cfg = new AnnotationConfiguration().configure();
       cfg = new Configuration();
       determineConfiguration();
       addMappings();
 
       sessionFactory = cfg.buildSessionFactory();
-      } catch (Throwable ex) {
-          // Log exception!
-          throw new ExceptionInInitializerError(ex);
-      }
+    }
+    catch (Throwable ex)
+    {
+      // Log exception!
+      throw new ExceptionInInitializerError(ex);
+    }
   }
 
   /**
@@ -76,24 +83,37 @@ public class HibernateUtil
    */
   static void determineConfiguration()
   {
-    defaultProperties = new Properties();
-    defaultProperties.put("hibernate.connection.username", "appId");
-    defaultProperties.put("hibernate.connection.password", "pushdata");
-    defaultProperties.put("hibernate.connection.url",
-        "jdbc:mysql://phoenix/routes?");
-    defaultProperties.put("hibernate.connection.driver_class",
-        "com.mysql.jdbc.Driver");
-    
-    // One option is to directly configure the session factory
-//      cfg.addProperties(defaultProperties);
+    if (haveInitialContext())
+    {
+      // If we have a DataSource in a JNDI object, use this
+      jndiProperties = new Properties();
+      jndiProperties.put("hibernate.connection.datasource",
+          "java:/comp/env/jdbc/db/routes");
+      jndiProperties.put("hibernate.connection.driver_class",
+          "com.mysql.jdbc.Driver");
+      cfg.addProperties(jndiProperties);
+    }
+    else
+    {
+      // Configure our own DataSource
+      defaultProperties = new Properties();
+      defaultProperties.put("hibernate.connection.username", "appId");
+      defaultProperties.put("hibernate.connection.password", "pushdata");
+      defaultProperties.put("hibernate.connection.url",
+          "jdbc:mysql://phoenix/routes?");
+      defaultProperties.put("hibernate.connection.driver_class",
+          "com.mysql.jdbc.Driver");
+      cfg.addProperties(defaultProperties);
+    }
+  }
 
-    // Another option is to configure the DataSource in a JNDI object
-    jndiProperties = new Properties();
-    jndiProperties.put("hibernate.connection.datasource",
-        "java:/comp/env/jdbc/db/routes");
-    jndiProperties.put("hibernate.connection.driver_class",
-        "com.mysql.jdbc.Driver");
-    cfg.addProperties(jndiProperties);
+  /**
+   * @return
+   */
+  private static boolean haveInitialContext()
+  {
+    // TODO: Code lookup of the Initial Context
+    return false;
   }
 
   /**
@@ -108,13 +128,14 @@ public class HibernateUtil
        .addAnnotatedClass(DisplayElement.class);
   }
 
-  public static Session getSession()
-  throws HibernateException {
+  public static Session getSession() throws HibernateException
+  {
     return sessionFactory.openSession();
-//    return sessionFactory.getCurrentSession();
+    // return sessionFactory.getCurrentSession();
   }
-  
-  public static void shutdown() {
+
+  public static void shutdown()
+  {
     // Close caches and connection pools
     getSessionFactory().close();
   }
