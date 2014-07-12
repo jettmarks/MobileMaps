@@ -28,7 +28,6 @@ import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.CellList;
-import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
 import com.jettmarks.routes.client.MapDetailViewGwtImpl;
@@ -50,8 +49,6 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   private MapWidget mapWidget;
 
   private static LatLngBounds mapBounds = null;
-
-  private HeaderButton viewDetailButton;
 
   private static int currentZoomLevel = 13;
 
@@ -215,17 +212,6 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   /*
    * (non-Javadoc)
    * 
-   * @see com.jettmarks.routes.client.ui.EventView#getViewDetailButton()
-   */
-  @Override
-  public HeaderButton getViewDetailButton()
-  {
-    return viewDetailButton;
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
    * @see com.jettmarks.routes.client.ui.EventView#resize()
    */
   @Override
@@ -282,5 +268,16 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   public HasTapHandlers getForwardbutton()
   {
     return headerForwardButton;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ui.EventView#enableForwardButton()
+   */
+  @Override
+  public void enableForwardButton(boolean isEnabled)
+  {
+    headerForwardButton.setVisible(isEnabled);
   }
 }

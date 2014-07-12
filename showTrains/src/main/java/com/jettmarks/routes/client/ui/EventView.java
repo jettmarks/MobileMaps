@@ -18,7 +18,6 @@
 package com.jettmarks.routes.client.ui;
 
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.Route;
 
@@ -42,16 +41,16 @@ public interface EventView extends DetailView
 
   public abstract void add(Route route);
 
-  public abstract HeaderButton getViewDetailButton();
-
-  /**
-   * 
-   */
-  public abstract void resize();
-
   /**
    * @return
    */
   public abstract HasTapHandlers getForwardbutton();
+
+  /**
+   * May want to refactor so RouteContainer doesn't have to know about it.
+   */
+  public abstract void resize();
+
+  public abstract void enableForwardButton(boolean isEnabled);
 
 }

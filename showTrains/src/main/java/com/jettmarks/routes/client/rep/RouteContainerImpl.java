@@ -168,6 +168,10 @@ public class RouteContainerImpl implements RouteContainer
   public void setSelectedRoute(Route route)
   {
     selectedRoute = route;
+    if (mapView != null)
+    {
+      mapView.enableForwardButton(selectedRoute != null);
+    }
   }
 
   /*
