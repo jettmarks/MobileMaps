@@ -17,7 +17,6 @@
  */
 package com.jettmarks.routes.client.rep;
 
-import com.jettmarks.routes.client.ui.RouteContainer;
 
 /**
  * Description.

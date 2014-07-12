@@ -28,6 +28,7 @@ import com.jettmarks.routes.client.activities.MapActivity;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.place.HomePlace;
+import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.EventView;
 
@@ -37,6 +38,8 @@ public class ShowGroupActivity extends DetailActivity
   private final ClientFactory clientFactory;
 
   private EventView view;
+
+  private RouteContainer routeContainer;
 
   public ShowGroupActivity(Place newPlace, ClientFactory clientFactory)
   {
@@ -60,8 +63,9 @@ public class ShowGroupActivity extends DetailActivity
       DisplayGroupDTO displayGroup = new DisplayGroupDTO();
       displayGroup.setDisplayName(displayGroupName);
       displayGroup.setDescription(description);
-      RouteContainerFactory.getRouteContainer().setCurrentDisplayGroup(
-          displayGroup);
+      routeContainer = RouteContainerFactory.getRouteContainer();
+      routeContainer.setView(view);
+      routeContainer.setCurrentDisplayGroup(displayGroup);
     }
     this.clientFactory = clientFactory;
   }
@@ -74,7 +78,10 @@ public class ShowGroupActivity extends DetailActivity
     view.getBackbuttonText().setText("<");
     view.getForwardbuttonText().setText(">");
 
-    MapActivity mapActivity = new MapActivity(view, clientFactory);
+    if (routeContainer.displayGroupHasChanged())
+    {
+      MapActivity mapActivity = new MapActivity(view, clientFactory);
+    }
     panel.setWidget(view);
   }
 
