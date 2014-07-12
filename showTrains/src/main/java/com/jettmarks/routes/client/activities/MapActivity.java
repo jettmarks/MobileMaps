@@ -27,12 +27,14 @@ import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.DetailView;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayElementDTO;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.bean.RouteRequest;
 import com.jettmarks.routes.client.bean.RouteRequestRouteName;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
+import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.rep.ServiceWrapper;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.RouteContainer;
@@ -65,6 +67,8 @@ public class MapActivity extends DetailActivity implements RouteContainer
 
   private ClientFactory clientFactory = null;
 
+  private BikeTrainRoute selectedRoute = null;
+
   /**
    * @param view
    * @param clientFactory
@@ -78,7 +82,7 @@ public class MapActivity extends DetailActivity implements RouteContainer
 
     if (view instanceof EventView)
     {
-      EventView eventView = (EventView) view;
+      final EventView eventView = (EventView) view;
       mapView = eventView;
       ServiceWrapper serviceWrapper = new ServiceWrapper(this);
       DisplayGroupDTO dispGroup = new DisplayGroupDTO();
@@ -90,16 +94,18 @@ public class MapActivity extends DetailActivity implements RouteContainer
       // }
 
       // Only add handler for button if we have a button to handle
-      if (eventView.getViewDetailButton() != null)
+      if (eventView.getForwardbutton() != null)
       {
-        addHandlerRegistration(eventView.getViewDetailButton().addTapHandler(
+        addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
             new TapHandler()
             {
               @Override
               public void onTap(TapEvent event)
               {
-                clientFactory.getPlaceController()
-                             .goTo(new RouteDetailsPlace());
+                selectedRoute = (BikeTrainRoute) RouteContainerFactory.getRouteContainer()
+                                                                      .getSelectedRoute();
+                clientFactory.getPlaceController().goTo(
+                    new RouteDetailsPlace(selectedRoute));
               }
             }));
       }
@@ -237,6 +243,55 @@ public class MapActivity extends DetailActivity implements RouteContainer
       ServiceWrapper serviceWrapper = new ServiceWrapper(target);
       serviceWrapper.requestElement((DisplayElementDTO) request);
     }
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ui.RouteContainer#getSelectedRoute()
+   */
+  @Override
+  public Route getSelectedRoute()
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.jettmarks.routes.client.ui.RouteContainer#setSelectedRoute(com.jettmarks
+   * .routes.client.bean.Route)
+   */
+  public void setSelectedRoute(Route route)
+  {
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ui.RouteContainer#getCurrentDisplayGroup()
+   */
+  @Override
+  public DisplayGroupDTO getCurrentDisplayGroup()
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.jettmarks.routes.client.ui.RouteContainer#setCurrentDisplayGroup(com
+   * .jettmarks.routes.client.bean.DisplayGroupDTO)
+   */
+  @Override
+  public void setCurrentDisplayGroup(DisplayGroupDTO displayGroup)
+  {
+    // TODO Auto-generated method stub
+
   }
 
 }

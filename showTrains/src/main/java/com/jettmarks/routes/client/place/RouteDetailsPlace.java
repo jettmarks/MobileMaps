@@ -18,16 +18,67 @@
 package com.jettmarks.routes.client.place;
 
 import com.google.gwt.place.shared.Place;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 
 /**
  * Allows user to see the details of a selected Route.
  * 
  * Accepts the Display Element ID for the particular Bike Train details.
- *
+ * 
  * @author jett
  */
 public class RouteDetailsPlace extends Place
 {
-  private Integer displayElementId = null; 
+
+  // private Integer displayElementId = null;
+  private String displayName = null;
+
+  private BikeTrainRoute route = null;
+
+  /**
+   * @param routeName
+   */
+  // public RouteDetailsPlace(Integer displayElementId)
+  // {
+  // this.displayElementId = displayElementId;
+  // }
+
+  /**
+   * @param routeName
+   */
+  public RouteDetailsPlace(String routeName)
+  {
+    displayName = routeName;
+  }
+
+  public RouteDetailsPlace(BikeTrainRoute route)
+  {
+    this.route = route;
+  }
+
+  /**
+   * @return the displayName
+   */
+  String getDisplayName()
+  {
+    return displayName;
+  }
+
+  /**
+   * @param displayName
+   *          the displayName to set
+   */
+  void setDisplayName(String displayName)
+  {
+    this.displayName = displayName;
+  }
+
+  /**
+   * @return
+   */
+  public BikeTrainRoute getRoute()
+  {
+    return route;
+  }
 
 }

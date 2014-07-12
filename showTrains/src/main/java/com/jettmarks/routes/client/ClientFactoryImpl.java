@@ -24,46 +24,60 @@ import com.jettmarks.routes.client.activities.showGroup.ShowGroupView;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupViewGwtImpl;
 import com.jettmarks.routes.client.forms.FormsView;
 import com.jettmarks.routes.client.forms.FormsViewGwtImpl;
-import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.EventViewTabbedGwtImpl;
+import com.jettmarks.routes.client.ui.RouteDetailsView;
+import com.jettmarks.routes.client.ui.RouteDetailsViewGwtImpl;
 
 /**
  * @author Daniel Kurka
  * 
  */
-public class ClientFactoryImpl implements ClientFactory {
+public class ClientFactoryImpl implements ClientFactory
+{
 
-	private EventBus eventBus;
-	private PlaceController placeController;
+  private EventBus eventBus;
+
+  private PlaceController placeController;
+
   private FormsView formsView;
+
   private DisplayGroupListView displayGroupListView;
+
   private ShowGroupView showGroupView;
+
   private EventView eventView;
 
-	public ClientFactoryImpl() {
-		eventBus = new SimpleEventBus();
+  private RouteDetailsView routeDetailsView;
 
-		placeController = new PlaceController(eventBus);
+  public ClientFactoryImpl()
+  {
+    eventBus = new SimpleEventBus();
 
-	}
+    placeController = new PlaceController(eventBus);
 
-	@Override
-	public EventBus getEventBus() {
-		return eventBus;
-	}
-
-	@Override
-	public PlaceController getPlaceController() {
-		return placeController;
-	}
+  }
 
   @Override
-  public FormsView getFormsView() {
-  	if (formsView == null) {
-  		formsView = new FormsViewGwtImpl();
-  	}
-  	return formsView;
+  public EventBus getEventBus()
+  {
+    return eventBus;
+  }
+
+  @Override
+  public PlaceController getPlaceController()
+  {
+    return placeController;
+  }
+
+  @Override
+  public FormsView getFormsView()
+  {
+    if (formsView == null)
+    {
+      formsView = new FormsViewGwtImpl();
+    }
+    return formsView;
   }
 
   /**
@@ -72,7 +86,8 @@ public class ClientFactoryImpl implements ClientFactory {
   @Override
   public DisplayGroupListView getDisplayGroupListView()
   {
-    if (displayGroupListView == null) {
+    if (displayGroupListView == null)
+    {
       displayGroupListView = new DisplayGroupListViewGwtImpl();
     }
     return displayGroupListView;
@@ -84,22 +99,41 @@ public class ClientFactoryImpl implements ClientFactory {
   @Override
   public ShowGroupView getShowGroupView()
   {
-    if (showGroupView == null) {
+    if (showGroupView == null)
+    {
       showGroupView = new ShowGroupViewGwtImpl();
     }
     return showGroupView;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.jettmarks.routes.client.ClientFactory#getEventView()
    */
   @Override
   public EventView getEventView()
   {
-    if (eventView == null) {
+    if (eventView == null)
+    {
       eventView = new EventViewTabbedGwtImpl();
     }
     return eventView;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ClientFactory#getRouteDetailsView()
+   */
+  @Override
+  public RouteDetailsView getRouteDetailsView()
+  {
+    if (routeDetailsView == null)
+    {
+      routeDetailsView = new RouteDetailsViewGwtImpl();
+    }
+    return routeDetailsView;
   }
 
 }

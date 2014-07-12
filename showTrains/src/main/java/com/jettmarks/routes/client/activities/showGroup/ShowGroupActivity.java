@@ -25,8 +25,10 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.activities.MapActivity;
+import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.place.HomePlace;
+import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.EventView;
 
 public class ShowGroupActivity extends DetailActivity
@@ -55,6 +57,11 @@ public class ShowGroupActivity extends DetailActivity
       view = clientFactory.getEventView();
       view.setDisplayGroupName(displayGroupName);
       view.setDescription(description);
+      DisplayGroupDTO displayGroup = new DisplayGroupDTO();
+      displayGroup.setDisplayName(displayGroupName);
+      displayGroup.setDescription(description);
+      RouteContainerFactory.getRouteContainer().setCurrentDisplayGroup(
+          displayGroup);
     }
     this.clientFactory = clientFactory;
   }

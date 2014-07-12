@@ -3,14 +3,15 @@
  */
 package com.jettmarks.routes.client.ui;
 
+import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.bean.RouteRequest;
 import com.jettmarks.routes.client.bean.RouteRequestRouteName;
 
 /**
- *
+ * 
  * @author jett
- *
+ * 
  */
 public interface RouteContainer
 {
@@ -31,5 +32,13 @@ public interface RouteContainer
    * 
    */
   public void updateProgress();
+
+  public Route getSelectedRoute();
+
+  public abstract void setSelectedRoute(Route route);
+
+  public DisplayGroupDTO getCurrentDisplayGroup();
+
+  public void setCurrentDisplayGroup(DisplayGroupDTO displayGroup);
 
 }

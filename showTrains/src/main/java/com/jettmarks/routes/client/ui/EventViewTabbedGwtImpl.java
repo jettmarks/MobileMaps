@@ -26,6 +26,7 @@ import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
+import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
@@ -274,4 +275,12 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
     title.setText(description);
   }
 
+  /**
+   * @see com.jettmarks.routes.client.ui.EventView#getForwardbutton()
+   */
+  @Override
+  public HasTapHandlers getForwardbutton()
+  {
+    return headerForwardButton;
+  }
 }

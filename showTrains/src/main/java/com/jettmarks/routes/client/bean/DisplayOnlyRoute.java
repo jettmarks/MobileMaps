@@ -23,6 +23,7 @@ import com.google.gwt.maps.client.events.click.ClickMapEvent;
 import com.google.gwt.maps.client.events.click.ClickMapHandler;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.google.gwt.maps.client.overlays.Polyline;
+import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.MarkerFactory;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
 
@@ -118,11 +119,13 @@ public class DisplayOnlyRoute extends Route
       }
       // New selected Route
       selectedRoute = this;
+      RouteContainerFactory.getRouteContainer().setSelectedRoute(this);
     }
     else
     {
       // Turning off the highlight on what had been the selected route
       selectedRoute = null;
+      RouteContainerFactory.getRouteContainer().setSelectedRoute(null);
     }
   }
 
