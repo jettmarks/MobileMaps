@@ -28,11 +28,14 @@ import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.CellList;
+import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
+import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
 import com.jettmarks.routes.client.MapDetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.Route;
+import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
 import com.jettmarks.routes.client.ui.tab.ListTabBarButton;
 import com.jettmarks.routes.client.ui.tab.MapTabBarButton;
@@ -78,11 +81,6 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   {
     headerPanel.setRightWidget(headerForwardButton);
     headerPanel.setLeftWidget(headerBackButton);
-
-    // viewDetailButton = new HeaderButton();
-    // viewDetailButton.setForwardButton(true);
-    // viewDetailButton.setText("Details");
-    // headerPanel.setRightWidget(viewDetailButton);
   }
 
   /**
@@ -120,7 +118,21 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
    */
   private CellList<Route> prepareList()
   {
-    return new CellList<Route>(new RouteCell());
+    CellList<Route> cellList = new CellList<Route>(new RouteCell());
+    cellList.addCellSelectedHandler(new CellSelectedHandler()
+    {
+
+      @Override
+      public void onCellSelected(CellSelectedEvent event)
+      {
+        Route route = routes.get(event.getIndex());
+        BikeTrainRoute bikeTrainRoute = (BikeTrainRoute) route;
+        bikeTrainRoute.toggleHighlight();
+        RouteContainerFactory.getRouteContainer().setSelectedRoute(route);
+      }
+
+    });
+    return cellList;
   }
 
   /**
@@ -279,5 +291,25 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   public void enableForwardButton(boolean isEnabled)
   {
     headerForwardButton.setVisible(isEnabled);
+  }
+
+  /**
+   * Responds to external activity telling us a route has been selected.
+   * 
+   * 
+   * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
+   */
+  @Override
+  public void selectRoute(Route route)
+  {
+    headerForwardButton.setVisible(route != null);
+    int index = 0;
+    for (Route r : routes)
+    {
+      String title = r.getDisplayName();
+      boolean selected = (route != null)
+                         && title.equals(route.getDisplayName());
+      listWidget.setSelectedIndex(index++, selected);
+    }
   }
 }

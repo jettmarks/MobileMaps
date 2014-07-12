@@ -53,4 +53,6 @@ public interface EventView extends DetailView
 
   public abstract void enableForwardButton(boolean isEnabled);
 
+  public abstract void selectRoute(Route route);
+
 }

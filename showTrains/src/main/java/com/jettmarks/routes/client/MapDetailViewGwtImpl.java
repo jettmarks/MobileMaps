@@ -66,6 +66,7 @@ public abstract class MapDetailViewGwtImpl implements DetailView
     headerForwardButton = new HeaderButton();
     headerForwardButton.setRoundButton(false);
     headerForwardButton.setForwardButton(true);
+    headerForwardButton.setVisible(false); // f until we have a route selected
 
     tabPanel = new TabPanel();
     main.add(headerPanel);

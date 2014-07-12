@@ -438,7 +438,7 @@ public class Route
    */
   public String getDisplayName()
   {
-    return displayName;
+    return (displayName == null) ? getName() : displayName;
   }
 
   /**

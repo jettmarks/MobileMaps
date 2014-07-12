@@ -105,7 +105,7 @@ public class DisplayOnlyRoute extends Route
    * the new selected route.
    * 
    */
-  protected void toggleHighlight()
+  public void toggleHighlight()
   {
     highlightOn ^= true;
     highlight(highlightOn);

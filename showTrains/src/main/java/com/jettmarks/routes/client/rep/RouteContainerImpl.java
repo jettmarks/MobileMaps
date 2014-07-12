@@ -172,6 +172,7 @@ public class RouteContainerImpl implements RouteContainer
     {
       mapView.enableForwardButton(selectedRoute != null);
     }
+    mapView.selectRoute(selectedRoute);
   }
 
   /*
