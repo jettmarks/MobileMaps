@@ -74,7 +74,7 @@ public class ShowGroupActivity extends DetailActivity
   public void start(AcceptsOneWidget panel, EventBus eventBus)
   {
     super.start(panel, eventBus);
-    view.getMainButtonText().setText("Nav");
+    // view.getMainButtonText().setText("Nav");
     view.getBackbuttonText().setText("<");
     view.getForwardbuttonText().setText(">");
 

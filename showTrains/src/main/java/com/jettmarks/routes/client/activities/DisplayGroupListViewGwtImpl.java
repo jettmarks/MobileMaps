@@ -20,7 +20,6 @@ import java.util.List;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
@@ -35,84 +34,100 @@ import com.jettmarks.routes.client.Topic;
  * @author Daniel Kurka
  * 
  */
-public class DisplayGroupListViewGwtImpl implements DisplayGroupListView {
+public class DisplayGroupListViewGwtImpl implements DisplayGroupListView
+{
 
-	private LayoutPanel main;
-	private HeaderButton forwardButton;
-	private HeaderPanel headerPanel;
-	private CellListWithHeader<Topic> cellList;
-	
-	private     ProgressIndicator progressIndicator = null;
+  private LayoutPanel main;
 
-	public DisplayGroupListViewGwtImpl() {
-		main = new LayoutPanel();
+  private HeaderButton forwardButton;
 
-		headerPanel = new HeaderPanel();
+  private HeaderPanel headerPanel;
 
-		forwardButton = new HeaderButton();
-		forwardButton.setForwardButton(true);
-		headerPanel.setRightWidget(forwardButton);
-		main.add(headerPanel);
+  private CellListWithHeader<Topic> cellList;
 
-		cellList = new CellListWithHeader<Topic>(new BasicCell<Topic>() {
+  private ProgressIndicator progressIndicator = null;
 
-			@Override
-			public String getDisplayString(Topic model) {
-				return model.getName();
-			}
+  public DisplayGroupListViewGwtImpl()
+  {
+    main = new LayoutPanel();
 
-			@Override
-			public boolean canBeSelected(Topic model) {
-				return true;
-			}
-		});
+    headerPanel = new HeaderPanel();
 
-		cellList.getCellList().setRound(true);
+    forwardButton = new HeaderButton();
+    forwardButton.setForwardButton(true);
+    // headerPanel.setRightWidget(forwardButton);
+    main.add(headerPanel);
+
+    cellList = new CellListWithHeader<Topic>(new BasicCell<Topic>()
+    {
+
+      @Override
+      public String getDisplayString(Topic model)
+      {
+        return model.getName();
+      }
+
+      @Override
+      public boolean canBeSelected(Topic model)
+      {
+        return true;
+      }
+    });
+
+    cellList.getCellList().setRound(true);
 
     progressIndicator = new ProgressIndicator();
-    progressIndicator.getElement().setAttribute("style", "margin:auto; margin-top: 50px");
+    progressIndicator.getElement().setAttribute("style",
+        "margin:auto; margin-top: 50px");
     main.add(progressIndicator);
 
-		ScrollPanel scrollPanel = new ScrollPanel();
-		scrollPanel.setWidget(cellList);
-		scrollPanel.setScrollingEnabledX(false);
-		main.add(scrollPanel);
-	}
+    ScrollPanel scrollPanel = new ScrollPanel();
+    scrollPanel.setWidget(cellList);
+    scrollPanel.setScrollingEnabledX(true);
+    main.add(scrollPanel);
+  }
 
-	@Override
-	public Widget asWidget() {
-		return main;
-	}
+  @Override
+  public Widget asWidget()
+  {
+    return main;
+  }
 
-	@Override
-	public void setTitle(String text) {
-		headerPanel.setCenter(text);
-	}
+  @Override
+  public void setTitle(String text)
+  {
+    headerPanel.setCenter(text);
+  }
 
-	@Override
-	public void setRightButtonText(String text) {
-		forwardButton.setText(text);
-	}
+  @Override
+  public void setRightButtonText(String text)
+  {
+    forwardButton.setText(text);
+  }
 
-	@Override
-	public HasTapHandlers getAboutButton() {
-		return forwardButton;
-	}
+  @Override
+  public HasTapHandlers getAboutButton()
+  {
+    return forwardButton;
+  }
 
-	@Override
-	public HasCellSelectedHandler getCellSelectedHandler() {
-		return cellList.getCellList();
-	}
+  @Override
+  public HasCellSelectedHandler getCellSelectedHandler()
+  {
+    return cellList.getCellList();
+  }
 
-	@Override
-	public void setTopics(List<Topic> createTopicsList) {
-		cellList.getCellList().render(createTopicsList);
+  @Override
+  public void setTopics(List<Topic> createTopicsList)
+  {
+    cellList.getCellList().render(createTopicsList);
     progressIndicator.removeFromParent();
-	}
+  }
 
-	@Override
-	public HasText getFirstHeader() {
-		return cellList.getHeader();
-	}
+  @Override
+  public HasText getFirstHeader()
+  {
+    return cellList.getHeader();
+  }
 
 }

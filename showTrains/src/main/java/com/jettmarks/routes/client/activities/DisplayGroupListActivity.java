@@ -31,8 +31,8 @@ import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.Topic;
-import com.jettmarks.routes.client.activities.showGroup.ShowGroupPlace;
 import com.jettmarks.routes.client.forms.FormsPlace;
+import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.service.GetTagsAsync;
 
 /**
@@ -48,15 +48,19 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
 
   private List<Topic> displayGroups;
 
+  public DisplayGroupListActivity(ClientFactory clientFactory)
+  {
+    this.clientFactory = clientFactory;
+
+  }
+
   @Override
   public void start(AcceptsOneWidget panel, EventBus eventBus)
   {
     view = clientFactory.getDisplayGroupListView();
 
     view.setTitle("DisplayGroups");
-    view.setRightButtonText("New");
-
-//    view.getFirstHeader().setText("Display Groups");
+    // view.setRightButtonText("New");
 
     GetTagsAsync tagService = GetTagsAsync.Util.getInstance();
     tagService.getDisplayGroupList(new GetDisplayGroupCallback<String[]>());
@@ -72,10 +76,9 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
                                        int index = event.getIndex();
                                        Topic topic = displayGroups.get(index);
 
-                                       ShowGroupPlace showGroupPlace = new ShowGroupPlace();
-                                       showGroupPlace.setDisplayGroupName(topic.getName());
+                                       EventPlace eventPlace = new EventPlace(topic.getName());
                                        clientFactory.getPlaceController().goTo(
-                                           showGroupPlace);
+                                           eventPlace);
                                        return;
                                      }
                                    }));
@@ -94,7 +97,7 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
   }
 
   /**
-   * Description.
+   * Responds to the service callback giving us the list of Display Groups.
    * 
    * @author jett
    */
@@ -131,12 +134,6 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
       }
       view.setTopics(displayGroups);
     }
-
-  }
-
-  public DisplayGroupListActivity(ClientFactory clientFactory)
-  {
-    this.clientFactory = clientFactory;
 
   }
 

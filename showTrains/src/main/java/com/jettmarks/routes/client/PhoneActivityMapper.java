@@ -10,6 +10,7 @@ import com.jettmarks.routes.client.activities.showGroup.ShowGroupPlace;
 import com.jettmarks.routes.client.forms.FormsActivity;
 import com.jettmarks.routes.client.forms.FormsPlace;
 import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 
@@ -30,6 +31,10 @@ public class PhoneActivityMapper implements ActivityMapper
   public Activity getActivity(Place place)
   {
     if (place instanceof HomePlace)
+    {
+      return new DisplayGroupListActivity(clientFactory);
+    }
+    if (place instanceof EventSelectionPlace)
     {
       return new DisplayGroupListActivity(clientFactory);
     }

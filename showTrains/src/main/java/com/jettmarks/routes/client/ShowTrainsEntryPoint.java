@@ -38,6 +38,7 @@ import com.googlecode.mgwt.ui.client.layout.MasterRegionHandler;
 import com.googlecode.mgwt.ui.client.layout.OrientationRegionHandler;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.jettmarks.routes.client.css.AppBundle;
+import com.jettmarks.routes.client.place.EventSelectionPlace;
 
 /**
  * 
@@ -60,8 +61,9 @@ public class ShowTrainsEntryPoint implements EntryPoint
 
     historyHandler.register(clientFactory.getPlaceController(),
         clientFactory.getEventBus(),
-        new com.jettmarks.routes.client.place.EventPlace("bt1404-April",
-                                                         "2014 April"));
+        // new com.jettmarks.routes.client.place.EventPlace("bt1404-April",
+        // "2014 April"));
+        new EventSelectionPlace());
 
     if ((MGWT.getOsDetection().isTablet()))
     {

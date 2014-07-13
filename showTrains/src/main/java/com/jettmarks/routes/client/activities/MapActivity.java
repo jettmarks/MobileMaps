@@ -26,6 +26,7 @@ import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.RouteRequest;
+import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.rep.RouteContainerImpl;
@@ -93,6 +94,22 @@ public class MapActivity extends DetailActivity
                 clientFactory.getPlaceController().goTo(
                     new RouteDetailsPlace(selectedRoute));
               }
+            }));
+      }
+
+      if (eventView.getBackbutton() != null)
+      {
+        addHandlerRegistration(eventView.getBackbutton().addTapHandler(
+            new TapHandler()
+            {
+
+              @Override
+              public void onTap(TapEvent event)
+              {
+                clientFactory.getPlaceController().goTo(
+                    new EventSelectionPlace());
+              }
+
             }));
       }
 
