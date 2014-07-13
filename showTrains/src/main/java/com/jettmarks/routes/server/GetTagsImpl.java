@@ -39,7 +39,8 @@ import com.jettmarks.routes.util.BikeTrainGroups;
  * 
  * @author jett
  */
-public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements GetTags
+public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements
+                                                                  GetTags
 {
   static Collection<String> restrictedList = new ArrayList<String>();
 
@@ -103,8 +104,8 @@ public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements Ge
     Session session = HibernateUtil.getSession();
     DisplayGroupDAO dao = new DisplayGroupDAO(session);
     DisplayGroup dgExample = new DisplayGroup();
-    
-    List<DisplayGroup> displayGroupList = dao.findByExample(dgExample);  
+
+    List<DisplayGroup> displayGroupList = dao.findByExample(dgExample);
     String[] returnList = new String[displayGroupList.size()];
     int i = 0;
     for (DisplayGroup dg : displayGroupList)
@@ -118,14 +119,14 @@ public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements Ge
    * Out of the full list, return only the Bike Train Display Groups.
    * 
    * @return String Array containing the list of DisplayGroups that start with
-   *  'bt'.
+   *         'bt'.
    */
   public String[] getBikeTrainDisplayGroupList()
   {
     String[] candidateList = getDisplayGroupList();
     String[] qualifiedList = new String[candidateList.length];
     int matchingItemCount = 0;
-    for (String dg : candidateList) 
+    for (String dg : candidateList)
     {
       if (dg.startsWith("bt") || dg.contains("challenge"))
       {
@@ -133,7 +134,7 @@ public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements Ge
       }
     }
     String[] finalList = new String[matchingItemCount];
-    for (int i=0; i<matchingItemCount; i++) 
+    for (int i = 0; i < matchingItemCount; i++)
     {
       finalList[i] = qualifiedList[i];
     }
@@ -151,7 +152,10 @@ public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements Ge
     return BikeTrainGroups.getLatestDisplayGroupID();
   }
 
-  /* (non-Javadoc)
+  /**
+   * Named getDisplayGroups, but it actually picks up anything starting with
+   * "bt" in the name.
+   * 
    * @see com.jettmarks.routes.client.service.GetTags#getDisplayGroups()
    */
   @Override
@@ -160,20 +164,23 @@ public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements Ge
     Session session = HibernateUtil.getSession();
     DisplayGroupDAO dao = new DisplayGroupDAO(session);
     DisplayGroup dgExample = new DisplayGroup();
-    
-    List<DisplayGroup> displayGroupList = dao.findByExample(dgExample);  
+
+    List<DisplayGroup> displayGroupList = dao.findByExample(dgExample);
     DisplayGroupDTO[] returnList = new DisplayGroupDTO[displayGroupList.size()];
     int i = 0;
     for (DisplayGroup dg : displayGroupList)
     {
-      if (dg.getDisplayName().startsWith("bt")) {
+      if (dg.getDisplayName().startsWith("bt"))
+      {
         returnList[i++] = DisplayGroupWrapper.getDTO(dg);
       }
     }
     return returnList;
   }
 
-  /* (non-Javadoc)
+  /*
+   * (non-Javadoc)
+   * 
    * @see com.jettmarks.routes.client.service.GetTags#getActiveDisplayGroups()
    */
   @Override
@@ -181,24 +188,57 @@ public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements Ge
   {
     Session session = HibernateUtil.getSession();
     DisplayGroupDAO dao = new DisplayGroupDAO(session);
-    
-    List<DisplayGroup> displayGroupList = dao.findActive();  
+
+    List<DisplayGroup> displayGroupList = dao.findActive();
     DisplayGroupDTO[] returnList = new DisplayGroupDTO[displayGroupList.size()];
     int i = 0;
     for (DisplayGroup dg : displayGroupList)
     {
-      if (dg.getDisplayName().startsWith("bt")) {
+      if (dg.getDisplayName().startsWith("bt"))
+      {
         returnList[i++] = DisplayGroupWrapper.getDTO(dg);
       }
     }
     return returnList;
   }
-  
+
+  /**
+   * Currently takes advantage of the fact that getDisplayGroups currently
+   * returns only bike trains.
+   * 
+   * The array had been sized for all Display Groups. It is resized here to
+   * match the number of Bike Trains.
+   * 
+   * @see com.jettmarks.routes.client.service.GetTags#getBikeTrains()
+   */
+  @Override
+  public DisplayGroupDTO[] getBikeTrains()
+  {
+    DisplayGroupDTO[] dgArray = getDisplayGroups();
+    List<DisplayGroupDTO> dgList = new ArrayList<DisplayGroupDTO>();
+    int count = 0;
+    for (DisplayGroupDTO dg : dgArray)
+    {
+      if (dg != null)
+      {
+        dgList.add(dg);
+        count++;
+      }
+    }
+    DisplayGroupDTO[] dgResult = new DisplayGroupDTO[count];
+    int i = 0;
+    for (DisplayGroupDTO dg : dgList)
+    {
+      dgResult[i++] = dg;
+    }
+    return dgResult;
+  }
 
   /**
    * Persists the pair of strings as a new Display Group.
    * 
-   * @see com.jettmarks.routes.client.service.GetTags#saveDisplayGroup(java.lang.String, java.lang.String)
+   * @see com.jettmarks.routes.client.service.GetTags#saveDisplayGroup(java.lang.String,
+   *      java.lang.String)
    */
   public int saveDisplayGroup(String description, String displayGroupName)
   {

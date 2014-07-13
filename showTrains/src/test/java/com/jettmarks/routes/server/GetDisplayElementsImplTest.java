@@ -23,23 +23,22 @@ import junit.framework.TestCase;
 
 import org.junit.Test;
 
-import com.jettmarks.routes.client.bean.BikeTrainDTO;
 import com.jettmarks.routes.client.bean.DisplayElementDTO;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
-import com.jettmarks.routes.client.bean.EncodedTrack;
-import com.jettmarks.routes.client.rep.BikeTrainDE;
 import com.jettmarks.routes.client.rep.RouteOnlyDE;
 
 /**
  * Description.
- *
+ * 
  * @author jett
  */
 public class GetDisplayElementsImplTest extends TestCase
 {
 
   /**
-   * Test method for {@link com.jettmarks.routes.server.GetDisplayElementsImpl#getElementList(com.jettmarks.routes.client.ui.DisplayGroupDTO)}.
+   * Test method for
+   * {@link com.jettmarks.routes.server.GetDisplayElementsImpl#getElementList(com.jettmarks.routes.client.ui.DisplayGroupDTO)}
+   * .
    */
   @Test
   public void testGetElementList()
@@ -49,38 +48,34 @@ public class GetDisplayElementsImplTest extends TestCase
     DisplayGroupDTO displayGroup = new DisplayGroupDTO();
     displayGroup.setDisplayName("test");
     assertNotNull(displayGroup);
-    
+
     List<DisplayElementDTO> result = getDisplayElementsImpl.getElementList(displayGroup);
     assertTrue(result.size() == 3);
-    
+
     displayGroup = new DisplayGroupDTO();
     displayGroup.setDisplayName("something unexpected");
     result = getDisplayElementsImpl.getElementList(displayGroup);
     assertNull(result);
   }
-  
-/*
-  public void testGetBikeTrain()
-  {
-    GetDisplayElementsImpl getDisplayElementsImpl = new GetDisplayElementsImpl();
-    assertNotNull(getDisplayElementsImpl);
-    DisplayElementDTO de = new DisplayElementDTO();
-    de.setClassName("BikeTrain");
-    de.setSourceId(new Integer(3));
-    
-    BikeTrainDE bikeTrainDE = getDisplayElementsImpl.getBikeTrain(de);
-    assertNotNull(bikeTrainDE);
-    BikeTrainDTO bikeTrain = bikeTrainDE.getBikeTrain();
-    assertNotNull(bikeTrain);
-    assertEquals("The Leader", bikeTrain.getLeaderName());
-    
-    EncodedTrack encodedTrack = bikeTrainDE.getEncodedTrack();
-    assertNotNull(encodedTrack);
-  }
+
+  /*
+   * public void testGetBikeTrain() { GetDisplayElementsImpl
+   * getDisplayElementsImpl = new GetDisplayElementsImpl();
+   * assertNotNull(getDisplayElementsImpl); DisplayElementDTO de = new
+   * DisplayElementDTO(); de.setClassName("BikeTrain"); de.setSourceId(new
+   * Integer(3));
+   * 
+   * BikeTrainDE bikeTrainDE = getDisplayElementsImpl.getBikeTrain(de);
+   * assertNotNull(bikeTrainDE); BikeTrainDTO bikeTrain =
+   * bikeTrainDE.getBikeTrain(); assertNotNull(bikeTrain);
+   * assertEquals("The Leader", bikeTrain.getLeaderName());
+   * 
+   * EncodedTrack encodedTrack = bikeTrainDE.getEncodedTrack();
+   * assertNotNull(encodedTrack); }
    */
-  
+
   /**
-   * Exercise the code for obtaining the full list of bike trains in the 
+   * Exercise the code for obtaining the full list of bike trains in the
    * database.
    * 
    * Route Only List.
@@ -89,12 +84,11 @@ public class GetDisplayElementsImplTest extends TestCase
   {
     GetDisplayElementsImpl gde = new GetDisplayElementsImpl();
     assertNotNull(gde);
-    
+
     System.out.println("\nList of Routes");
-    for (RouteOnlyDE routeOnlyDE : gde.getRouteOnlyList()) {
+    for (RouteOnlyDE routeOnlyDE : gde.getRouteOnlyList())
+    {
       System.out.println(routeOnlyDE.getRouteName());
     }
   }
-  
-
 }
