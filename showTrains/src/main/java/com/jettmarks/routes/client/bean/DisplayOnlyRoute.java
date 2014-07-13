@@ -263,8 +263,11 @@ public class DisplayOnlyRoute extends Route
   public void setMap(MapWidget mapWidget)
   {
     super.setMap(mapWidget);
-    addMouseHandlers(polyline);
-    addMouseHandlers(highlightedPolyline);
+    if (mapWidget != null)
+    {
+      addMouseHandlers(polyline);
+      addMouseHandlers(highlightedPolyline);
+    }
   }
 
 }

@@ -55,4 +55,9 @@ public interface EventView extends DetailView
 
   public abstract void selectRoute(Route route);
 
+  /**
+   * 
+   */
+  public abstract void clearMap();
+
 }

@@ -312,4 +312,19 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
       listWidget.setSelectedIndex(index++, selected);
     }
   }
+
+  /**
+   * Removes all routes from the map.
+   * 
+   * @see com.jettmarks.routes.client.ui.EventView#clearMap()
+   */
+  @Override
+  public void clearMap()
+  {
+    for (Route r : routes)
+    {
+      r.setMap(null);
+    }
+    routes.clear();
+  }
 }

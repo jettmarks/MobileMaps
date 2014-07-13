@@ -119,7 +119,10 @@ public class Route
   {
     polyline.setMap(mapWidget);
     highlightedPolyline.setMap(mapWidget);
-    highlight(false);
+    if (mapWidget != null)
+    {
+      highlight(false);
+    }
   }
 
   /**

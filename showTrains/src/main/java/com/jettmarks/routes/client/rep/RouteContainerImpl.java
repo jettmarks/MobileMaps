@@ -207,7 +207,19 @@ public class RouteContainerImpl implements RouteContainer
     {
       displayGroupHasChanged = !(this.displayGroup.getDisplayName().equals(displayGroup.getDisplayName()));
     }
+    if (this.displayGroup != null && displayGroupHasChanged)
+    {
+      clearPreviousMap();
+    }
     this.displayGroup = displayGroup;
+  }
+
+  /**
+   * 
+   */
+  private void clearPreviousMap()
+  {
+    mapView.clearMap();
   }
 
   /**
