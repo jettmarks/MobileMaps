@@ -19,6 +19,8 @@ package com.jettmarks.routes.server;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -206,6 +208,9 @@ public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements
    * Currently takes advantage of the fact that getDisplayGroups currently
    * returns only bike trains.
    * 
+   * The values are sorted according to the Event Date and descending so the
+   * most recent event is at the front of the list.
+   * 
    * The array had been sized for all Display Groups. It is resized here to
    * match the number of Bike Trains.
    * 
@@ -225,6 +230,24 @@ public class GetTagsImpl extends RemoteServiceServletSeparatePaths implements
         count++;
       }
     }
+    // Sort the list in descending date order
+    Collections.sort(dgList, new Comparator<DisplayGroupDTO>()
+    {
+      @Override
+      public int compare(DisplayGroupDTO o1, DisplayGroupDTO o2)
+      {
+        if (o1 == null)
+          return -1;
+        if (o2 == null)
+          return +1;
+        long result = (o1.getEventDate().getTime() - o2.getEventDate()
+                                                       .getTime());
+        if (result == 0)
+          return 0;
+        return (result > 0) ? -1 : 1;
+      }
+    });
+
     DisplayGroupDTO[] dgResult = new DisplayGroupDTO[count];
     int i = 0;
     for (DisplayGroupDTO dg : dgList)
