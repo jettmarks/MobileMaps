@@ -142,7 +142,7 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
         // For later use
         displayGroupList.add(dg);
         // For presenting in the view
-        Topic topic = new Topic(dg.getDescription(), 5);
+        Topic topic = new Topic((dg.getDescription()), 5);
         displayGroupTopics.add(topic);
       }
       view.setTopics(displayGroupTopics);
