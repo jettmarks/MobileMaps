@@ -31,13 +31,15 @@ import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.Topic;
+import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.forms.FormsPlace;
 import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.service.GetTagsAsync;
 
 /**
- * @author Daniel Kurka
+ * Prepares the display of the Display Groups.
  * 
+ * @author Jett Marks
  */
 public class DisplayGroupListActivity extends MGWTAbstractActivity
 {
@@ -46,12 +48,18 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
 
   private DisplayGroupListView view = null;
 
-  private List<Topic> displayGroups;
+  private List<Topic> displayGroupTopics;
 
+  private static List<DisplayGroupDTO> displayGroupList;
+
+  /**
+   * Default constructor simply stores our clientFactory instance.
+   * 
+   * @param clientFactory
+   */
   public DisplayGroupListActivity(ClientFactory clientFactory)
   {
     this.clientFactory = clientFactory;
-
   }
 
   @Override
@@ -63,7 +71,7 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
     // view.setRightButtonText("New");
 
     GetTagsAsync tagService = GetTagsAsync.Util.getInstance();
-    tagService.getDisplayGroupList(new GetDisplayGroupCallback<String[]>());
+    tagService.getBikeTrains(new GetDisplayGroupCallback<DisplayGroupDTO[]>());
 
     addHandlerRegistration(view.getCellSelectedHandler()
                                .addCellSelectedHandler(
@@ -74,9 +82,10 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
                                      public void onCellSelected(CellSelectedEvent event)
                                      {
                                        int index = event.getIndex();
-                                       Topic topic = displayGroups.get(index);
+                                       DisplayGroupDTO displayGroup = displayGroupList.get(index);
 
-                                       EventPlace eventPlace = new EventPlace(topic.getName());
+                                       EventPlace eventPlace = new EventPlace(displayGroup.getDisplayName(),
+                                                                              displayGroup.getDescription());
                                        clientFactory.getPlaceController().goTo(
                                            eventPlace);
                                        return;
@@ -101,8 +110,10 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
    * 
    * @author jett
    */
-  public class GetDisplayGroupCallback<T> implements AsyncCallback<String[]>
+  public class GetDisplayGroupCallback<T> implements
+                                          AsyncCallback<DisplayGroupDTO[]>
   {
+
     /*
      * (non-Javadoc)
      * 
@@ -116,23 +127,25 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
     }
 
     /**
-     * Take the strings and populate the list box with the ones matching "bt".
+     * Bring back the DisplayGroups and turn into a list of topics to present.
      * 
      * @see com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.Object)
      */
-    public void onSuccess(String[] result)
+    @Override
+    public void onSuccess(DisplayGroupDTO[] result)
     {
-      displayGroups = new ArrayList<Topic>();
+      displayGroupTopics = new ArrayList<Topic>();
 
-      for (String item : result)
+      displayGroupList = new ArrayList<DisplayGroupDTO>();
+      for (DisplayGroupDTO dg : result)
       {
-        if (item.contains("bt") || item.contains("challenge"))
-        {
-          Topic topic = new Topic(item, 5);
-          displayGroups.add(topic);
-        }
+        // For later use
+        displayGroupList.add(dg);
+        // For presenting in the view
+        Topic topic = new Topic(dg.getDescription(), 5);
+        displayGroupTopics.add(topic);
       }
-      view.setTopics(displayGroups);
+      view.setTopics(displayGroupTopics);
     }
 
   }

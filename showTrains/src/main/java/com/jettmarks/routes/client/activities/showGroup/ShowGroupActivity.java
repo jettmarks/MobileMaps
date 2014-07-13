@@ -80,7 +80,8 @@ public class ShowGroupActivity extends DetailActivity
 
     if (routeContainer.displayGroupHasChanged())
     {
-      MapActivity mapActivity = new MapActivity(view, clientFactory);
+      // Instantiation is sufficient
+      new MapActivity(view, clientFactory);
     }
     panel.setWidget(view);
   }
@@ -121,6 +122,18 @@ public class ShowGroupActivity extends DetailActivity
       clientFactory.getPlaceController().goTo(new HomePlace());
     }
 
+  }
+
+  /**
+   * Responsible for removing the Handler Registrations.
+   * 
+   * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
+   */
+  @Override
+  public void onStop()
+  {
+    super.onStop();
+    cancelAllHandlerRegistrations();
   }
 
 }
