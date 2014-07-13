@@ -21,9 +21,16 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
+import com.googlecode.mgwt.ui.client.widget.FormListEntry;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
+import com.googlecode.mgwt.ui.client.widget.MEmailTextBox;
+import com.googlecode.mgwt.ui.client.widget.MPhoneNumberTextBox;
+import com.googlecode.mgwt.ui.client.widget.MTextArea;
+import com.googlecode.mgwt.ui.client.widget.MTextBox;
+import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
+import com.googlecode.mgwt.ui.client.widget.WidgetList;
 
 /**
  * Description.
@@ -33,6 +40,8 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 public class RouteDetailsViewGwtImpl implements RouteDetailsView
 {
   protected LayoutPanel main;
+
+  protected ScrollPanel scrollPanel;
 
   protected HeaderButton headerMainButton;
 
@@ -44,10 +53,29 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
 
   protected HeaderPanel headerPanel;
 
+  // Widget Elements
+  private MTextBox tbLeaderName;
+
+  private MEmailTextBox tbLeaderEmail;
+
+  private MPhoneNumberTextBox tbPhone;
+
+  private MTextBox tbArrival;
+
+  private MTextBox tbDeparture;
+
+  private MTextArea tbNotes;
+
+  /**
+   * Default Constructor builds the widget.
+   * 
+   */
   public RouteDetailsViewGwtImpl()
   {
     super();
     main = new LayoutPanel();
+    scrollPanel = new ScrollPanel();
+
     main.setSize("100%", "100%");
     headerPanel = new HeaderPanel();
     title = new HTML();
@@ -66,6 +94,38 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
 
     headerPanel.setLeftWidget(headerBackButton);
     main.add(headerPanel);
+
+    // Setup the Form Area
+    WidgetList widgetList = setupForm();
+
+    scrollPanel.add(widgetList);
+    main.add(scrollPanel);
+  }
+
+  /**
+   * Assembles the widgets needed to present the Bike Train data.
+   * 
+   * @return
+   */
+  WidgetList setupForm()
+  {
+    WidgetList widgetList = new WidgetList();
+    widgetList.setRound(true);
+
+    tbLeaderName = new MTextBox();
+    tbLeaderEmail = new MEmailTextBox();
+    tbPhone = new MPhoneNumberTextBox();
+    tbDeparture = new MTextBox();
+    tbArrival = new MTextBox();
+    tbNotes = new MTextArea();
+
+    widgetList.add(new FormListEntry("Leader Name", tbLeaderName));
+    widgetList.add(new FormListEntry("Leader Email", tbLeaderEmail));
+    widgetList.add(new FormListEntry("Leader Phone", tbPhone));
+    widgetList.add(new FormListEntry("Departure", tbDeparture));
+    widgetList.add(new FormListEntry("Arrival", tbArrival));
+    widgetList.add(new FormListEntry("Notes", tbNotes));
+    return widgetList;
   }
 
   /**
@@ -129,6 +189,161 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
   public HasTapHandlers getMainButton()
   {
     return headerMainButton;
+  }
+
+  /**
+   * @return the arrival
+   */
+  @Override
+  public String getArrival()
+  {
+    return tbArrival.getText();
+  }
+
+  /**
+   * @param arrival
+   *          the arrival to set
+   */
+  @Override
+  public void setArrival(String arrival)
+  {
+    tbArrival.setText(arrival);
+  }
+
+  /**
+   * @return the departure
+   */
+  @Override
+  public String getDeparture()
+  {
+    return tbDeparture.getText();
+  }
+
+  /**
+   * @param departure
+   *          the departure to set
+   */
+  @Override
+  public void setDeparture(String departure)
+  {
+    tbDeparture.setText(departure);
+  }
+
+  /**
+   * @return the leaderPhone
+   */
+  @Override
+  public String getLeaderPhone()
+  {
+    return tbPhone.getText();
+  }
+
+  /**
+   * @param leaderPhone
+   *          the leaderPhone to set
+   */
+  @Override
+  public void setLeaderPhone(String leaderPhone)
+  {
+    tbPhone.setText(leaderPhone);
+  }
+
+  /**
+   * @return the leaderEmail
+   */
+  @Override
+  public String getLeaderEmail()
+  {
+    return tbLeaderEmail.getText();
+  }
+
+  /**
+   * @param leaderEmail
+   *          the leaderEmail to set
+   */
+  @Override
+  public void setLeaderEmail(String leaderEmail)
+  {
+    tbLeaderEmail.setText(leaderEmail);
+  }
+
+  /**
+   * @return the leaderName
+   */
+  @Override
+  public String getLeaderName()
+  {
+    return tbLeaderName.getText();
+  }
+
+  /**
+   * @param leaderName
+   *          the leaderName to set
+   */
+  @Override
+  public void setLeaderName(String leaderName)
+  {
+    tbLeaderName.setText(leaderName);
+  }
+
+  /**
+   * @return the routeName
+   */
+  @Override
+  public String getRouteName()
+  {
+    // return routeName;
+    return null;
+  }
+
+  /**
+   * @param routeName
+   *          the routeName to set
+   */
+  @Override
+  public void setRouteName(String routeName)
+  {
+    // this.routeName = routeName;
+  }
+
+  /**
+   * @return the displayName
+   */
+  @Override
+  public String getDisplayName()
+  {
+    return null;
+    // return displayName;
+  }
+
+  /**
+   * @param displayName
+   *          the displayName to set
+   */
+  @Override
+  public void setDisplayName(String displayName)
+  {
+    // this.displayName = displayName;
+  }
+
+  /**
+   * @return the notes
+   */
+  @Override
+  public String getNotes()
+  {
+    // return notes;
+    return tbNotes.getText();
+  }
+
+  /**
+   * @param notes
+   *          the notes to set
+   */
+  @Override
+  public void setNotes(String notes)
+  {
+    tbNotes.setText(notes);
   }
 
 }

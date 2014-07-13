@@ -25,6 +25,7 @@ import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
+import com.jettmarks.routes.client.bean.BikeTrainDTO;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.place.EventPlace;
@@ -137,6 +138,19 @@ public class RouteDetailsActivity extends DetailActivity implements Activity
 
     view.getBackbuttonText().setText("<");
     view.getHeader().setText(headerText);
+
+    // Populate View with the BikeTrain
+    BikeTrainDTO bikeTrain = bikeTrainRoute.getBikeTrain();
+    view.setArrival(bikeTrain.getArrivalTime());
+    view.setDeparture(bikeTrain.getDepartureTime());
+    view.setLeaderName(bikeTrain.getLeaderName());
+    view.setLeaderEmail(bikeTrain.getLeaderEmail());
+    view.setLeaderPhone(bikeTrain.getLeaderPhone());
+    view.setNotes(bikeTrain.getNotes());
+    view.setRouteName(bikeTrain.getRouteName());
+
+    // Populate View with the BikeTrainRoute
+    view.setDisplayName(bikeTrainRoute.getDisplayName());
 
     panel.setWidget(view);
   }
