@@ -119,8 +119,7 @@ public class RouteDetailsActivity extends DetailActivity implements Activity
   @Override
   public void onStop()
   {
-    // TODO Auto-generated method stub
-
+    cancelAllHandlerRegistrations();
   }
 
   /*
