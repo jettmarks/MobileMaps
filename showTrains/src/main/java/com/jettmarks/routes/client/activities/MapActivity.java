@@ -28,6 +28,7 @@ import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.RouteRequest;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
+import com.jettmarks.routes.client.rep.RouteContainerImpl;
 import com.jettmarks.routes.client.rep.ServiceWrapper;
 import com.jettmarks.routes.client.ui.EventView;
 
@@ -77,11 +78,6 @@ public class MapActivity extends DetailActivity
       mapView = eventView;
       DisplayGroupDTO dispGroup = new DisplayGroupDTO();
       dispGroup.setDisplayName(eventView.getDisplayGroupName());
-      // if (dispGroup.getDisplayName() == null ||
-      // dispGroup.getDisplayName().length() == 0)
-      // {
-      // dispGroup.setDisplayName("bt1405-BTW");
-      // }
 
       // Only add handler for button if we have a button to handle
       if (eventView.getForwardbutton() != null)
@@ -102,7 +98,10 @@ public class MapActivity extends DetailActivity
 
       // Kicks off reading the routes in the DisplayGroup under control
       // of the RouteContainer
-      ServiceWrapper serviceWrapper = new ServiceWrapper(RouteContainerFactory.getRouteContainer());
+      RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory.getRouteContainer();
+      rcImpl.openProgressBar(null); // Will be re-opened later with the proper
+                                    // counts
+      ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
       serviceWrapper.showRoutes(dispGroup);
     }
   }

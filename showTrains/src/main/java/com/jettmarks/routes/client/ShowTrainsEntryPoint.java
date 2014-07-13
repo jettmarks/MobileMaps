@@ -51,7 +51,7 @@ public class ShowTrainsEntryPoint implements EntryPoint
 
     // set viewport and other settings for mobile
     MGWT.applySettings(MGWTSettings.getAppSetting());
-    
+
     final ClientFactory clientFactory = new ClientFactoryImpl();
 
     // Start PlaceHistoryHandler with our PlaceHistoryMapper
@@ -60,8 +60,8 @@ public class ShowTrainsEntryPoint implements EntryPoint
 
     historyHandler.register(clientFactory.getPlaceController(),
         clientFactory.getEventBus(),
-        new com.jettmarks.routes.client.place.EventPlace("btJulyParade",
-                                                         "2014 July Parade"));
+        new com.jettmarks.routes.client.place.EventPlace("bt1404-April",
+                                                         "2014 April"));
 
     if ((MGWT.getOsDetection().isTablet()))
     {
@@ -74,9 +74,9 @@ public class ShowTrainsEntryPoint implements EntryPoint
       createPhoneDisplay(clientFactory);
     }
 
-//    historyHandler.register(clientFactory.getPlaceController(),
-////        clientFactory.getEventBus(), new FormsPlace());
-//        clientFactory.getEventBus(), new HomePlace());
+    // historyHandler.register(clientFactory.getPlaceController(),
+    // // clientFactory.getEventBus(), new FormsPlace());
+    // clientFactory.getEventBus(), new HomePlace());
     historyHandler.handleCurrentHistory();
   }
 

@@ -211,21 +211,25 @@ public class RouteContainerImpl implements RouteContainer
   }
 
   /**
-   * TODO: Complete this.
-   * 
    * @param routeRequest
    */
-  private static void openProgressBar(RouteRequest routeRequest)
+  public void openProgressBar(RouteRequest routeRequest)
   {
+    if (gwtcProgress == null)
+    {
 
-    gwtcProgress = new GWTCProgress(31, GWTCProgress.SHOW_AS_DIALOG
-                                        | GWTCProgress.SHOW_TEXT
-                                        | GWTCProgress.SHOW_NUMBERS);
-    gwtcProgress.setText("Routes loaded:");
-    gwtcProgress.setProgress(routeRequest.getCompletedTasks(),
-        routeRequest.getTotalTasks());
-    RootPanel.get().add(gwtcProgress);
-    gwtcProgress.show();
+      gwtcProgress = new GWTCProgress(31, GWTCProgress.SHOW_AS_DIALOG
+                                          | GWTCProgress.SHOW_TEXT
+                                          | GWTCProgress.SHOW_NUMBERS);
+      gwtcProgress.setText("Routes loaded:");
+      RootPanel.get().add(gwtcProgress);
+      gwtcProgress.show();
+    }
+    if (routeRequest != null)
+    {
+      gwtcProgress.setProgress(routeRequest.getCompletedTasks(),
+          routeRequest.getTotalTasks());
+    }
   }
 
   /**
