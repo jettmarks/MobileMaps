@@ -326,5 +326,6 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
       r.setMap(null);
     }
     routes.clear();
+    mapBounds = null;
   }
 }
