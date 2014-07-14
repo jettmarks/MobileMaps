@@ -53,13 +53,17 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
   private static List<DisplayGroupDTO> displayGroupList;
 
   /**
-   * Default constructor simply stores our clientFactory instance.
+   * Default constructor stores our clientFactory instance and invokes the
+   * service to populate our list of Display Groups (Bike Train Events).
    * 
    * @param clientFactory
    */
   public DisplayGroupListActivity(ClientFactory clientFactory)
   {
     this.clientFactory = clientFactory;
+
+    GetTagsAsync tagService = GetTagsAsync.Util.getInstance();
+    tagService.getBikeTrains(new GetDisplayGroupCallback<DisplayGroupDTO[]>());
   }
 
   @Override
@@ -69,9 +73,6 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
 
     view.setTitle("Bike Train Events");
     // view.setRightButtonText("New");
-
-    GetTagsAsync tagService = GetTagsAsync.Util.getInstance();
-    tagService.getBikeTrains(new GetDisplayGroupCallback<DisplayGroupDTO[]>());
 
     addHandlerRegistration(view.getCellSelectedHandler()
                                .addCellSelectedHandler(
