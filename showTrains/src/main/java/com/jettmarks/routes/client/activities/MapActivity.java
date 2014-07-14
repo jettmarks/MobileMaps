@@ -123,4 +123,16 @@ public class MapActivity extends DetailActivity
     }
   }
 
+  /**
+   * Responsible for shutting down the button handlers registered here.
+   * 
+   * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
+   */
+  @Override
+  public void onStop()
+  {
+    super.onStop();
+    cancelAllHandlerRegistrations();
+  }
+
 }

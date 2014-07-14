@@ -150,4 +150,16 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
 
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
+   */
+  @Override
+  public void onStop()
+  {
+    super.onStop();
+    cancelAllHandlerRegistrations();
+  }
+
 }

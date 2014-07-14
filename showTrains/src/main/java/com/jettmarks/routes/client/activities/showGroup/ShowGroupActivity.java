@@ -41,6 +41,9 @@ public class ShowGroupActivity extends DetailActivity
 
   private RouteContainer routeContainer;
 
+  // Yes, unconventional that I'm using a second Activity
+  private MapActivity mapActivity = null;
+
   public ShowGroupActivity(Place newPlace, ClientFactory clientFactory)
   {
     super(clientFactory.getShowGroupView(), "nav");
@@ -81,7 +84,7 @@ public class ShowGroupActivity extends DetailActivity
     if (routeContainer.displayGroupHasChanged())
     {
       // Instantiation is sufficient
-      new MapActivity(view, clientFactory);
+      mapActivity = new MapActivity(view, clientFactory);
     }
     panel.setWidget(view);
   }
@@ -134,6 +137,7 @@ public class ShowGroupActivity extends DetailActivity
   {
     super.onStop();
     cancelAllHandlerRegistrations();
+    mapActivity.onStop();
   }
 
 }
