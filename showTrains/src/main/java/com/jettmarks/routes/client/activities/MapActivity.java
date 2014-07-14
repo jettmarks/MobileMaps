@@ -17,7 +17,6 @@
  */
 package com.jettmarks.routes.client.activities;
 
-import com.google.code.p.gwtchismes.client.GWTCProgress;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.jettmarks.routes.client.ClientFactory;
@@ -25,7 +24,6 @@ import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
-import com.jettmarks.routes.client.bean.RouteRequest;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
@@ -52,12 +50,6 @@ public class MapActivity extends DetailActivity
     STRING, DISPLAY_ELEMENT, UNDETERMINED
   }
 
-  private static RequestType requestType = RequestType.UNDETERMINED;
-
-  private static RouteRequest currentRouteRequest = null;
-
-  private static GWTCProgress gwtcProgress;
-
   private ClientFactory clientFactory = null;
 
   private BikeTrainRoute selectedRoute = null;
@@ -80,39 +72,6 @@ public class MapActivity extends DetailActivity
       DisplayGroupDTO dispGroup = new DisplayGroupDTO();
       dispGroup.setDisplayName(eventView.getDisplayGroupName());
 
-      // Only add handler for button if we have a button to handle
-      if (eventView.getForwardbutton() != null)
-      {
-        addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
-            new TapHandler()
-            {
-              @Override
-              public void onTap(TapEvent event)
-              {
-                selectedRoute = (BikeTrainRoute) RouteContainerFactory.getRouteContainer()
-                                                                      .getSelectedRoute();
-                clientFactory.getPlaceController().goTo(
-                    new RouteDetailsPlace(selectedRoute));
-              }
-            }));
-      }
-
-      if (eventView.getBackbutton() != null)
-      {
-        addHandlerRegistration(eventView.getBackbutton().addTapHandler(
-            new TapHandler()
-            {
-
-              @Override
-              public void onTap(TapEvent event)
-              {
-                clientFactory.getPlaceController().goTo(
-                    new EventSelectionPlace());
-              }
-
-            }));
-      }
-
       // Kicks off reading the routes in the DisplayGroup under control
       // of the RouteContainer
       RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory.getRouteContainer();
@@ -133,6 +92,42 @@ public class MapActivity extends DetailActivity
   {
     super.onStop();
     cancelAllHandlerRegistrations();
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see
+   * com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.gwt
+   * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+   */
+  public void addRegistration(EventView eventView)
+  {
+    // super.start(panel, eventBus);
+    addHandlerRegistration(eventView.getBackbutton().addTapHandler(
+        new TapHandler()
+        {
+
+          @Override
+          public void onTap(TapEvent event)
+          {
+            clientFactory.getPlaceController().goTo(new EventSelectionPlace());
+          }
+
+        }));
+
+    addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
+        new TapHandler()
+        {
+          @Override
+          public void onTap(TapEvent event)
+          {
+            selectedRoute = (BikeTrainRoute) RouteContainerFactory.getRouteContainer()
+                                                                  .getSelectedRoute();
+            clientFactory.getPlaceController().goTo(
+                new RouteDetailsPlace(selectedRoute));
+          }
+        }));
   }
 
 }

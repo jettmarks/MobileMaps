@@ -42,7 +42,7 @@ public class ShowGroupActivity extends DetailActivity
   private RouteContainer routeContainer;
 
   // Yes, unconventional that I'm using a second Activity
-  private MapActivity mapActivity = null;
+  private static MapActivity mapActivity = null;
 
   public ShowGroupActivity(Place newPlace, ClientFactory clientFactory)
   {
@@ -86,6 +86,7 @@ public class ShowGroupActivity extends DetailActivity
       // Instantiation is sufficient
       mapActivity = new MapActivity(view, clientFactory);
     }
+    mapActivity.addRegistration(view);
     panel.setWidget(view);
   }
 
