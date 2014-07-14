@@ -67,7 +67,7 @@ public class DisplayGroupListActivity extends MGWTAbstractActivity
   {
     view = clientFactory.getDisplayGroupListView();
 
-    view.setTitle("DisplayGroups");
+    view.setTitle("Bike Train Events");
     // view.setRightButtonText("New");
 
     GetTagsAsync tagService = GetTagsAsync.Util.getInstance();
