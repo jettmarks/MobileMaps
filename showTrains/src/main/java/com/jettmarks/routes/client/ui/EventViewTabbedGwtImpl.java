@@ -28,6 +28,7 @@ import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.CellList;
+import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
@@ -63,6 +64,8 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 
   private CellList<Route> listWidget;
 
+  private ScrollPanel scrollPanel;
+
   public EventViewTabbedGwtImpl()
   {
     super();
@@ -90,10 +93,15 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   private Tab prepareListTab(CellList<Route> listWidget)
   {
     Tab tab = new Tab();
+    scrollPanel = new ScrollPanel();
+    scrollPanel.add(listWidget);
+    scrollPanel.setSize("100%", "100%");
+    scrollPanel.setHeight(ScreenSize.getHeight() - 80 + "px");
+    scrollPanel.setScrollingEnabledX(true);
 
     TabBarButtonBase button = new ListTabBarButton();
     tab.setButton(button);
-    tab.setWidget(listWidget);
+    tab.setWidget(scrollPanel);
     return tab;
   }
 
@@ -195,6 +203,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   public void renderList()
   {
     listWidget.render(routes);
+    scrollPanel.refresh();
   }
 
   /**

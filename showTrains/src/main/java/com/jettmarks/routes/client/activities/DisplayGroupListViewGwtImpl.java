@@ -47,6 +47,8 @@ public class DisplayGroupListViewGwtImpl implements DisplayGroupListView
 
   private ProgressIndicator progressIndicator = null;
 
+  private ScrollPanel scrollPanel;
+
   public DisplayGroupListViewGwtImpl()
   {
     main = new LayoutPanel();
@@ -81,7 +83,7 @@ public class DisplayGroupListViewGwtImpl implements DisplayGroupListView
         "margin:auto; margin-top: 50px");
     main.add(progressIndicator);
 
-    ScrollPanel scrollPanel = new ScrollPanel();
+    scrollPanel = new ScrollPanel();
     scrollPanel.setWidget(cellList);
     scrollPanel.setScrollingEnabledX(true);
     main.add(scrollPanel);
@@ -122,6 +124,7 @@ public class DisplayGroupListViewGwtImpl implements DisplayGroupListView
   {
     cellList.getCellList().render(createTopicsList);
     progressIndicator.removeFromParent();
+    scrollPanel.refresh();
   }
 
   @Override
