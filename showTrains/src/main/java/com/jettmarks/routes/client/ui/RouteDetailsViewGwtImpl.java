@@ -19,6 +19,7 @@ package com.jettmarks.routes.client.ui;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.FormListEntry;
@@ -124,7 +125,9 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
     widgetList.add(new FormListEntry("Leader Phone", tbPhone));
     widgetList.add(new FormListEntry("Departure", tbDeparture));
     widgetList.add(new FormListEntry("Arrival", tbArrival));
-    widgetList.add(new FormListEntry("Notes", tbNotes));
+    widgetList.add(new Label("Notes"));
+    widgetList.add(tbNotes);
+    // widgetList.add(new FormListEntry("Notes", tbNotes));
     return widgetList;
   }
 
