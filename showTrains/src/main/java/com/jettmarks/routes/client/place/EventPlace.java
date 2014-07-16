@@ -20,12 +20,13 @@ package com.jettmarks.routes.client.place;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 
-public class EventPlace extends Place {
-	/**
-	 * An EventPlace specifies the displayGroupName which matches one-to-one with
-	 * a date and a description of the event, as well as bundling the bike trains
-	 * that are being conducted as part of that event.
-	 * 
+public class EventPlace extends Place
+{
+  /**
+   * An EventPlace specifies the displayGroupName which matches one-to-one with
+   * a date and a description of the event, as well as bundling the bike trains
+   * that are being conducted as part of that event.
+   * 
    * @param displayGroupName
    */
   public EventPlace(String displayGroupName)
@@ -52,22 +53,27 @@ public class EventPlace extends Place {
     this.description = description;
   }
 
-  public static class Tokenizer implements PlaceTokenizer<EventPlace> {
+  public static class Tokenizer implements PlaceTokenizer<EventPlace>
+  {
 
-		@Override
-		public EventPlace getPlace(String token) {
-			return new EventPlace();
-		}
+    @Override
+    public EventPlace getPlace(String token)
+    {
+      String displayGroup = token;
+      return new EventPlace(displayGroup);
+    }
 
-		@Override
-		public String getToken(EventPlace place) {
-			return "";
-		}
+    @Override
+    public String getToken(EventPlace place)
+    {
+      return place.getDisplayGroupName();
+    }
 
-	}
+  }
 
   /** Human name for the Event; shows as the title. */
   private String description;
+
   /** Forms the URL for the Event. */
   private String displayGroupName;
 
@@ -96,7 +102,8 @@ public class EventPlace extends Place {
   }
 
   /**
-   * @param description the description to set
+   * @param description
+   *          the description to set
    */
   public void setDescription(String description)
   {
