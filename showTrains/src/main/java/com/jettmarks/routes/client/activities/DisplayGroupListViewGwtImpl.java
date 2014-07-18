@@ -17,12 +17,16 @@ package com.jettmarks.routes.client.activities;
 
 import java.util.List;
 
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
+import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
+import com.googlecode.mgwt.ui.client.widget.ProgressBar;
 import com.googlecode.mgwt.ui.client.widget.ProgressIndicator;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellListWithHeader;
@@ -34,103 +38,107 @@ import com.jettmarks.routes.client.Topic;
  * @author Daniel Kurka
  * 
  */
-public class DisplayGroupListViewGwtImpl implements DisplayGroupListView
-{
+public class DisplayGroupListViewGwtImpl implements DisplayGroupListView {
 
-  private LayoutPanel main;
+	private LayoutPanel main;
 
-  private HeaderButton forwardButton;
+	private HeaderButton forwardButton;
 
-  private HeaderPanel headerPanel;
+	private HeaderPanel headerPanel;
 
-  private CellListWithHeader<Topic> cellList;
+	private CellListWithHeader<Topic> cellList;
 
-  private ProgressIndicator progressIndicator = null;
+	private ProgressIndicator progressIndicator = null;
 
-  private ScrollPanel scrollPanel;
+	private ScrollPanel scrollPanel;
 
-  public DisplayGroupListViewGwtImpl()
-  {
-    main = new LayoutPanel();
+	/** Buffers the space around the ProgressBar. */
+	private FlowPanel progressBarPanel;
 
-    headerPanel = new HeaderPanel();
+	public DisplayGroupListViewGwtImpl() {
+		main = new LayoutPanel();
 
-    forwardButton = new HeaderButton();
-    forwardButton.setForwardButton(true);
-    // headerPanel.setRightWidget(forwardButton);
-    main.add(headerPanel);
+		headerPanel = new HeaderPanel();
 
-    cellList = new CellListWithHeader<Topic>(new BasicCell<Topic>()
-    {
+		forwardButton = new HeaderButton();
+		forwardButton.setForwardButton(true);
+		// headerPanel.setRightWidget(forwardButton);
+		main.add(headerPanel);
 
-      @Override
-      public String getDisplayString(Topic model)
-      {
-        return model.getName();
-      }
+		cellList = new CellListWithHeader<Topic>(new BasicCell<Topic>() {
 
-      @Override
-      public boolean canBeSelected(Topic model)
-      {
-        return true;
-      }
-    });
+			@Override
+			public String getDisplayString(Topic model) {
+				return model.getName();
+			}
 
-    cellList.getCellList().setRound(true);
+			@Override
+			public boolean canBeSelected(Topic model) {
+				return true;
+			}
+		});
 
-    progressIndicator = new ProgressIndicator();
-    progressIndicator.getElement().setAttribute("style",
-        "margin:auto; margin-top: 50px");
-    main.add(progressIndicator);
+		cellList.getCellList().setRound(true);
 
-    scrollPanel = new ScrollPanel();
-    scrollPanel.setWidget(cellList);
-    scrollPanel.setScrollingEnabledX(true);
-    main.add(scrollPanel);
-  }
+		// Setup the Progress Bar/Indicator based on phone or tablet
+		if ((MGWT.getOsDetection().isTablet())) {
+			progressBarPanel = new FlowPanel();
+			progressBarPanel.getElement().getStyle().setMarginTop(20, Unit.PX);
+			progressBarPanel.add(new ProgressBar());
+			main.add(progressBarPanel);
+		} else {
+			progressIndicator = new ProgressIndicator();
+			progressIndicator.getElement().setAttribute("style",
+					"margin:auto; margin-top: 50px");
+			main.add(progressIndicator);
+		}
 
-  @Override
-  public Widget asWidget()
-  {
-    return main;
-  }
+		// This is where the list of Events will go
+		scrollPanel = new ScrollPanel();
+		scrollPanel.setWidget(cellList);
+		scrollPanel.setScrollingEnabledX(true);
+		main.add(scrollPanel);
+	}
 
-  @Override
-  public void setTitle(String text)
-  {
-    headerPanel.setCenter(text);
-  }
+	@Override
+	public Widget asWidget() {
+		return main;
+	}
 
-  @Override
-  public void setRightButtonText(String text)
-  {
-    forwardButton.setText(text);
-  }
+	@Override
+	public void setTitle(String text) {
+		headerPanel.setCenter(text);
+	}
 
-  @Override
-  public HasTapHandlers getAboutButton()
-  {
-    return forwardButton;
-  }
+	@Override
+	public void setRightButtonText(String text) {
+		forwardButton.setText(text);
+	}
 
-  @Override
-  public HasCellSelectedHandler getCellSelectedHandler()
-  {
-    return cellList.getCellList();
-  }
+	@Override
+	public HasTapHandlers getAboutButton() {
+		return forwardButton;
+	}
 
-  @Override
-  public void setTopics(List<Topic> createTopicsList)
-  {
-    cellList.getCellList().render(createTopicsList);
-    progressIndicator.removeFromParent();
-    scrollPanel.refresh();
-  }
+	@Override
+	public HasCellSelectedHandler getCellSelectedHandler() {
+		return cellList.getCellList();
+	}
 
-  @Override
-  public HasText getFirstHeader()
-  {
-    return cellList.getHeader();
-  }
+	@Override
+	public void setTopics(List<Topic> createTopicsList) {
+		cellList.getCellList().render(createTopicsList);
+		if ((MGWT.getOsDetection().isTablet())) {
+			progressBarPanel.removeFromParent();
+		} else {
+			progressIndicator.removeFromParent();
+		}
+		scrollPanel.refresh();
+	}
+
+	@Override
+	public HasText getFirstHeader() {
+		return cellList.getHeader();
+	}
 
 }
