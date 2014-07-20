@@ -337,4 +337,26 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
     routes.clear();
     mapBounds = null;
   }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ui.EventView#showMapTab()
+   */
+  @Override
+  public void showMapTab()
+  {
+    tabPanel.setSelectedChild(0);
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ui.EventView#showListTab()
+   */
+  @Override
+  public void showListTab()
+  {
+    tabPanel.setSelectedChild(1);
+  }
 }

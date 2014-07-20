@@ -60,4 +60,8 @@ public interface EventView extends DetailView
    */
   public abstract void clearMap();
 
+  public abstract void showMapTab();
+
+  public abstract void showListTab();
+
 }

@@ -87,11 +87,12 @@ public class RouteContainerImpl implements RouteContainer
 
   }
 
-  /*
-   * (non-Javadoc)
+  /**
+   * This method allows drawing each of the routes as they come back from the
+   * server; we add them to the view as each one comes in.
    * 
    * @see com.jettmarks.routes.client.ui.RouteContainer#put(java.lang.String,
-   * com.jettmarks.routes.client.bean.Route)
+   *      com.jettmarks.routes.client.bean.Route)
    */
   @Override
   public void put(String routeName, Route route)

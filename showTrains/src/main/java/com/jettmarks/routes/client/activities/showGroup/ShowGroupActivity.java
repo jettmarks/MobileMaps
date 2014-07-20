@@ -84,6 +84,7 @@ public class ShowGroupActivity extends DetailActivity
     if (routeContainer.displayGroupHasChanged())
     {
       // Instantiation is sufficient
+      view.showMapTab();
       mapActivity = new MapActivity(view, clientFactory);
     }
     mapActivity.addRegistration(view);
