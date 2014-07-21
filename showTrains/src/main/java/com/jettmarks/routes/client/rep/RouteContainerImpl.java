@@ -101,6 +101,27 @@ public class RouteContainerImpl implements RouteContainer
   }
 
   /**
+   * @param routeRequest
+   */
+  public void openProgressBar(RouteRequest routeRequest)
+  {
+    if (gwtcProgress == null)
+    {
+      gwtcProgress = new GWTCProgress(16, GWTCProgress.SHOW_AS_DIALOG
+                                          | GWTCProgress.SHOW_TEXT
+                                          | GWTCProgress.SHOW_NUMBERS);
+      gwtcProgress.setText("Routes loaded:");
+      RootPanel.get().add(gwtcProgress);
+    }
+    gwtcProgress.show();
+    if (routeRequest != null)
+    {
+      gwtcProgress.setProgress(routeRequest.getCompletedTasks(),
+          routeRequest.getTotalTasks());
+    }
+  }
+
+  /**
    * As routes are brought back from the service, we build up the display on the
    * map, and once all requests have been handled, we can shut down the progress
    * bar and resize the map.
@@ -125,7 +146,7 @@ public class RouteContainerImpl implements RouteContainer
       Window.setStatus("Resizing");
       mapView.resize();
       Window.setStatus("Done");
-      gwtcProgress.hide();
+      // gwtcProgress.hide();
     }
     else
     // ready to ask for next route
@@ -221,28 +242,6 @@ public class RouteContainerImpl implements RouteContainer
   private void clearPreviousMap()
   {
     mapView.clearMap();
-  }
-
-  /**
-   * @param routeRequest
-   */
-  public void openProgressBar(RouteRequest routeRequest)
-  {
-    if (gwtcProgress == null)
-    {
-
-      gwtcProgress = new GWTCProgress(31, GWTCProgress.SHOW_AS_DIALOG
-                                          | GWTCProgress.SHOW_TEXT
-                                          | GWTCProgress.SHOW_NUMBERS);
-      gwtcProgress.setText("Routes loaded:");
-      RootPanel.get().add(gwtcProgress);
-      gwtcProgress.show();
-    }
-    if (routeRequest != null)
-    {
-      gwtcProgress.setProgress(routeRequest.getCompletedTasks(),
-          routeRequest.getTotalTasks());
-    }
   }
 
   /**

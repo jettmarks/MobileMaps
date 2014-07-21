@@ -75,8 +75,6 @@ public class MapActivity extends DetailActivity
       // Kicks off reading the routes in the DisplayGroup under control
       // of the RouteContainer
       RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory.getRouteContainer();
-      rcImpl.openProgressBar(null); // Will be re-opened later with the proper
-                                    // counts
       ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
       serviceWrapper.showRoutes(dispGroup);
     }

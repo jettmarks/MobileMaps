@@ -11,6 +11,7 @@
 	
 	<inherits name="com.google.code.p.gwtchismes.GWTChismes" />
 	<stylesheet src="GWTC-compressed.css" />
+	<stylesheet src="css/progressBar.css" />
 	 
 	<!-- uncomment this if you want to use gwt phonegap -->
 	<!--<inherits name="com.googlecode.gwtphonegap.PhoneGap"/>-->

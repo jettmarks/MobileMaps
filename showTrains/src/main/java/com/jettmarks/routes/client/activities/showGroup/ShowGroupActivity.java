@@ -30,6 +30,7 @@ import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
+import com.jettmarks.routes.client.rep.RouteContainerImpl;
 import com.jettmarks.routes.client.ui.EventView;
 
 public class ShowGroupActivity extends DetailActivity
@@ -83,6 +84,11 @@ public class ShowGroupActivity extends DetailActivity
 
     if (routeContainer.displayGroupHasChanged())
     {
+      // We'll be loading new records, so start the progress bar
+      RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory.getRouteContainer();
+      rcImpl.openProgressBar(null); // Will be re-opened later with the proper
+                                    // counts
+
       // Instantiation is sufficient
       view.showMapTab();
       mapActivity = new MapActivity(view, clientFactory);

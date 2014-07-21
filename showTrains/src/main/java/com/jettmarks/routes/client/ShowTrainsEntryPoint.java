@@ -65,6 +65,9 @@ public class ShowTrainsEntryPoint implements EntryPoint
         // "2014 April"));
         new EventSelectionPlace());
 
+    // Inserting CSS to adjust the GWTCProgressBar
+    // StyleInjector.inject(AppBundle.INSTANCE.progressBarCSS().getText());
+
     if ((MGWT.getOsDetection().isTablet()))
     {
       // very nasty workaround because GWT does not correctly support @media
