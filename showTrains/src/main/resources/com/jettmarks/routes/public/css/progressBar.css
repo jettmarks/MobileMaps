@@ -1,4 +1,4 @@
-// Adjusts the width of the Progress Bar
+/* Adjusts the width of the Progress Bar's prg-numbers div. */
 
 .GWTCProgress .prg-numbers {
     width: 65px;

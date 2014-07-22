@@ -146,7 +146,7 @@ public class RouteContainerImpl implements RouteContainer
       Window.setStatus("Resizing");
       mapView.resize();
       Window.setStatus("Done");
-      // gwtcProgress.hide();
+      gwtcProgress.hide();
     }
     else
     // ready to ask for next route
