@@ -84,6 +84,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   {
     headerPanel.setRightWidget(headerForwardButton);
     headerPanel.setLeftWidget(headerBackButton);
+    enableForwardButton(true);
   }
 
   /**
@@ -311,7 +312,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
   @Override
   public void selectRoute(Route route)
   {
-    headerForwardButton.setVisible(route != null);
+    // headerForwardButton.setVisible(route != null);
     int index = 0;
     for (Route r : routes)
     {
