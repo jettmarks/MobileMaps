@@ -4,7 +4,7 @@
     "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
- <display-name>Display Groups</display-name>
+ <display-name>Bike Trains</display-name>
   
  <servlet>
   <servlet-name>getTags</servlet-name>
