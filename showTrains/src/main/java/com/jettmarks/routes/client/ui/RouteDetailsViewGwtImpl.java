@@ -119,6 +119,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
     tbDeparture = new MTextBox();
     tbArrival = new MTextBox();
     tbNotes = new MTextArea();
+    tbNotes.setHeight("100px");
 
     widgetList.add(new FormListEntry("Leader Name", tbLeaderName));
     widgetList.add(new FormListEntry("Leader Email", tbLeaderEmail));

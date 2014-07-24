@@ -19,12 +19,4 @@ public interface AppBundle extends ClientBundle
 
   @Source("map.png")
   ImageResource tabBarMapImage();
-
-  /**
-   * Holds the adjustment to the ProgressBar size.
-   * 
-   * @return
-   */
-  @Source("progressBar.css")
-  TextResource progressBarCSS();
 }

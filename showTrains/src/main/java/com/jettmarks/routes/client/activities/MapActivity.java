@@ -19,6 +19,7 @@ package com.jettmarks.routes.client.activities;
 
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
+import com.googlecode.mgwt.ui.client.dialog.AlertDialog;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.DetailView;
@@ -122,10 +123,18 @@ public class MapActivity extends DetailActivity
           {
             selectedRoute = (BikeTrainRoute) RouteContainerFactory.getRouteContainer()
                                                                   .getSelectedRoute();
-            clientFactory.getPlaceController().goTo(
-                new RouteDetailsPlace(selectedRoute));
+            if (selectedRoute != null)
+            {
+              clientFactory.getPlaceController().goTo(
+                  new RouteDetailsPlace(selectedRoute));
+            }
+            else
+            {
+              AlertDialog noRouteSelectedAlert = new AlertDialog("No Train Selected",
+                                                                 "Choose a Bike Train to view");
+              noRouteSelectedAlert.show();
+            }
           }
         }));
   }
-
 }
