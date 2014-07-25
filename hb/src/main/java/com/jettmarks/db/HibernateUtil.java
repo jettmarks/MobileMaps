@@ -44,6 +44,7 @@ public class HibernateUtil
   private static Properties defaultProperties = null;
 
   private static Properties jndiProperties = null;
+  private static Properties connectionPoolProperties = null;
 
   private static EnvironmentType envType = EnvironmentType.TEST;
 
@@ -106,6 +107,18 @@ public class HibernateUtil
       defaultProperties.put("hibernate.connection.url", url);
       cfg.addProperties(defaultProperties);
     }
+    
+    // Connection Pool Properties
+    connectionPoolProperties = new Properties();
+    connectionPoolProperties.put("hibernate.connection.provider_class", "org.hibernate.connection.C3P0ConnectionProvider");
+    connectionPoolProperties.put("hibernate.c3p0.acquire_increment", "1");    
+    connectionPoolProperties.put("hibernate.c3p0.idle_test_period", "100");    
+    connectionPoolProperties.put("hibernate.c3p0.max_size", "100");    
+    connectionPoolProperties.put("hibernate.c3p0.max_statements", "0");    
+    connectionPoolProperties.put("hibernate.c3p0.min_size", "10");    
+    connectionPoolProperties.put("hibernate.c3p0.timeout", "100");    
+
+    cfg.addProperties(connectionPoolProperties);
   }
 
   /**
