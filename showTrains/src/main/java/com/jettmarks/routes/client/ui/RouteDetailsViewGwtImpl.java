@@ -28,7 +28,6 @@ import com.googlecode.mgwt.ui.client.widget.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.MEmailTextBox;
 import com.googlecode.mgwt.ui.client.widget.MPhoneNumberTextBox;
-import com.googlecode.mgwt.ui.client.widget.MTextArea;
 import com.googlecode.mgwt.ui.client.widget.MTextBox;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.WidgetList;
@@ -65,7 +64,10 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
 
   private MTextBox tbDeparture;
 
-  private MTextArea tbNotes;
+  // private MTextArea tbNotes;
+  private HTML notesHTML;
+
+  private LayoutPanel formPanel;
 
   /**
    * Default Constructor builds the widget.
@@ -96,10 +98,17 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
     headerPanel.setLeftWidget(headerBackButton);
     main.add(headerPanel);
 
-    // Setup the Form Area
+    // Setup the Form Area, less the Notes
     WidgetList widgetList = setupForm();
 
-    scrollPanel.add(widgetList);
+    formPanel = new LayoutPanel();
+    formPanel.add(widgetList);
+    notesHTML = new HTML();
+    // notesHTML.setHeight("300px");
+    widgetList.add(notesHTML);
+    // formPanel.add(notesHTML);
+    // scrollPanel.add(widgetList);
+    scrollPanel.add(formPanel);
     main.add(scrollPanel);
   }
 
@@ -118,8 +127,8 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
     tbPhone = new MPhoneNumberTextBox();
     tbDeparture = new MTextBox();
     tbArrival = new MTextBox();
-    tbNotes = new MTextArea();
-    tbNotes.setHeight("100px");
+    // tbNotes = new MTextArea();
+    // tbNotes.setHeight("100px");
 
     widgetList.add(new FormListEntry("Leader Name", tbLeaderName));
     widgetList.add(new FormListEntry("Leader Email", tbLeaderEmail));
@@ -127,8 +136,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
     widgetList.add(new FormListEntry("Departure", tbDeparture));
     widgetList.add(new FormListEntry("Arrival", tbArrival));
     widgetList.add(new Label("Notes"));
-    widgetList.add(tbNotes);
-    // widgetList.add(new FormListEntry("Notes", tbNotes));
+    // widgetList.add(tbNotes);
     return widgetList;
   }
 
@@ -337,7 +345,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
   public String getNotes()
   {
     // return notes;
-    return tbNotes.getText();
+    return notesHTML.getText();
   }
 
   /**
@@ -347,7 +355,8 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView
   @Override
   public void setNotes(String notes)
   {
-    tbNotes.setText(notes);
+    notesHTML.setText(notes);
+    scrollPanel.refresh();
   }
 
 }
