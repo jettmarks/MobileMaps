@@ -24,12 +24,9 @@ import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
-import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
-import com.jettmarks.routes.client.rep.RouteContainerImpl;
-import com.jettmarks.routes.client.rep.ServiceWrapper;
 import com.jettmarks.routes.client.ui.EventView;
 
 /**
@@ -38,103 +35,85 @@ import com.jettmarks.routes.client.ui.EventView;
  * 
  * @author jett
  */
-public class MapActivity extends DetailActivity
-{
-  /**
-   * Records what type of request we're handling.
-   * 
-   * class.isInstance isn't supported in GWT.
-   * 
-   * @author jett
-   */
-  public enum RequestType {
-    STRING, DISPLAY_ELEMENT, UNDETERMINED
-  }
+public class MapActivity extends DetailActivity {
 
-  private ClientFactory clientFactory = null;
+	private ClientFactory clientFactory = null;
 
-  private BikeTrainRoute selectedRoute = null;
+	private BikeTrainRoute selectedRoute = null;
 
-  /**
-   * @param view
-   * @param clientFactory
-   */
-  EventView mapView = null;
+	/**
+	 * @param view
+	 * @param clientFactory
+	 */
+	EventView mapView = null;
 
-  public MapActivity(DetailView view, ClientFactory cf)
-  {
-    super(view, "");
-    clientFactory = cf;
+	public MapActivity(DetailView view, ClientFactory cf) {
+		super(view, "");
+		clientFactory = cf;
 
-    if (view instanceof EventView)
-    {
-      final EventView eventView = (EventView) view;
-      mapView = eventView;
-      DisplayGroupDTO dispGroup = new DisplayGroupDTO();
-      dispGroup.setDisplayName(eventView.getDisplayGroupName());
+		if (view instanceof EventView) {
+			final EventView eventView = (EventView) view;
+			mapView = eventView;
+			// Moved into the ShowGroupActivity
+			// DisplayGroupDTO dispGroup = new DisplayGroupDTO();
+			// dispGroup.setDisplayName(eventView.getDisplayGroupName());
+			//
+			// // Kicks off reading the routes in the DisplayGroup under control
+			// // of the RouteContainer
+			// RouteContainerImpl rcImpl = (RouteContainerImpl)
+			// RouteContainerFactory.getRouteContainer();
+			// ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
+			// serviceWrapper.showRoutes(dispGroup);
+		}
+	}
 
-      // Kicks off reading the routes in the DisplayGroup under control
-      // of the RouteContainer
-      RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory.getRouteContainer();
-      ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
-      serviceWrapper.showRoutes(dispGroup);
-    }
-  }
+	/**
+	 * Responsible for shutting down the button handlers registered here.
+	 * 
+	 * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
+	 */
+	@Override
+	public void onStop() {
+		super.onStop();
+		cancelAllHandlerRegistrations();
+	}
 
-  /**
-   * Responsible for shutting down the button handlers registered here.
-   * 
-   * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
-   */
-  @Override
-  public void onStop()
-  {
-    super.onStop();
-    cancelAllHandlerRegistrations();
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.gwt
+	 * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+	 */
+	public void addRegistration(EventView eventView) {
+		// super.start(panel, eventBus);
+		addHandlerRegistration(eventView.getBackbutton().addTapHandler(
+				new TapHandler() {
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.gwt
-   * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
-   */
-  public void addRegistration(EventView eventView)
-  {
-    // super.start(panel, eventBus);
-    addHandlerRegistration(eventView.getBackbutton().addTapHandler(
-        new TapHandler()
-        {
+					@Override
+					public void onTap(TapEvent event) {
+						clientFactory.getPlaceController().goTo(
+								new EventSelectionPlace());
+					}
 
-          @Override
-          public void onTap(TapEvent event)
-          {
-            clientFactory.getPlaceController().goTo(new EventSelectionPlace());
-          }
+				}));
 
-        }));
-
-    addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
-        new TapHandler()
-        {
-          @Override
-          public void onTap(TapEvent event)
-          {
-            selectedRoute = (BikeTrainRoute) RouteContainerFactory.getRouteContainer()
-                                                                  .getSelectedRoute();
-            if (selectedRoute != null)
-            {
-              clientFactory.getPlaceController().goTo(
-                  new RouteDetailsPlace(selectedRoute));
-            }
-            else
-            {
-              AlertDialog noRouteSelectedAlert = new AlertDialog("No Train Selected",
-                                                                 "Choose a Bike Train to view");
-              noRouteSelectedAlert.show();
-            }
-          }
-        }));
-  }
+		addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
+				new TapHandler() {
+					@Override
+					public void onTap(TapEvent event) {
+						selectedRoute = (BikeTrainRoute) RouteContainerFactory
+								.getRouteContainer().getSelectedRoute();
+						if (selectedRoute != null) {
+							clientFactory.getPlaceController().goTo(
+									new RouteDetailsPlace(selectedRoute));
+						} else {
+							AlertDialog noRouteSelectedAlert = new AlertDialog(
+									"No Train Selected",
+									"Choose a Bike Train to view");
+							noRouteSelectedAlert.show();
+						}
+					}
+				}));
+	}
 }
