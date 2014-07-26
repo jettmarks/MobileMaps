@@ -41,6 +41,8 @@ import com.jettmarks.routes.client.css.AppBundle;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
 
 /**
+ * Upon detection of tablet/desktop or phone, present either a PhoneDisplay or a
+ * TabletDisplay.
  * 
  * @author Jett Marks
  */
@@ -60,13 +62,7 @@ public class ShowTrainsEntryPoint implements EntryPoint
     final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
 
     historyHandler.register(clientFactory.getPlaceController(),
-        clientFactory.getEventBus(),
-        // new com.jettmarks.routes.client.place.EventPlace("bt1404-April",
-        // "2014 April"));
-        new EventSelectionPlace());
-
-    // Inserting CSS to adjust the GWTCProgressBar
-    // StyleInjector.inject(AppBundle.INSTANCE.progressBarCSS().getText());
+        clientFactory.getEventBus(), new EventSelectionPlace());
 
     if ((MGWT.getOsDetection().isTablet()))
     {
@@ -79,9 +75,6 @@ public class ShowTrainsEntryPoint implements EntryPoint
       createPhoneDisplay(clientFactory);
     }
 
-    // historyHandler.register(clientFactory.getPlaceController(),
-    // // clientFactory.getEventBus(), new FormsPlace());
-    // clientFactory.getEventBus(), new HomePlace());
     historyHandler.handleCurrentHistory();
   }
 
