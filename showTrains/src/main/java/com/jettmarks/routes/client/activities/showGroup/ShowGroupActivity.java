@@ -22,6 +22,7 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.googlecode.mgwt.ui.client.MGWT;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.activities.MapActivity;
@@ -83,7 +84,7 @@ public class ShowGroupActivity extends DetailActivity
     view.getBackbuttonText().setText("<");
     view.getForwardbuttonText().setText(">");
 
-    view.enableBackButton(true);
+    view.enableBackButton(!MGWT.getOsDetection().isTablet());
     view.enableForwardButton(true);
 
     if (routeContainer.displayGroupHasChanged())
