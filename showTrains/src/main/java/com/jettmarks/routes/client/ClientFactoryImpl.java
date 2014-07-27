@@ -24,6 +24,8 @@ import com.jettmarks.routes.client.activities.showGroup.ShowGroupView;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupViewGwtImpl;
 import com.jettmarks.routes.client.forms.FormsView;
 import com.jettmarks.routes.client.forms.FormsViewGwtImpl;
+import com.jettmarks.routes.client.ui.EventSelectionView;
+import com.jettmarks.routes.client.ui.EventSelectionViewGwtImpl;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.EventViewTabbedGwtImpl;
 import com.jettmarks.routes.client.ui.RouteDetailsView;
@@ -49,6 +51,8 @@ public class ClientFactoryImpl implements ClientFactory
   private EventView eventView;
 
   private RouteDetailsView routeDetailsView;
+
+  private EventSelectionView eventSelectionView;
 
   public ClientFactoryImpl()
   {
@@ -134,6 +138,21 @@ public class ClientFactoryImpl implements ClientFactory
       routeDetailsView = new RouteDetailsViewGwtImpl();
     }
     return routeDetailsView;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.jettmarks.routes.client.ClientFactory#getEventSelectionView()
+   */
+  @Override
+  public EventSelectionView getEventSelectionView()
+  {
+    if (eventSelectionView == null)
+    {
+      eventSelectionView = new EventSelectionViewGwtImpl();
+    }
+    return eventSelectionView;
   }
 
 }

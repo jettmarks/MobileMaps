@@ -3,7 +3,7 @@ package com.jettmarks.routes.client;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
-import com.jettmarks.routes.client.activities.DisplayGroupListActivity;
+import com.jettmarks.routes.client.activities.EmptyMapActivity;
 import com.jettmarks.routes.client.activities.RouteDetailsActivity;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupActivity;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupPlace;
@@ -40,7 +40,8 @@ public class TabletMainActivityMapper implements ActivityMapper
   {
     if (newPlace instanceof EventSelectionPlace)
     {
-      return new DisplayGroupListActivity(clientFactory);
+      return new EmptyMapActivity(clientFactory);
+      // return new DisplayGroupListActivity(clientFactory);
     }
 
     if (newPlace instanceof HomePlace)

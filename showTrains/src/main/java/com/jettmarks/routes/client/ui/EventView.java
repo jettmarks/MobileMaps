@@ -64,4 +64,9 @@ public interface EventView extends DetailView
 
   public abstract void showListTab();
 
+  /**
+   * @param b
+   */
+  public abstract void enableBackButton(boolean b);
+
 }

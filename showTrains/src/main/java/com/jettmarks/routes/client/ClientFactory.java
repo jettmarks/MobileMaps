@@ -20,6 +20,7 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.jettmarks.routes.client.activities.DisplayGroupListView;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupView;
 import com.jettmarks.routes.client.forms.FormsView;
+import com.jettmarks.routes.client.ui.EventSelectionView;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.RouteDetailsView;
 
@@ -39,5 +40,10 @@ public interface ClientFactory
   public EventView getEventView();
 
   public RouteDetailsView getRouteDetailsView();
+
+  /**
+   * @return
+   */
+  public EventSelectionView getEventSelectionView();
 
 }
