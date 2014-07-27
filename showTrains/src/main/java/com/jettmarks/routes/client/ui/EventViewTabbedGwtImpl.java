@@ -181,7 +181,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
     mapWidget = new MapWidget(opts);
     // Only the height has to be spec'd
     mapWidget.setSize("100%", "100%");
-    mapWidget.setHeight(ScreenSize.getHeight() - 80 + "px");
+    mapWidget.setHeight(ScreenSize.getHeight() - 89 + "px");
     ScreenSize.addRegistration(mapWidget);
     return mapWidget;
   }

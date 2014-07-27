@@ -15,50 +15,61 @@ import com.google.gwt.user.client.ui.Widget;
  * @author jett
  * 
  */
-public class ScreenSize {
-	private int height;
-	private int width;
-	
-	static List<Widget> registeredResizeList = new ArrayList<Widget>();
-	
-	private static ScreenSize instance = new ScreenSize();
-	
-	private ScreenSize() {
-		setHeight(Window.getClientHeight());
-		setWidth(Window.getClientWidth());
-		
-		Window.addResizeHandler(new ResizeHandler() {
+public class ScreenSize
+{
+  private int height;
 
-			@Override
-			public void onResize(ResizeEvent event) {
-				setHeight(event.getHeight());
-				setWidth(event.getWidth());
-				for (Widget w : registeredResizeList) {
-//				  w.setPixelSize(width, height - 40);
-          w.setHeight((height - 80) + "px");
-				}
-			}
-		});
-	}
+  private int width;
 
-	public static int getHeight() {
-		return instance.height;
-	}
+  static List<Widget> registeredResizeList = new ArrayList<Widget>();
 
-	protected void setHeight(int height) {
-		this.height = height;
-	}
+  private static ScreenSize instance = new ScreenSize();
 
-	public static int getWidth() {
-		return instance.width;
-	}
+  private ScreenSize()
+  {
+    setHeight(Window.getClientHeight());
+    setWidth(Window.getClientWidth());
 
-	protected void setWidth(int width) {
-		this.width = width;
-	}
-	
-	public static void addRegistration(Widget w) {
-	  registeredResizeList.add(w);
-	}
-	
+    Window.addResizeHandler(new ResizeHandler()
+    {
+
+      @Override
+      public void onResize(ResizeEvent event)
+      {
+        setHeight(event.getHeight());
+        setWidth(event.getWidth());
+        for (Widget w : registeredResizeList)
+        {
+          // w.setPixelSize(width, height - 40);
+          w.setHeight((height - 89) + "px");
+        }
+      }
+    });
+  }
+
+  public static int getHeight()
+  {
+    return instance.height;
+  }
+
+  protected void setHeight(int height)
+  {
+    this.height = height;
+  }
+
+  public static int getWidth()
+  {
+    return instance.width;
+  }
+
+  protected void setWidth(int width)
+  {
+    this.width = width;
+  }
+
+  public static void addRegistration(Widget w)
+  {
+    registeredResizeList.add(w);
+  }
+
 }
