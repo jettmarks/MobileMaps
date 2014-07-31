@@ -16,8 +16,9 @@
 	<!-- uncomment this if you want to use gwt phonegap -->
 	<!--<inherits name="com.googlecode.gwtphonegap.PhoneGap"/>-->
 	
+	<!-- wide open -->
+	<set-property name="user.agent" value="safari, gecko1_8, ie8, ie9" />
 	<!-- set the user agent to safari -> only webkit -->
-	<!--  --><set-property name="user.agent" value="safari, gecko1_8" />
 	<!-- <set-property name="user.agent" value="safari" />  -->
 	
 	<!--  here you can set mgwt.os to a specific platform -->
