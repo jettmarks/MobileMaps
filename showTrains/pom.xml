@@ -222,7 +222,7 @@
 	    	<type>jar</type>
 	    	<scope>runtime</scope>
 	    </dependency>  
-			<dependency>
+		<dependency>
 	    	<groupId>org.hibernate</groupId>
 	    	<artifactId>hibernate-validator</artifactId>
 	    	<version>4.0.0.GA</version>
