@@ -38,107 +38,107 @@ import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
  */
 public abstract class DAOTestBase extends TestCase {
 
-	protected Session session = null;
+    protected Session session = null;
 
-	/**
+    /**
    * 
    */
-	public DAOTestBase() {
-		super();
-	}
+    public DAOTestBase() {
+	super();
+    }
 
-	/**
-	 * @param name
-	 */
-	public DAOTestBase(String name) {
-		super(name);
-	}
+    /**
+     * @param name
+     */
+    public DAOTestBase(String name) {
+	super(name);
+    }
 
-	protected void setUp() throws Exception {
-		super.setUp();
+    protected void setUp() throws Exception {
+	super.setUp();
 
-		initializeContext();
-		session = HibernateUtil.getSession();
-	}
+	initializeContext();
+	session = HibernateUtil.getSession();
+    }
 
-	/**
+    /**
  * 
  */
-	void initializeContext() {
+    void initializeContext() {
 
-		Properties userDBProperties = getUserDBProperties();
-		MysqlDataSource ds = getMySQLDataSource(userDBProperties);
+	Properties userDBProperties = getUserDBProperties();
+	MysqlDataSource ds = getMySQLDataSource(userDBProperties);
 
-		// This introduces a dependency on Tomcat libraries
-		System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
-				"org.apache.naming.java.javaURLContextFactory");
-		System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
-		String jndiName = "java:/comp/env/jdbc/db/routes";
-		InitialContext ic = null;
-		// See if the context is already available
-		try {
-			ic = new InitialContext();
-			ic.lookup(jndiName);
-			return; // We have the context; no need to initialize
-		} catch (NamingException e) {
-			System.out
-					.println("Initializing context for DataSource under the name "
-							+ jndiName);
-		}
-		try {
-			ic.createSubcontext("java:");
-			ic.createSubcontext("java:/comp");
-			ic.createSubcontext("java:/comp/env");
-			ic.createSubcontext("java:/comp/env/jdbc");
-      ic.createSubcontext("java:/comp/env/jdbc/db");
-
-			ic.bind("java:/comp/env/jdbc/db/routes", ds);
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	// This introduces a dependency on Tomcat libraries
+	System.setProperty(Context.INITIAL_CONTEXT_FACTORY,
+		"org.apache.naming.java.javaURLContextFactory");
+	System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
+	String jndiName = "java:/comp/env/jdbc/db/routes";
+	InitialContext ic = null;
+	// See if the context is already available
+	try {
+	    ic = new InitialContext();
+	    ic.lookup(jndiName);
+	    return; // We have the context; no need to initialize
+	} catch (NamingException e) {
+	    System.out
+		    .println("Initializing context for DataSource under the name "
+			    + jndiName);
 	}
+	try {
+	    ic.createSubcontext("java:");
+	    ic.createSubcontext("java:/comp");
+	    ic.createSubcontext("java:/comp/env");
+	    ic.createSubcontext("java:/comp/env/jdbc");
+	    ic.createSubcontext("java:/comp/env/jdbc/db");
 
-	/**
-	 * @param userDBProperties
-	 * @return
-	 */
-	MysqlDataSource getMySQLDataSource(Properties userDBProperties) {
-		MysqlDataSource ds;
-		ds = new MysqlDataSource();
-		ds.setURL(userDBProperties.getProperty("url"));
-		ds.setUser(userDBProperties.getProperty("username"));
-		ds.setPassword(userDBProperties.getProperty("password"));
-		return ds;
+	    ic.bind("java:/comp/env/jdbc/db/routes", ds);
+	} catch (NamingException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
+    }
 
-	/**
-	 * @return
-	 */
-	Properties getUserDBProperties() {
-		Properties userDBProperties;
-		String dbPropFileName = "db.properties";
-		userDBProperties = new Properties();
-		try {
-			InputStream inputStream = DAOTestBase.class
-					.getResourceAsStream(dbPropFileName);
-			if (inputStream == null) {
-				System.err.println("Database Properties file not found: "
-						+ dbPropFileName);
-			} else {
-				userDBProperties.load(inputStream);
-			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		return userDBProperties;
-	}
+    /**
+     * @param userDBProperties
+     * @return
+     */
+    MysqlDataSource getMySQLDataSource(Properties userDBProperties) {
+	MysqlDataSource ds;
+	ds = new MysqlDataSource();
+	ds.setURL(userDBProperties.getProperty("url"));
+	ds.setUser(userDBProperties.getProperty("username"));
+	ds.setPassword(userDBProperties.getProperty("password"));
+	return ds;
+    }
 
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		session.close();
-		// HibernateUtil.shutdown();
+    /**
+     * @return
+     */
+    Properties getUserDBProperties() {
+	Properties userDBProperties;
+	String dbPropFileName = "db.properties";
+	userDBProperties = new Properties();
+	try {
+	    InputStream inputStream = DAOTestBase.class
+		    .getResourceAsStream(dbPropFileName);
+	    if (inputStream == null) {
+		System.err.println("Database Properties file not found: "
+			+ dbPropFileName);
+	    } else {
+		userDBProperties.load(inputStream);
+	    }
+	} catch (IOException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
 	}
+	return userDBProperties;
+    }
+
+    protected void tearDown() throws Exception {
+	super.tearDown();
+	session.close();
+	// HibernateUtil.shutdown();
+    }
 
 }

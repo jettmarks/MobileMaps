@@ -34,94 +34,89 @@ import com.jettmarks.routes.server.bean.BikeTrainDAO;
  * 
  * @author jett
  */
-public class HibernateUtilTest extends DAOTestBase
-{
+public class HibernateUtilTest extends DAOTestBase {
 
-  /**
-   * Test method for {@link com.jettmarks.db.HibernateUtil#getSessionFactory()}.
-   */
-  @Test
-  public void testGetSessionFactory()
-  {
-    SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-    assertNotNull(sessionFactory);
-  }
-
-  /**
-   * Test method for {@link com.jettmarks.db.HibernateUtil#getSession()}.
-   */
-  @Test
-  public void testGetSession()
-  {
-    Session session = HibernateUtil.getSession();
-    assertNotNull(session);
-    // HibernateUtil.shutdown();
-  }
-
-  /**
-   * Test method for {@link com.jettmarks.db.HibernateUtil#getConfiguration()}.
-   */
-  @Test
-  public void testGetConfiguration()
-  {
-    Configuration config = HibernateUtil.getConfiguration();
-    assertNotNull(config);
-    Iterator<PersistentClass> classMappingList = config.getClassMappings();
-    assertNotNull(classMappingList);
-    int classCount = 0;
-    while (classMappingList.hasNext())
-    {
-      System.out.println("Mapped Class: " + classMappingList.next().toString());
-      classCount++;
+    /**
+     * Test method for
+     * {@link com.jettmarks.db.HibernateUtil#getSessionFactory()}.
+     */
+    @Test
+    public void testGetSessionFactory() {
+	SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+	assertNotNull(sessionFactory);
     }
-    assertTrue("Expecting 5 mapped classes", classCount == 5);
-  }
 
-  /**
-   * Test method for
-   * {@link com.jettmarks.db.HibernateUtil#getDefaultProperties()}.
-   */
-  @Test
-  public void testGetDefaultProperties()
-  {
-    Properties properties = HibernateUtil.getDefaultProperties();
-    assertNotNull(properties);
+    /**
+     * Test method for {@link com.jettmarks.db.HibernateUtil#getSession()}.
+     */
+    @Test
+    public void testGetSession() {
+	Session session = HibernateUtil.getSession();
+	assertNotNull(session);
+	// HibernateUtil.shutdown();
+    }
 
-  }
+    /**
+     * Test method for {@link com.jettmarks.db.HibernateUtil#getConfiguration()}
+     * .
+     */
+    @Test
+    public void testGetConfiguration() {
+	Configuration config = HibernateUtil.getConfiguration();
+	assertNotNull(config);
+	Iterator<PersistentClass> classMappingList = config.getClassMappings();
+	assertNotNull(classMappingList);
+	int classCount = 0;
+	while (classMappingList.hasNext()) {
+	    System.out.println("Mapped Class: "
+		    + classMappingList.next().toString());
+	    classCount++;
+	}
+	assertTrue("Expecting 5 mapped classes", classCount == 7);
+    }
 
-  /**
-   * Test method for {@link com.jettmarks.db.HibernateUtil#getJndiProperties()}.
-   */
-  @Test
-  public void testGetJndiProperties()
-  {
-    // Properties properties = HibernateUtil.getJndiProperties();
-    // assertNotNull(properties);
-  }
+    /**
+     * Test method for
+     * {@link com.jettmarks.db.HibernateUtil#getDefaultProperties()}.
+     */
+    @Test
+    public void testGetDefaultProperties() {
+	Properties properties = HibernateUtil.getDefaultProperties();
+	assertNotNull(properties);
 
-  /**
-   * Test method for {@link com.jettmarks.db.HibernateUtil#getEnvType()}.
-   */
-  @Test
-  public void testGetEnvType()
-  {
-    EnvironmentType env = HibernateUtil.getEnvType();
-    assertNotNull(env);
-  }
+    }
 
-  @Test
-  public void testExerciseSQL()
-  {
-    Session session = HibernateUtil.getSession();
+    /**
+     * Test method for
+     * {@link com.jettmarks.db.HibernateUtil#getJndiProperties()}.
+     */
+    @Test
+    public void testGetJndiProperties() {
+	// Properties properties = HibernateUtil.getJndiProperties();
+	// assertNotNull(properties);
+    }
 
-    BikeTrainDAO bikeTrainDAO = new BikeTrainDAO(session);
-    BikeTrain bikeTrainRetrieved = bikeTrainDAO.findById(3);
+    /**
+     * Test method for {@link com.jettmarks.db.HibernateUtil#getEnvType()}.
+     */
+    @Test
+    public void testGetEnvType() {
+	EnvironmentType env = HibernateUtil.getEnvType();
+	assertNotNull(env);
+    }
 
-    assertNotNull(bikeTrainRetrieved);
-    assertEquals("The Leader", bikeTrainRetrieved.getLeaderName());
-    assertEquals("123 456-7890", bikeTrainRetrieved.getLeaderPhone());
+    @Test
+    public void testExerciseSQL() {
+	Session session = HibernateUtil.getSession();
 
-    session.close();
-  }
+	BikeTrainDAO bikeTrainDAO = new BikeTrainDAO(session);
+	BikeTrain bikeTrainRetrieved = bikeTrainDAO.findById(3);
+
+	assertNotNull(bikeTrainRetrieved);
+	assertEquals("The Leader", bikeTrainRetrieved.getLeaderName());
+	assertEquals("123 456-7890", bikeTrainRetrieved.getLeaderPhone());
+
+	session.close();
+    }
 
 }

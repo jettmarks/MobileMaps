@@ -28,5 +28,9 @@
   <mapping class="com.jettmarks.routes.server.bean.DisplayGroup"/>
   <mapping class="com.jettmarks.routes.server.bean.SuitabilitySegment"/>
   <mapping class="com.jettmarks.routes.server.bean.BikeTrainElementGroup"/>
+  <!-- Auth Tables -->
+  <mapping class="com.jettmarks.auth.User"/>
+  <mapping class="com.jettmarks.auth.FBAuth"/>
+  
  </session-factory>
 </hibernate-configuration>
