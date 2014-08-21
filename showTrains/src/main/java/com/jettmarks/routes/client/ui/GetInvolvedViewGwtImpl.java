@@ -13,18 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 19, 2014
+ * Created Aug 20, 2014
  */
 package com.jettmarks.routes.client.ui;
+
+import com.google.gwt.user.client.ui.HTML;
+import com.jettmarks.routes.client.activities.GetInvolvedView;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class HomeViewGwtImpl extends NavLinkViewGwtImpl implements HomeView {
+public class GetInvolvedViewGwtImpl extends NavLinkViewGwtImpl implements
+	GetInvolvedView {
 
-    public HomeViewGwtImpl() {
+    private HTML message = new HTML();
+
+    public GetInvolvedViewGwtImpl() {
+	message.setText("Atlanta Bike Trains are dependent on our members and "
+		+ "volunteers to make Atlanta a Bicycle Friendly City."
+		+ " Here's how you can help.");
+	main.add(message);
 	scrollPanel.add(linkCellList);
     }
 }

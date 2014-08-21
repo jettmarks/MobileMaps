@@ -15,16 +15,29 @@
  *
  * Created Aug 19, 2014
  */
-package com.jettmarks.routes.client.ui;
+package com.jettmarks.routes.client.place;
+
+import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceTokenizer;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class HomeViewGwtImpl extends NavLinkViewGwtImpl implements HomeView {
+public class GetInvolvedPlace extends Place {
+    public static class GetInvolvedPlaceTokenizer implements
+	    PlaceTokenizer<GetInvolvedPlace> {
 
-    public HomeViewGwtImpl() {
-	scrollPanel.add(linkCellList);
+	@Override
+	public GetInvolvedPlace getPlace(String token) {
+	    return new GetInvolvedPlace();
+	}
+
+	@Override
+	public String getToken(GetInvolvedPlace place) {
+	    return "getInvolved";
+	}
+
     }
 }

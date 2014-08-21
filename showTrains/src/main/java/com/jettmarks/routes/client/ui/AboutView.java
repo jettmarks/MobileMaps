@@ -13,18 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 19, 2014
+ * Created Aug 20, 2014
  */
 package com.jettmarks.routes.client.ui;
 
 /**
  * Description.
- * 
+ *
  * @author jett
  */
-public class HomeViewGwtImpl extends NavLinkViewGwtImpl implements HomeView {
+public interface AboutView extends NavLinkView {
 
-    public HomeViewGwtImpl() {
-	scrollPanel.add(linkCellList);
-    }
 }

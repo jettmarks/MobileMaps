@@ -13,18 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 19, 2014
+ * Created Aug 20, 2014
  */
 package com.jettmarks.routes.client.ui;
 
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.IsWidget;
+import com.googlecode.mgwt.ui.client.widget.CellList;
+import com.jettmarks.routes.client.NavLink;
+
 /**
- * Description.
+ * Base View of views that mainly display a list of Navigational Links.
  * 
  * @author jett
  */
-public class HomeViewGwtImpl extends NavLinkViewGwtImpl implements HomeView {
+public interface NavLinkView extends IsWidget {
 
-    public HomeViewGwtImpl() {
-	scrollPanel.add(linkCellList);
-    }
+    public HasText getHeader();
+
+    public CellList<NavLink> getNavList();
+
 }

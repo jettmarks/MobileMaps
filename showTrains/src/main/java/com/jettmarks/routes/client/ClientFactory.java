@@ -18,8 +18,10 @@ package com.jettmarks.routes.client;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 import com.jettmarks.routes.client.activities.DisplayGroupListView;
+import com.jettmarks.routes.client.activities.GetInvolvedView;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupView;
 import com.jettmarks.routes.client.forms.FormsView;
+import com.jettmarks.routes.client.ui.AboutView;
 import com.jettmarks.routes.client.ui.EventSelectionView;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.HomeView;
@@ -50,5 +52,15 @@ public interface ClientFactory {
      * @return
      */
     public HomeView getHomeView();
+
+    /**
+     * @return
+     */
+    public AboutView getAboutView();
+
+    /**
+     * @return
+     */
+    public GetInvolvedView getGetInvolvedView();
 
 }

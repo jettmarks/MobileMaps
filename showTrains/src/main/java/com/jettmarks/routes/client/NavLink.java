@@ -25,15 +25,33 @@ import com.google.gwt.place.shared.Place;
  * @author jett
  */
 public class NavLink {
-    private String url;
-    private Place place;
     private String displayName;
+    private Place place;
+    private String url;
 
     /**
      * @param string
      */
     public NavLink(String name) {
 	displayName = name;
+    }
+
+    /**
+     * @param string
+     * @param eventSelectionPlace
+     */
+    public NavLink(String name, Place place) {
+	this.displayName = name;
+	this.place = place;
+    }
+
+    /**
+     * @param string
+     * @param url2
+     */
+    public NavLink(String name, String url) {
+	this.displayName = name;
+	this.url = url;
     }
 
     /**

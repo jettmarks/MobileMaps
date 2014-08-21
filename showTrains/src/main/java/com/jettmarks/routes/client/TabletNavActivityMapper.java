@@ -5,7 +5,7 @@ import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 import com.jettmarks.routes.client.activities.DisplayGroupListActivity;
 import com.jettmarks.routes.client.activities.EventSelectionActivity;
-import com.jettmarks.routes.client.activities.showGroup.HomeActivity;
+import com.jettmarks.routes.client.activities.HomeActivity;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.HomePlace;
 

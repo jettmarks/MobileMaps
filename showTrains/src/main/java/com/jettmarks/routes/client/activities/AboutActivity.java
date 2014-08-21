@@ -13,34 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 19, 2014
+ * Created Aug 20, 2014
  */
-package com.jettmarks.routes.client.activities.showGroup;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.jettmarks.routes.client.activities;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
-import com.jettmarks.routes.client.NavLink;
-import com.jettmarks.routes.client.ui.HomeView;
+import com.jettmarks.routes.client.ui.AboutView;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class HomeActivity extends MGWTAbstractActivity implements Activity {
+public class AboutActivity extends MGWTAbstractActivity implements Activity {
 
     private final ClientFactory clientFactory;
 
     /**
-     * @param cf
+     * @param clientFactory
      */
-    public HomeActivity(ClientFactory cf) {
+    public AboutActivity(ClientFactory cf) {
 	this.clientFactory = cf;
     }
 
@@ -87,23 +83,9 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
-	final HomeView view = clientFactory.getHomeView();
-	view.getHeader().setText("Home");
-	view.getNavList().render(getLinks());
+	final AboutView view = clientFactory.getAboutView();
+	view.getHeader().setText("About");
 	panel.setWidget(view);
-    }
-
-    /**
-     * @return
-     */
-    private List<NavLink> getLinks() {
-	List<NavLink> links = new ArrayList<NavLink>();
-	links.add(new NavLink("Find a Bike Train"));
-	links.add(new NavLink("Become a Conductor"));
-	links.add(new NavLink("Resources"));
-	links.add(new NavLink("Support"));
-	links.add(new NavLink("About"));
-	return links;
     }
 
 }

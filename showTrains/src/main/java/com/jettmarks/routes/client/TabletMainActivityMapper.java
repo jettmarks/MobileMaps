@@ -3,15 +3,19 @@ package com.jettmarks.routes.client;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
+import com.jettmarks.routes.client.activities.AboutActivity;
 import com.jettmarks.routes.client.activities.EmptyMapActivity;
+import com.jettmarks.routes.client.activities.GetInvolvedActivity;
+import com.jettmarks.routes.client.activities.HomeActivity;
 import com.jettmarks.routes.client.activities.RouteDetailsActivity;
-import com.jettmarks.routes.client.activities.showGroup.HomeActivity;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupActivity;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupPlace;
 import com.jettmarks.routes.client.forms.FormsActivity;
 import com.jettmarks.routes.client.forms.FormsPlace;
+import com.jettmarks.routes.client.place.AboutPlace;
 import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
+import com.jettmarks.routes.client.place.GetInvolvedPlace;
 import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 
@@ -38,6 +42,14 @@ public class TabletMainActivityMapper implements ActivityMapper {
 	if (newPlace instanceof EventSelectionPlace) {
 	    return new EmptyMapActivity(clientFactory);
 	    // return new DisplayGroupListActivity(clientFactory);
+	}
+
+	if (newPlace instanceof AboutPlace) {
+	    return new AboutActivity(clientFactory);
+	}
+
+	if (newPlace instanceof GetInvolvedPlace) {
+	    return new GetInvolvedActivity(clientFactory);
 	}
 
 	if (newPlace instanceof HomePlace) {

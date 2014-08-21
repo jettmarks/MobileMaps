@@ -20,14 +20,18 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.jettmarks.routes.client.activities.DisplayGroupListView;
 import com.jettmarks.routes.client.activities.DisplayGroupListViewGwtImpl;
+import com.jettmarks.routes.client.activities.GetInvolvedView;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupView;
 import com.jettmarks.routes.client.activities.showGroup.ShowGroupViewGwtImpl;
 import com.jettmarks.routes.client.forms.FormsView;
 import com.jettmarks.routes.client.forms.FormsViewGwtImpl;
+import com.jettmarks.routes.client.ui.AboutView;
+import com.jettmarks.routes.client.ui.AboutViewGwtImpl;
 import com.jettmarks.routes.client.ui.EventSelectionView;
 import com.jettmarks.routes.client.ui.EventSelectionViewGwtImpl;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.EventViewTabbedGwtImpl;
+import com.jettmarks.routes.client.ui.GetInvolvedViewGwtImpl;
 import com.jettmarks.routes.client.ui.HomeView;
 import com.jettmarks.routes.client.ui.HomeViewGwtImpl;
 import com.jettmarks.routes.client.ui.RouteDetailsView;
@@ -56,6 +60,10 @@ public class ClientFactoryImpl implements ClientFactory {
     private EventSelectionView eventSelectionView;
 
     private HomeView homeView;
+
+    private AboutView aboutView;
+
+    private GetInvolvedView getInvolvedView;
 
     public ClientFactoryImpl() {
 	eventBus = new SimpleEventBus();
@@ -154,6 +162,32 @@ public class ClientFactoryImpl implements ClientFactory {
 	    homeView = new HomeViewGwtImpl();
 	}
 	return homeView;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.jettmarks.routes.client.ClientFactory#getAboutView()
+     */
+    @Override
+    public AboutView getAboutView() {
+	if (aboutView == null) {
+	    aboutView = new AboutViewGwtImpl();
+	}
+	return aboutView;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.jettmarks.routes.client.ClientFactory#getGetInvolvedView()
+     */
+    @Override
+    public GetInvolvedView getGetInvolvedView() {
+	if (getInvolvedView == null) {
+	    getInvolvedView = new GetInvolvedViewGwtImpl();
+	}
+	return getInvolvedView;
     }
 
 }
