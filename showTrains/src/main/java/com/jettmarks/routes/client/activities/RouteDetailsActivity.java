@@ -17,6 +17,8 @@
  */
 package com.jettmarks.routes.client.activities;
 
+import java.util.Date;
+
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
@@ -73,10 +75,8 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 			    DisplayGroupDTO displayGroup = RouteContainerFactory
 				    .getRouteContainer()
 				    .getCurrentDisplayGroup();
-			    String displayName = displayGroup.getDisplayName();
-			    String description = displayGroup.getDescription();
 			    clientFactory.getPlaceController().goTo(
-				    new EventPlace(displayName, description));
+				    new EventPlace(displayGroup));
 			}
 		    }));
 	}
@@ -135,7 +135,13 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 	view.setDeparture(bikeTrain.getDepartureTime());
 	view.setLeaderName(bikeTrain.getLeaderName());
 	RouteContainer rc = RouteContainerFactory.getRouteContainer();
-	if (rc.getCurrentDisplayGroup().getDisplayName().equals("bt1408-Aug")) {
+	Date currentTime = new Date();
+	Date yesterday = new Date(currentTime.getTime() - 86400000);
+	DisplayGroupDTO currentDisplayGroup = rc.getCurrentDisplayGroup();
+
+	// if
+	// (rc.getCurrentDisplayGroup().getDisplayName().equals("bt1408-Aug")) {
+	if (currentDisplayGroup.getEventDate().after(yesterday)) {
 	    view.setLeaderEmail(bikeTrain.getLeaderEmail());
 	    view.setLeaderPhone(bikeTrain.getLeaderPhone());
 	} else {
