@@ -17,96 +17,137 @@
  */
 package com.jettmarks.routes.client.place;
 
+import java.util.Date;
+
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
+import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 
-public class EventPlace extends Place
-{
-  /**
-   * An EventPlace specifies the displayGroupName which matches one-to-one with
-   * a date and a description of the event, as well as bundling the bike trains
-   * that are being conducted as part of that event.
-   * 
-   * @param displayGroupName
-   */
-  public EventPlace(String displayGroupName)
-  {
-    super();
-    this.displayGroupName = displayGroupName;
-  }
+public class EventPlace extends Place {
+    /** Event's Name, URL, and time. */
+    private DisplayGroupDTO event;
+    /** Human name for the Event; shows as the title. */
+    private String description;
 
-  /**
-   * 
-   */
-  public EventPlace()
-  {
-  }
+    /** Forms the URL for the Event. */
+    private String displayGroupName;
 
-  /**
-   * @param dispGroup
-   * @param description
-   */
-  public EventPlace(String dispGroup, String description)
-  {
-    super();
-    this.displayGroupName = dispGroup;
-    this.description = description;
-  }
+    /** Date of the event. */
+    private Date eventDate;
 
-  public static class Tokenizer implements PlaceTokenizer<EventPlace>
-  {
-
-    @Override
-    public EventPlace getPlace(String token)
-    {
-      String displayGroup = token;
-      return new EventPlace(displayGroup);
+    /**
+     * An EventPlace specifies the displayGroupName which matches one-to-one
+     * with a date and a description of the event, as well as bundling the bike
+     * trains that are being conducted as part of that event.
+     * 
+     * @param displayGroupName
+     */
+    public EventPlace(String displayGroupName) {
+	super();
+	this.displayGroupName = displayGroupName;
     }
 
-    @Override
-    public String getToken(EventPlace place)
-    {
-      return place.getDisplayGroupName();
+    /**
+   * 
+   */
+    public EventPlace() {
     }
 
-  }
+    /**
+     * @param dispGroup
+     * @param description
+     */
+    public EventPlace(String dispGroup, String description) {
+	super();
+	this.displayGroupName = dispGroup;
+	this.description = description;
+    }
 
-  /** Human name for the Event; shows as the title. */
-  private String description;
+    /**
+     * Sets all values for the EventPlace from the displayGroup chosen.
+     * 
+     * @param displayGroup
+     */
+    public EventPlace(DisplayGroupDTO displayGroup) {
+	super();
+	this.event = displayGroup;
+	this.displayGroupName = displayGroup.getDisplayName();
+	this.description = displayGroup.getDescription();
+	this.eventDate = displayGroup.getEventDate();
+    }
 
-  /** Forms the URL for the Event. */
-  private String displayGroupName;
+    public static class Tokenizer implements PlaceTokenizer<EventPlace> {
 
-  /**
-   * @param name
-   */
-  public void setDisplayGroupName(String name)
-  {
-    this.displayGroupName = name;
-  }
+	@Override
+	public EventPlace getPlace(String token) {
+	    String displayGroupName = token;
+	    return new EventPlace(displayGroupName);
+	}
 
-  /**
-   * @return
-   */
-  public String getDisplayGroupName()
-  {
-    return displayGroupName;
-  }
+	@Override
+	public String getToken(EventPlace place) {
+	    return place.getDisplayGroupName();
+	}
 
-  /**
-   * @return the description
-   */
-  public String getDescription()
-  {
-    return description;
-  }
+    }
 
-  /**
-   * @param description
-   *          the description to set
-   */
-  public void setDescription(String description)
-  {
-    this.description = description;
-  }
+    /**
+     * @param name
+     */
+    public void setDisplayGroupName(String name) {
+	this.displayGroupName = name;
+    }
+
+    /**
+     * @return
+     */
+    public String getDisplayGroupName() {
+	return displayGroupName;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+	return description;
+    }
+
+    /**
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(String description) {
+	this.description = description;
+    }
+
+    /**
+     * @return the event
+     */
+    public DisplayGroupDTO getEvent() {
+	return event;
+    }
+
+    /**
+     * @param event
+     *            the event to set
+     */
+    public void setEvent(DisplayGroupDTO event) {
+	this.event = event;
+    }
+
+    /**
+     * @return the eventDate
+     */
+    public Date getEventDate() {
+	return eventDate;
+    }
+
+    /**
+     * @param eventDate
+     *            the eventDate to set
+     */
+    public void setEventDate(Date eventDate) {
+	this.eventDate = eventDate;
+    }
+
 }
