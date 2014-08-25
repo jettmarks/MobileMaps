@@ -17,7 +17,9 @@
  */
 package com.jettmarks.routes.client.ui;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Description.
@@ -28,14 +30,28 @@ public class AboutViewGwtImpl extends NavLinkViewGwtImpl implements AboutView {
     private HTML aboutMessage = new HTML();
 
     public AboutViewGwtImpl() {
+
+	// Add in the relevant CSS for this view
+	DOM.setElementAttribute(main.getElement(), "id", "about-view");
+
+	VerticalPanel messagePanel = new VerticalPanel();
+
 	aboutMessage
-		.setText("Atlanta Bike Trains is a Volunteer Program of the "
-			+ "Atlanta Bicycle Coalition.  ABC's mission is to improve the "
+		.setText("<p>Atlanta Bike Trains is a Volunteer Program of the "
+			+ "Atlanta Bicycle Coalition.</p>\n"
+			+ "<p>ABC's mission is to improve the "
 			+ "livability of our city through making it safer, more "
 			+ "attractive and more fun to ride bikes for work, travel and "
-			+ "pleasure.<p>Bike Trains recognize that we all face barriers "
+			+ "pleasure.</p>\n"
+			+ "<p>Bike Trains recognize that we all face barriers "
 			+ "to riding more, but finding a friendly companion to ride with doesn't have "
-			+ "to be one of them.");
-	scrollPanel.add(aboutMessage);
+			+ "to be one of them.</p></br>");
+
+	DOM.setElementAttribute(messagePanel.getElement(), "id",
+		"about-view-message");
+	messagePanel.add(aboutMessage);
+	// messagePanel.addSouth(aboutMessage, 150);
+	// scrollPanel.add(messagePanel);
+	main.add(messagePanel);
     }
 }

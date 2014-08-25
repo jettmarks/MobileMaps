@@ -20,6 +20,25 @@
 	// Marker Comment
 }
 
+#about-view {
+	background: #d5dc50;
+	background-image:url(bikeTrains/images/logoWithRays_960x960.png);
+    background-position: center center; 
+    background-repeat: no-repeat;
+}
+
+#about-view-message {
+	color: #1B5864;
+	font-size: large;
+    font-weight: bolder;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75%;
+}
+
+#about-view-message td {
+	text-align: center;
+}
 
 @media only screen and (orientation:portrait) {
 	
