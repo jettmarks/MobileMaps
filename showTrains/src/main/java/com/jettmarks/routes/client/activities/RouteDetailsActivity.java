@@ -141,7 +141,9 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 
 	// if
 	// (rc.getCurrentDisplayGroup().getDisplayName().equals("bt1408-Aug")) {
-	if (currentDisplayGroup.getEventDate().after(yesterday)) {
+	if (currentDisplayGroup == null
+		|| currentDisplayGroup.getEventDate() == null
+		|| currentDisplayGroup.getEventDate().after(yesterday)) {
 	    view.setLeaderEmail(bikeTrain.getLeaderEmail());
 	    view.setLeaderPhone(bikeTrain.getLeaderPhone());
 	} else {
