@@ -78,10 +78,12 @@ public class ShowGroupActivity extends DetailActivity {
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
 	// view.getMainButtonText().setText("Nav");
-	view.getBackbuttonText().setText("<");
-	view.getForwardbuttonText().setText(">");
+	// view.getBackbuttonText().setText("<");
+	// view.getForwardbuttonText().setText(">");
 
 	view.enableBackButton(!MGWT.getOsDetection().isTablet());
+	// Test only
+	// view.enableBackButton(true);
 	view.enableForwardButton(true);
 
 	if (routeContainer.displayGroupHasChanged()) {
@@ -101,6 +103,8 @@ public class ShowGroupActivity extends DetailActivity {
 	    dispGroup.setDisplayName(view.getDisplayGroupName());
 	    ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
 	    serviceWrapper.showRoutes(dispGroup);
+	} else if (routeContainer.getSelectedRoute() != null) {
+	    view.selectRoute(routeContainer.getSelectedRoute());
 	}
 	mapActivity.addRegistration(view);
 	panel.setWidget(view);

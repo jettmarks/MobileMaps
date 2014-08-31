@@ -37,262 +37,262 @@ import com.jettmarks.routes.client.util.RouteScheduledCommand;
  * @author jett
  */
 public class RouteContainerImpl implements RouteContainer {
-	public enum RequestType {
-		STRING, DISPLAY_ELEMENT, UNDETERMINED
+    public enum RequestType {
+	STRING, DISPLAY_ELEMENT, UNDETERMINED
+    }
+
+    private static RequestType requestType = RequestType.UNDETERMINED;
+
+    private EventView mapView = null;
+
+    private static RouteRequest currentRouteRequest = null;
+
+    private static GWTCProgress gwtcProgress;
+
+    private Route selectedRoute = null;
+
+    private DisplayGroupDTO displayGroup = null;
+
+    private boolean displayGroupHasChanged;
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks
+     * .routes .client.bean.RouteRequestRouteName)
+     */
+    @Override
+    public void addRoutes(RouteRequestRouteName routeRequestRouteName) {
+	// TODO Auto-generated method stub
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks
+     * .routes .client.bean.RouteRequest)
+     */
+    @Override
+    public void addRoutes(RouteRequest routeRequest) {
+
+	if (routeRequest == null || !routeRequest.hasNext()) {
+	    gwtcProgress.hide();
+	    AlertDialog noTrainsAlert = new AlertDialog(
+		    "No Trains Found",
+		    "No trains have been entered for this scheduled event. Try back later or submit your own Bike Train.");
+	    noTrainsAlert.show();
+
+	} else {
+
+	    requestType = RequestType.DISPLAY_ELEMENT;
+	    currentRouteRequest = routeRequest;
+	    openProgressBar(routeRequest);
+	    DisplayElementDTO firstRequest = (DisplayElementDTO) routeRequest
+		    .next();
+	    RouteContainer target = this;
+
+	    Scheduler.get().scheduleDeferred(
+		    new GetElementScheduledCommand(target, firstRequest));
 	}
 
-	private static RequestType requestType = RequestType.UNDETERMINED;
+    }
 
-	private EventView mapView = null;
+    /**
+     * This method allows drawing each of the routes as they come back from the
+     * server; we add them to the view as each one comes in.
+     * 
+     * @see com.jettmarks.routes.client.ui.RouteContainer#put(java.lang.String,
+     *      com.jettmarks.routes.client.bean.Route)
+     */
+    @Override
+    public void put(String routeName, Route route) {
+	mapView.add(route);
+    }
 
-	private static RouteRequest currentRouteRequest = null;
+    /**
+     * @param routeRequest
+     */
+    public void openProgressBar(RouteRequest routeRequest) {
+	if (gwtcProgress == null) {
+	    gwtcProgress = new GWTCProgress(16, GWTCProgress.SHOW_AS_DIALOG
+		    | GWTCProgress.SHOW_TEXT | GWTCProgress.SHOW_NUMBERS);
+	    gwtcProgress.setText("Routes loaded:");
+	    RootPanel.get().add(gwtcProgress);
+	}
+	gwtcProgress.show();
+	if (routeRequest != null) {
+	    gwtcProgress.setProgress(routeRequest.getCompletedTasks(),
+		    routeRequest.getTotalTasks());
+	}
+    }
 
-	private static GWTCProgress gwtcProgress;
-
-	private Route selectedRoute = null;
-
-	private DisplayGroupDTO displayGroup = null;
-
-	private boolean displayGroupHasChanged;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks
-	 * .routes .client.bean.RouteRequestRouteName)
-	 */
-	@Override
-	public void addRoutes(RouteRequestRouteName routeRequestRouteName) {
-		// TODO Auto-generated method stub
-
+    /**
+     * As routes are brought back from the service, we build up the display on
+     * the map, and once all requests have been handled, we can shut down the
+     * progress bar and resize the map.
+     * 
+     * It would be good to farm out the resize stuff to a different
+     * implementation in case this changes and the view doesn't have a resize.
+     * 
+     * @see com.jettmarks.routes.client.rep.RouteContainer#updateProgress()
+     */
+    @Override
+    public void updateProgress() {
+	// Not much to do if we load a single route at a time.
+	if (currentRouteRequest == null) {
+	    mapView.resize();
+	    return;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks
-	 * .routes .client.bean.RouteRequest)
-	 */
-	@Override
-	public void addRoutes(RouteRequest routeRequest) {
-
-		if (routeRequest == null || !routeRequest.hasNext()) {
-			gwtcProgress.hide();
-			AlertDialog noTrainsAlert = new AlertDialog(
-					"No Trains Found",
-					"No trains have been entered for this scheduled event. Try back later or submit your own Bike Train.");
-			noTrainsAlert.show();
-
-		} else {
-
-			requestType = RequestType.DISPLAY_ELEMENT;
-			currentRouteRequest = routeRequest;
-			openProgressBar(routeRequest);
-			DisplayElementDTO firstRequest = (DisplayElementDTO) routeRequest
-					.next();
-			RouteContainer target = this;
-
-			Scheduler.get().scheduleDeferred(
-					new GetElementScheduledCommand(target, firstRequest));
-		}
-
+	if (!currentRouteRequest.hasNext()) {
+	    Window.setStatus("Resizing");
+	    mapView.resize();
+	    Window.setStatus("Done");
+	    gwtcProgress.hide();
+	} else
+	// ready to ask for next route
+	{
+	    // Display looks better when we make the asynch request after
+	    // updating the progress bar
+	    Object nextRoute = currentRouteRequest.next();
+	    gwtcProgress.setProgress(currentRouteRequest.getCompletedTasks(),
+		    currentRouteRequest.getTotalTasks());
+	    switch (requestType) {
+	    case DISPLAY_ELEMENT:
+		Scheduler.get()
+			.scheduleDeferred(
+				new RouteScheduledCommand(
+					(DisplayElementDTO) nextRoute));
+		break;
+	    case STRING:
+		// routeReader.requestRoute((String)nextRoute,
+		// ((RouteRequestRouteName)currentRouteRequest).getRouteSourceName(),
+		// ((RouteRequestRouteName)currentRouteRequest).getTagList());
+		// break;
+	    default:
+		Window.alert("Unknown Request Type");
+		break;
+	    }
 	}
 
-	/**
-	 * This method allows drawing each of the routes as they come back from the
-	 * server; we add them to the view as each one comes in.
-	 * 
-	 * @see com.jettmarks.routes.client.ui.RouteContainer#put(java.lang.String,
-	 *      com.jettmarks.routes.client.bean.Route)
-	 */
-	@Override
-	public void put(String routeName, Route route) {
-		mapView.add(route);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.jettmarks.routes.client.ui.RouteContainer#getSelectedRoute()
+     */
+    @Override
+    public Route getSelectedRoute() {
+	return selectedRoute;
+    }
+
+    @Override
+    public void setSelectedRoute(Route route) {
+	selectedRoute = route;
+	// if (mapView != null)
+	// {
+	// mapView.enableForwardButton(selectedRoute != null);
+	// }
+	mapView.selectRoute(selectedRoute);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.jettmarks.routes.client.ui.RouteContainer#getCurrentDisplayGroup()
+     */
+    @Override
+    public DisplayGroupDTO getCurrentDisplayGroup() {
+	return displayGroup;
+    }
+
+    /**
+     * Tracks the current DisplayGroup in memory along with whether or not it
+     * has been changed.
+     * 
+     * The change is used to manage the cache and to decide whether or not to
+     * refresh the routes from the service.
+     * 
+     * @see com.jettmarks.routes.client.ui.RouteContainer#setCurrentDisplayGroup(com
+     *      .jettmarks.routes.client.bean.DisplayGroupDTO)
+     */
+    @Override
+    public void setCurrentDisplayGroup(DisplayGroupDTO displayGroup) {
+	if (this.displayGroup == null) {
+	    displayGroupHasChanged = true;
+	} else {
+	    displayGroupHasChanged = !(this.displayGroup.getDisplayName()
+		    .equals(displayGroup.getDisplayName()));
 	}
-
-	/**
-	 * @param routeRequest
-	 */
-	public void openProgressBar(RouteRequest routeRequest) {
-		if (gwtcProgress == null) {
-			gwtcProgress = new GWTCProgress(16, GWTCProgress.SHOW_AS_DIALOG
-					| GWTCProgress.SHOW_TEXT | GWTCProgress.SHOW_NUMBERS);
-			gwtcProgress.setText("Routes loaded:");
-			RootPanel.get().add(gwtcProgress);
-		}
-		gwtcProgress.show();
-		if (routeRequest != null) {
-			gwtcProgress.setProgress(routeRequest.getCompletedTasks(),
-					routeRequest.getTotalTasks());
-		}
+	if (this.displayGroup != null && displayGroupHasChanged) {
+	    clearPreviousMap();
 	}
+	this.displayGroup = displayGroup;
+    }
 
-	/**
-	 * As routes are brought back from the service, we build up the display on
-	 * the map, and once all requests have been handled, we can shut down the
-	 * progress bar and resize the map.
-	 * 
-	 * It would be good to farm out the resize stuff to a different
-	 * implementation in case this changes and the view doesn't have a resize.
-	 * 
-	 * @see com.jettmarks.routes.client.rep.RouteContainer#updateProgress()
-	 */
-	@Override
-	public void updateProgress() {
-		// Not much to do if we load a single route at a time.
-		if (currentRouteRequest == null) {
-			mapView.resize();
-			return;
-		}
-
-		if (!currentRouteRequest.hasNext()) {
-			Window.setStatus("Resizing");
-			mapView.resize();
-			Window.setStatus("Done");
-			gwtcProgress.hide();
-		} else
-		// ready to ask for next route
-		{
-			// Display looks better when we make the asynch request after
-			// updating the progress bar
-			Object nextRoute = currentRouteRequest.next();
-			gwtcProgress.setProgress(currentRouteRequest.getCompletedTasks(),
-					currentRouteRequest.getTotalTasks());
-			switch (requestType) {
-			case DISPLAY_ELEMENT:
-				Scheduler.get()
-						.scheduleDeferred(
-								new RouteScheduledCommand(
-										(DisplayElementDTO) nextRoute));
-				break;
-			case STRING:
-				// routeReader.requestRoute((String)nextRoute,
-				// ((RouteRequestRouteName)currentRouteRequest).getRouteSourceName(),
-				// ((RouteRequestRouteName)currentRouteRequest).getTagList());
-				// break;
-			default:
-				Window.alert("Unknown Request Type");
-				break;
-			}
-		}
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.jettmarks.routes.client.ui.RouteContainer#getSelectedRoute()
-	 */
-	@Override
-	public Route getSelectedRoute() {
-		return selectedRoute;
-	}
-
-	@Override
-	public void setSelectedRoute(Route route) {
-		selectedRoute = route;
-		// if (mapView != null)
-		// {
-		// mapView.enableForwardButton(selectedRoute != null);
-		// }
-		mapView.selectRoute(selectedRoute);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.jettmarks.routes.client.ui.RouteContainer#getCurrentDisplayGroup()
-	 */
-	@Override
-	public DisplayGroupDTO getCurrentDisplayGroup() {
-		return displayGroup;
-	}
-
-	/**
-	 * Tracks the current DisplayGroup in memory along with whether or not it
-	 * has been changed.
-	 * 
-	 * The change is used to manage the cache and to decide whether or not to
-	 * refresh the routes from the service.
-	 * 
-	 * @see com.jettmarks.routes.client.ui.RouteContainer#setCurrentDisplayGroup(com
-	 *      .jettmarks.routes.client.bean.DisplayGroupDTO)
-	 */
-	@Override
-	public void setCurrentDisplayGroup(DisplayGroupDTO displayGroup) {
-		if (this.displayGroup == null) {
-			displayGroupHasChanged = true;
-		} else {
-			displayGroupHasChanged = !(this.displayGroup.getDisplayName()
-					.equals(displayGroup.getDisplayName()));
-		}
-		if (this.displayGroup != null && displayGroupHasChanged) {
-			clearPreviousMap();
-		}
-		this.displayGroup = displayGroup;
-	}
-
-	/**
+    /**
    * 
    */
-	private void clearPreviousMap() {
-		mapView.clearMap();
-	}
+    private void clearPreviousMap() {
+	mapView.clearMap();
+    }
 
-	/**
-	 * Defers the loading of the first element until after the current queue
-	 * gets a chance to process.
-	 * 
-	 * @author jett
-	 */
-	class GetElementScheduledCommand implements ScheduledCommand {
-		RouteContainer target = null;
+    /**
+     * Defers the loading of the first element until after the current queue
+     * gets a chance to process.
+     * 
+     * @author jett
+     */
+    class GetElementScheduledCommand implements ScheduledCommand {
+	RouteContainer target = null;
 
-		DisplayElementDTO request = null;
+	DisplayElementDTO request = null;
 
-		GetElementScheduledCommand(RouteContainer target2,
-				DisplayElementDTO request) {
-			super();
-			this.target = target2;
-			this.request = request;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see com.google.gwt.core.client.Scheduler.ScheduledCommand#execute()
-		 */
-		@Override
-		public void execute() {
-			ServiceWrapper serviceWrapper = new ServiceWrapper(target);
-			serviceWrapper.requestElement((DisplayElementDTO) request);
-		}
+	GetElementScheduledCommand(RouteContainer target2,
+		DisplayElementDTO request) {
+	    super();
+	    this.target = target2;
+	    this.request = request;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * com.jettmarks.routes.client.rep.RouteContainer#setView(com.jettmarks.
-	 * routes .client.ui.EventView)
+	 * @see com.google.gwt.core.client.Scheduler.ScheduledCommand#execute()
 	 */
 	@Override
-	public void setView(EventView view) {
-		mapView = view;
+	public void execute() {
+	    ServiceWrapper serviceWrapper = new ServiceWrapper(target);
+	    serviceWrapper.requestElement((DisplayElementDTO) request);
 	}
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.jettmarks.routes.client.rep.RouteContainer#displayGroupHasChanged()
-	 */
-	@Override
-	public boolean displayGroupHasChanged() {
-		return displayGroupHasChanged;
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.jettmarks.routes.client.rep.RouteContainer#setView(com.jettmarks.
+     * routes .client.ui.EventView)
+     */
+    @Override
+    public void setView(EventView view) {
+	mapView = view;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.jettmarks.routes.client.rep.RouteContainer#displayGroupHasChanged()
+     */
+    @Override
+    public boolean displayGroupHasChanged() {
+	return displayGroupHasChanged;
+    }
 
 }

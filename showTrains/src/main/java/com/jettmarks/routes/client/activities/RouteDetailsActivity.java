@@ -126,7 +126,7 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 	super.start(panel, eventBus);
 	final RouteDetailsView view = clientFactory.getRouteDetailsView();
 
-	view.getBackbuttonText().setText("<");
+	// view.getBackbuttonText().setText("<");
 	view.getHeader().setText(headerText);
 
 	// Populate View with the BikeTrain

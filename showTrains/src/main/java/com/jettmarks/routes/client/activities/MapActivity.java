@@ -17,6 +17,8 @@
  */
 package com.jettmarks.routes.client.activities;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.dialog.AlertDialog;
@@ -37,83 +39,95 @@ import com.jettmarks.routes.client.ui.EventView;
  */
 public class MapActivity extends DetailActivity {
 
-	private ClientFactory clientFactory = null;
+    private ClientFactory clientFactory = null;
 
-	private BikeTrainRoute selectedRoute = null;
+    private BikeTrainRoute selectedRoute = null;
 
-	/**
-	 * @param view
-	 * @param clientFactory
-	 */
-	EventView mapView = null;
+    /**
+     * @param view
+     * @param clientFactory
+     */
+    EventView mapView = null;
 
-	public MapActivity(DetailView view, ClientFactory cf) {
-		super(view, "");
-		clientFactory = cf;
+    public MapActivity(DetailView view, ClientFactory cf) {
+	super(view, "");
+	clientFactory = cf;
 
-		if (view instanceof EventView) {
-			final EventView eventView = (EventView) view;
-			mapView = eventView;
-			// Moved into the ShowGroupActivity
-			// DisplayGroupDTO dispGroup = new DisplayGroupDTO();
-			// dispGroup.setDisplayName(eventView.getDisplayGroupName());
-			//
-			// // Kicks off reading the routes in the DisplayGroup under control
-			// // of the RouteContainer
-			// RouteContainerImpl rcImpl = (RouteContainerImpl)
-			// RouteContainerFactory.getRouteContainer();
-			// ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
-			// serviceWrapper.showRoutes(dispGroup);
-		}
+	if (view instanceof EventView) {
+	    final EventView eventView = (EventView) view;
+	    mapView = eventView;
 	}
+    }
 
-	/**
-	 * Responsible for shutting down the button handlers registered here.
-	 * 
-	 * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
-	 */
-	@Override
-	public void onStop() {
-		super.onStop();
-		cancelAllHandlerRegistrations();
-	}
+    /**
+     * Responsible for shutting down the button handlers registered here.
+     * 
+     * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
+     */
+    @Override
+    public void onStop() {
+	super.onStop();
+	cancelAllHandlerRegistrations();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.gwt
-	 * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
-	 */
-	public void addRegistration(EventView eventView) {
-		// super.start(panel, eventBus);
-		addHandlerRegistration(eventView.getBackbutton().addTapHandler(
-				new TapHandler() {
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.gwt
+     * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+     */
+    public void addRegistration(EventView eventView) {
+	// super.start(panel, eventBus);
+	addHandlerRegistration(eventView.getHeaderTapHandlers()
+		.addClickHandler(new ClickHandler() {
 
-					@Override
-					public void onTap(TapEvent event) {
-						clientFactory.getPlaceController().goTo(
-								new EventSelectionPlace());
-					}
+		    @Override
+		    public void onClick(ClickEvent event) {
+			selectedRoute = (BikeTrainRoute) RouteContainerFactory
+				.getRouteContainer().getSelectedRoute();
+			if (selectedRoute != null) {
+			    clientFactory.getPlaceController().goTo(
+				    new RouteDetailsPlace(selectedRoute));
+			} else {
+			    AlertDialog noRouteSelectedAlert = new AlertDialog(
+				    "No Train Selected",
+				    "Choose a Bike Train to view");
+			    noRouteSelectedAlert.show();
+			}
+		    }
+		}));
 
-				}));
+	addHandlerRegistration(eventView.getBackbutton().addTapHandler(
+		new TapHandler() {
 
-		addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
-				new TapHandler() {
-					@Override
-					public void onTap(TapEvent event) {
-						selectedRoute = (BikeTrainRoute) RouteContainerFactory
-								.getRouteContainer().getSelectedRoute();
-						if (selectedRoute != null) {
-							clientFactory.getPlaceController().goTo(
-									new RouteDetailsPlace(selectedRoute));
-						} else {
-							AlertDialog noRouteSelectedAlert = new AlertDialog(
-									"No Train Selected",
-									"Choose a Bike Train to view");
-							noRouteSelectedAlert.show();
-						}
-					}
-				}));
-	}
+		    @Override
+		    public void onTap(TapEvent event) {
+			mapView.clearMap();
+			RouteContainerFactory.getRouteContainer()
+				.setSelectedRoute(null);
+			clientFactory.getPlaceController().goTo(
+				new EventSelectionPlace());
+		    }
+
+		}));
+
+	addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
+		new TapHandler() {
+		    @Override
+		    public void onTap(TapEvent event) {
+			selectedRoute = (BikeTrainRoute) RouteContainerFactory
+				.getRouteContainer().getSelectedRoute();
+			if (selectedRoute != null) {
+			    clientFactory.getPlaceController().goTo(
+				    new RouteDetailsPlace(selectedRoute));
+			} else {
+			    AlertDialog noRouteSelectedAlert = new AlertDialog(
+				    "No Train Selected",
+				    "Choose a Bike Train to view");
+			    noRouteSelectedAlert.show();
+			}
+		    }
+		}));
+    }
 }

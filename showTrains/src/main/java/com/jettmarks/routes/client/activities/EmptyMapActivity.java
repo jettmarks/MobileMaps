@@ -29,73 +29,68 @@ import com.jettmarks.routes.client.ui.EventView;
  * 
  * @author jett
  */
-public class EmptyMapActivity extends DetailActivity
-{
-  private final ClientFactory clientFactory;
+public class EmptyMapActivity extends DetailActivity {
+    private final ClientFactory clientFactory;
 
-  private EventView view;
+    private EventView view;
 
-  /**
-   * @param clientFactory
-   */
-  public EmptyMapActivity(ClientFactory clientFactory)
-  {
-    super(clientFactory.getEventView(), "");
-    view = clientFactory.getEventView();
-    this.clientFactory = clientFactory;
-  }
+    /**
+     * @param clientFactory
+     */
+    public EmptyMapActivity(ClientFactory clientFactory) {
+	super(clientFactory.getEventView(), "");
+	view = clientFactory.getEventView();
+	this.clientFactory = clientFactory;
+    }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.gwt.activity.shared.Activity#mayStop()
-   */
-  @Override
-  public String mayStop()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.gwt.activity.shared.Activity#mayStop()
+     */
+    @Override
+    public String mayStop() {
+	// TODO Auto-generated method stub
+	return null;
+    }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.gwt.activity.shared.Activity#onCancel()
-   */
-  @Override
-  public void onCancel()
-  {
-    // TODO Auto-generated method stub
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.gwt.activity.shared.Activity#onCancel()
+     */
+    @Override
+    public void onCancel() {
+	// TODO Auto-generated method stub
 
-  }
+    }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.gwt.activity.shared.Activity#onStop()
-   */
-  @Override
-  public void onStop()
-  {
-    // TODO Auto-generated method stub
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.google.gwt.activity.shared.Activity#onStop()
+     */
+    @Override
+    public void onStop() {
+	// TODO Auto-generated method stub
 
-  }
+    }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
-   * .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
-   */
-  @Override
-  public void start(AcceptsOneWidget panel, EventBus eventBus)
-  {
-    view.getHeader().setText("Select an Event");
-    view.getForwardbuttonText().setText(">");
-    view.enableBackButton(false);
-    view.enableForwardButton(false);
-    panel.setWidget(view);
-  }
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
+     * .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+     */
+    @Override
+    public void start(AcceptsOneWidget panel, EventBus eventBus) {
+	view.getHeaderTapHandlers().setText("Select an Event");
+	// view.getHeader().setText("Select an Event");
+	view.getForwardbuttonText().setText(">");
+	view.enableBackButton(false);
+	view.enableForwardButton(false);
+	panel.setWidget(view);
+    }
 
 }

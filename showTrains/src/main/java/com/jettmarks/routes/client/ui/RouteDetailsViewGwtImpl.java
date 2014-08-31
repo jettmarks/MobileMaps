@@ -31,332 +31,346 @@ import com.googlecode.mgwt.ui.client.widget.MPhoneNumberTextBox;
 import com.googlecode.mgwt.ui.client.widget.MTextBox;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.WidgetList;
+import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
+import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowRightButton;
+import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
+import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class RouteDetailsViewGwtImpl implements RouteDetailsView
-{
-  protected LayoutPanel main;
+public class RouteDetailsViewGwtImpl implements RouteDetailsView {
+    protected LayoutPanel main;
 
-  protected ScrollPanel scrollPanel;
+    protected ScrollPanel scrollPanel;
 
-  protected HeaderButton headerMainButton;
+    protected HeaderButton headerMainButton;
 
-  protected HeaderButton headerBackButton;
+    protected HeaderButton headerBackButton;
 
-  protected HeaderButton headerForwardButton;
+    protected HeaderButton headerForwardButton;
 
-  protected HTML title;
+    protected HTML title;
 
-  protected HeaderPanel headerPanel;
+    protected HeaderPanel headerPanel;
 
-  // Widget Elements
-  private MTextBox tbLeaderName;
+    // Widget Elements
+    private MTextBox tbLeaderName;
 
-  private MEmailTextBox tbLeaderEmail;
+    private MEmailTextBox tbLeaderEmail;
 
-  private MPhoneNumberTextBox tbPhone;
+    private MPhoneNumberTextBox tbPhone;
 
-  private MTextBox tbArrival;
+    private MTextBox tbArrival;
 
-  private MTextBox tbDeparture;
+    private MTextBox tbDeparture;
 
-  // private MTextArea tbNotes;
-  private HTML notesHTML;
+    // private MTextArea tbNotes;
+    private HTML notesHTML;
 
-  private LayoutPanel formPanel;
+    private LayoutPanel formPanel;
 
-  /**
-   * Default Constructor builds the widget.
-   * 
-   */
-  public RouteDetailsViewGwtImpl()
-  {
-    super();
-    main = new LayoutPanel();
-    scrollPanel = new ScrollPanel();
+    private ButtonBar headerButtonBar;
 
-    main.setSize("100%", "100%");
-    headerPanel = new HeaderPanel();
-    title = new HTML();
-    headerPanel.setCenterWidget(title);
+    private ArrowLeftButton backButton;
 
-    headerMainButton = new HeaderButton();
-    headerMainButton.setRoundButton(true);
+    private ArrowRightButton forwardButton;
 
-    headerBackButton = new HeaderButton();
-    headerBackButton.setBackButton(true);
-    // headerBackButton.setVisible(!MGWT.getOsDetection().isAndroid());
+    /**
+     * Default Constructor builds the widget.
+     * 
+     */
+    public RouteDetailsViewGwtImpl() {
+	super();
+	main = new LayoutPanel();
+	scrollPanel = new ScrollPanel();
 
-    headerForwardButton = new HeaderButton();
-    headerForwardButton.setRoundButton(false);
-    headerForwardButton.setForwardButton(true);
+	main.setSize("100%", "100%");
 
-    headerPanel.setLeftWidget(headerBackButton);
-    main.add(headerPanel);
+	setupHeader();
+	// headerPanel = new HeaderPanel();
+	// title = new HTML();
+	// headerPanel.setCenterWidget(title);
+	//
+	// headerMainButton = new HeaderButton();
+	// headerMainButton.setRoundButton(true);
+	//
+	// headerBackButton = new HeaderButton();
+	// headerBackButton.setBackButton(true);
+	//
+	// headerForwardButton = new HeaderButton();
+	// headerForwardButton.setRoundButton(false);
+	// headerForwardButton.setForwardButton(true);
+	//
+	// headerPanel.setLeftWidget(headerBackButton);
+	// main.add(headerPanel);
+	main.add(headerButtonBar);
 
-    // Setup the Form Area, less the Notes
-    WidgetList widgetList = setupForm();
+	// Setup the Form Area, less the Notes
+	WidgetList widgetList = setupForm();
 
-    formPanel = new LayoutPanel();
-    formPanel.add(widgetList);
-    notesHTML = new HTML();
-    // notesHTML.setHeight("300px");
-    widgetList.add(notesHTML);
-    // formPanel.add(notesHTML);
-    // scrollPanel.add(widgetList);
-    scrollPanel.add(formPanel);
-    main.add(scrollPanel);
-  }
+	formPanel = new LayoutPanel();
+	formPanel.add(widgetList);
+	notesHTML = new HTML();
+	// notesHTML.setHeight("300px");
+	widgetList.add(notesHTML);
+	// formPanel.add(notesHTML);
+	// scrollPanel.add(widgetList);
+	scrollPanel.add(formPanel);
+	main.add(scrollPanel);
+    }
 
-  /**
-   * Assembles the widgets needed to present the Bike Train data.
-   * 
-   * @return
-   */
-  WidgetList setupForm()
-  {
-    WidgetList widgetList = new WidgetList();
-    widgetList.setRound(true);
+    /**
+* 
+*/
+    private void setupHeader() {
+	headerButtonBar = new ButtonBar();
+	headerButtonBar.addStyleDependentName("train");
+	// headerPanel.setRightWidget(headerForwardButton);
+	backButton = new ArrowLeftButton();
+	headerButtonBar.add(backButton);
+	headerButtonBar.add(new ButtonBarSpacer());
+	enableBackButton(true);
+	title = new HTML();
+	// headerPanel.setCenterWidget(title);
+	headerButtonBar.add(title);
+	headerButtonBar.add(new ButtonBarSpacer());
+	// headerPanel.setLeftWidget(headerBackButton);
+	forwardButton = new ArrowRightButton();
+	headerButtonBar.add(forwardButton);
+	forwardButton.setVisible(false);
+    }
 
-    tbLeaderName = new MTextBox();
-    tbLeaderEmail = new MEmailTextBox();
-    tbPhone = new MPhoneNumberTextBox();
-    tbDeparture = new MTextBox();
-    tbArrival = new MTextBox();
-    // tbNotes = new MTextArea();
-    // tbNotes.setHeight("100px");
+    /**
+     * Assembles the widgets needed to present the Bike Train data.
+     * 
+     * @return
+     */
+    WidgetList setupForm() {
+	WidgetList widgetList = new WidgetList();
+	widgetList.setRound(true);
 
-    widgetList.add(new FormListEntry("Leader Name", tbLeaderName));
-    widgetList.add(new FormListEntry("Leader Email", tbLeaderEmail));
-    widgetList.add(new FormListEntry("Leader Phone", tbPhone));
-    widgetList.add(new FormListEntry("Departure", tbDeparture));
-    widgetList.add(new FormListEntry("Arrival", tbArrival));
-    widgetList.add(new Label("Notes"));
-    // widgetList.add(tbNotes);
-    return widgetList;
-  }
+	tbLeaderName = new MTextBox();
+	tbLeaderEmail = new MEmailTextBox();
+	tbPhone = new MPhoneNumberTextBox();
+	tbDeparture = new MTextBox();
+	tbArrival = new MTextBox();
+	// tbNotes = new MTextArea();
+	// tbNotes.setHeight("100px");
 
-  /**
-   * @see com.google.gwt.user.client.ui.IsWidget#asWidget()
-   */
-  @Override
-  public Widget asWidget()
-  {
-    return main;
-  }
+	widgetList.add(new FormListEntry("Leader Name", tbLeaderName));
+	widgetList.add(new FormListEntry("Leader Email", tbLeaderEmail));
+	widgetList.add(new FormListEntry("Leader Phone", tbPhone));
+	widgetList.add(new FormListEntry("Departure", tbDeparture));
+	widgetList.add(new FormListEntry("Arrival", tbArrival));
+	widgetList.add(new Label("Notes"));
+	// widgetList.add(tbNotes);
+	return widgetList;
+    }
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getHeader()
-   */
-  @Override
-  public HasText getHeader()
-  {
-    return title;
-  }
+    /**
+     * @see com.google.gwt.user.client.ui.IsWidget#asWidget()
+     */
+    @Override
+    public Widget asWidget() {
+	return main;
+    }
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getBackbuttonText()
-   */
-  @Override
-  public HasText getBackbuttonText()
-  {
-    return headerBackButton;
-  }
+    /**
+     * @see com.jettmarks.routes.client.DetailView#getHeader()
+     */
+    @Override
+    public HasText getHeader() {
+	return title;
+    }
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getBackbuttonText()
-   */
-  @Override
-  public HasText getForwardbuttonText()
-  {
-    return headerForwardButton;
-  }
+    /**
+     * @see com.jettmarks.routes.client.DetailView#getBackbuttonText()
+     */
+    @Override
+    public HasText getBackbuttonText() {
+	return headerBackButton;
+    }
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getBackbutton()
-   */
-  @Override
-  public HasTapHandlers getBackbutton()
-  {
-    return headerBackButton;
-  }
+    /**
+     * @see com.jettmarks.routes.client.DetailView#getBackbuttonText()
+     */
+    @Override
+    public HasText getForwardbuttonText() {
+	return headerForwardButton;
+    }
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getMainButtonText()
-   */
-  @Override
-  public HasText getMainButtonText()
-  {
-    return headerMainButton;
-  }
+    /**
+     * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
+     */
+    public void enableBackButton(boolean isEnabled) {
+	backButton.setVisible(isEnabled);
+    }
 
-  /**
-   * @see com.jettmarks.routes.client.DetailView#getMainButton()
-   */
-  @Override
-  public HasTapHandlers getMainButton()
-  {
-    return headerMainButton;
-  }
+    /**
+     * @see com.jettmarks.routes.client.DetailView#getBackbutton()
+     */
+    @Override
+    public HasTapHandlers getBackbutton() {
+	return backButton;
+    }
 
-  /**
-   * @return the arrival
-   */
-  @Override
-  public String getArrival()
-  {
-    return tbArrival.getText();
-  }
+    /**
+     * @see com.jettmarks.routes.client.DetailView#getMainButtonText()
+     */
+    @Override
+    public HasText getMainButtonText() {
+	return title;
+    }
 
-  /**
-   * @param arrival
-   *          the arrival to set
-   */
-  @Override
-  public void setArrival(String arrival)
-  {
-    tbArrival.setText(arrival);
-  }
+    /**
+     * @see com.jettmarks.routes.client.DetailView#getMainButton()
+     */
+    @Override
+    public HasTapHandlers getMainButton() {
+	return headerMainButton;
+    }
 
-  /**
-   * @return the departure
-   */
-  @Override
-  public String getDeparture()
-  {
-    return tbDeparture.getText();
-  }
+    /**
+     * @return the arrival
+     */
+    @Override
+    public String getArrival() {
+	return tbArrival.getText();
+    }
 
-  /**
-   * @param departure
-   *          the departure to set
-   */
-  @Override
-  public void setDeparture(String departure)
-  {
-    tbDeparture.setText(departure);
-  }
+    /**
+     * @param arrival
+     *            the arrival to set
+     */
+    @Override
+    public void setArrival(String arrival) {
+	tbArrival.setText(arrival);
+    }
 
-  /**
-   * @return the leaderPhone
-   */
-  @Override
-  public String getLeaderPhone()
-  {
-    return tbPhone.getText();
-  }
+    /**
+     * @return the departure
+     */
+    @Override
+    public String getDeparture() {
+	return tbDeparture.getText();
+    }
 
-  /**
-   * @param leaderPhone
-   *          the leaderPhone to set
-   */
-  @Override
-  public void setLeaderPhone(String leaderPhone)
-  {
-    tbPhone.setText(leaderPhone);
-  }
+    /**
+     * @param departure
+     *            the departure to set
+     */
+    @Override
+    public void setDeparture(String departure) {
+	tbDeparture.setText(departure);
+    }
 
-  /**
-   * @return the leaderEmail
-   */
-  @Override
-  public String getLeaderEmail()
-  {
-    return tbLeaderEmail.getText();
-  }
+    /**
+     * @return the leaderPhone
+     */
+    @Override
+    public String getLeaderPhone() {
+	return tbPhone.getText();
+    }
 
-  /**
-   * @param leaderEmail
-   *          the leaderEmail to set
-   */
-  @Override
-  public void setLeaderEmail(String leaderEmail)
-  {
-    tbLeaderEmail.setText(leaderEmail);
-  }
+    /**
+     * @param leaderPhone
+     *            the leaderPhone to set
+     */
+    @Override
+    public void setLeaderPhone(String leaderPhone) {
+	tbPhone.setText(leaderPhone);
+    }
 
-  /**
-   * @return the leaderName
-   */
-  @Override
-  public String getLeaderName()
-  {
-    return tbLeaderName.getText();
-  }
+    /**
+     * @return the leaderEmail
+     */
+    @Override
+    public String getLeaderEmail() {
+	return tbLeaderEmail.getText();
+    }
 
-  /**
-   * @param leaderName
-   *          the leaderName to set
-   */
-  @Override
-  public void setLeaderName(String leaderName)
-  {
-    tbLeaderName.setText(leaderName);
-  }
+    /**
+     * @param leaderEmail
+     *            the leaderEmail to set
+     */
+    @Override
+    public void setLeaderEmail(String leaderEmail) {
+	tbLeaderEmail.setText(leaderEmail);
+    }
 
-  /**
-   * @return the routeName
-   */
-  @Override
-  public String getRouteName()
-  {
-    // return routeName;
-    return null;
-  }
+    /**
+     * @return the leaderName
+     */
+    @Override
+    public String getLeaderName() {
+	return tbLeaderName.getText();
+    }
 
-  /**
-   * @param routeName
-   *          the routeName to set
-   */
-  @Override
-  public void setRouteName(String routeName)
-  {
-    // this.routeName = routeName;
-  }
+    /**
+     * @param leaderName
+     *            the leaderName to set
+     */
+    @Override
+    public void setLeaderName(String leaderName) {
+	tbLeaderName.setText(leaderName);
+    }
 
-  /**
-   * @return the displayName
-   */
-  @Override
-  public String getDisplayName()
-  {
-    return null;
-    // return displayName;
-  }
+    /**
+     * @return the routeName
+     */
+    @Override
+    public String getRouteName() {
+	// return routeName;
+	return null;
+    }
 
-  /**
-   * @param displayName
-   *          the displayName to set
-   */
-  @Override
-  public void setDisplayName(String displayName)
-  {
-    // this.displayName = displayName;
-  }
+    /**
+     * @param routeName
+     *            the routeName to set
+     */
+    @Override
+    public void setRouteName(String routeName) {
+	// this.routeName = routeName;
+    }
 
-  /**
-   * @return the notes
-   */
-  @Override
-  public String getNotes()
-  {
-    // return notes;
-    return notesHTML.getText();
-  }
+    /**
+     * @return the displayName
+     */
+    @Override
+    public String getDisplayName() {
+	return null;
+	// return displayName;
+    }
 
-  /**
-   * @param notes
-   *          the notes to set
-   */
-  @Override
-  public void setNotes(String notes)
-  {
-    notesHTML.setText(notes);
-    scrollPanel.refresh();
-  }
+    /**
+     * @param displayName
+     *            the displayName to set
+     */
+    @Override
+    public void setDisplayName(String displayName) {
+	// this.displayName = displayName;
+    }
+
+    /**
+     * @return the notes
+     */
+    @Override
+    public String getNotes() {
+	// return notes;
+	return notesHTML.getText();
+    }
+
+    /**
+     * @param notes
+     *            the notes to set
+     */
+    @Override
+    public void setNotes(String notes) {
+	notesHTML.setText(notes);
+	scrollPanel.refresh();
+    }
 
 }

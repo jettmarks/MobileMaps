@@ -33,6 +33,7 @@ import com.googlecode.mgwt.mvp.client.AnimatingActivityManager;
 import com.googlecode.mgwt.mvp.client.AnimationMapper;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
+import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.dialog.TabletPortraitOverlay;
 import com.googlecode.mgwt.ui.client.layout.MasterRegionHandler;
 import com.googlecode.mgwt.ui.client.layout.OrientationRegionHandler;
@@ -46,133 +47,127 @@ import com.jettmarks.routes.client.place.EventSelectionPlace;
  * 
  * @author Jett Marks
  */
-public class ShowTrainsEntryPoint implements EntryPoint
-{
+public class ShowTrainsEntryPoint implements EntryPoint {
 
-  private void start()
-  {
+    private void start() {
 
-    // set viewport and other settings for mobile
-    MGWT.applySettings(MGWTSettings.getAppSetting());
+	// set viewport and other settings for mobile
+	MGWT.applySettings(MGWTSettings.getAppSetting());
 
-    final ClientFactory clientFactory = new ClientFactoryImpl();
+	final ClientFactory clientFactory = new ClientFactoryImpl();
 
-    // Start PlaceHistoryHandler with our PlaceHistoryMapper
-    AppPlaceHistoryMapper historyMapper = GWT.create(AppPlaceHistoryMapper.class);
-    final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
+	// Start PlaceHistoryHandler with our PlaceHistoryMapper
+	AppPlaceHistoryMapper historyMapper = GWT
+		.create(AppPlaceHistoryMapper.class);
+	final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(
+		historyMapper);
 
-    historyHandler.register(clientFactory.getPlaceController(),
-        clientFactory.getEventBus(), new EventSelectionPlace());
+	historyHandler.register(clientFactory.getPlaceController(),
+		clientFactory.getEventBus(), new EventSelectionPlace());
 
-    if ((MGWT.getOsDetection().isTablet()))
-    {
-      // very nasty workaround because GWT does not correctly support @media
-      StyleInjector.inject(AppBundle.INSTANCE.css().getText());
-      createTabletDisplay(clientFactory);
+	if ((MGWT.getOsDetection().isTablet())) {
+	    // very nasty workaround because GWT does not correctly support
+	    // @media
+	    StyleInjector.inject(AppBundle.INSTANCE.css().getText());
+	    createTabletDisplay(clientFactory);
+	} else {
+	    createPhoneDisplay(clientFactory);
+	}
+
+	MGWTStyle.injectStyleSheet("bikeTrains/css/adjustment.css");
+
+	historyHandler.handleCurrentHistory();
     }
-    else
-    {
-      createPhoneDisplay(clientFactory);
+
+    private void createPhoneDisplay(ClientFactory clientFactory) {
+	AnimatableDisplay display = GWT.create(AnimatableDisplay.class);
+
+	PhoneActivityMapper appActivityMapper = new PhoneActivityMapper(
+		clientFactory);
+
+	PhoneAnimationMapper appAnimationMapper = new PhoneAnimationMapper();
+
+	AnimatingActivityManager activityManager = new AnimatingActivityManager(
+		appActivityMapper, appAnimationMapper,
+		clientFactory.getEventBus());
+
+	activityManager.setDisplay(display);
+
+	RootPanel.get().add(display);
+
     }
 
-    historyHandler.handleCurrentHistory();
-  }
+    private void createTabletDisplay(ClientFactory clientFactory) {
+	SimplePanel navContainer = new SimplePanel();
+	navContainer.getElement().setId("nav");
+	navContainer.getElement().addClassName("landscapeonly");
+	AnimatableDisplay navDisplay = GWT.create(AnimatableDisplay.class);
 
-  private void createPhoneDisplay(ClientFactory clientFactory)
-  {
-    AnimatableDisplay display = GWT.create(AnimatableDisplay.class);
+	final TabletPortraitOverlay tabletPortraitOverlay = new TabletPortraitOverlay();
 
-    PhoneActivityMapper appActivityMapper = new PhoneActivityMapper(clientFactory);
+	new OrientationRegionHandler(navContainer, tabletPortraitOverlay,
+		navDisplay);
+	new MasterRegionHandler(clientFactory.getEventBus(), "nav",
+		tabletPortraitOverlay);
 
-    PhoneAnimationMapper appAnimationMapper = new PhoneAnimationMapper();
+	ActivityMapper navActivityMapper = new TabletNavActivityMapper(
+		clientFactory);
 
-    AnimatingActivityManager activityManager = new AnimatingActivityManager(appActivityMapper,
-                                                                            appAnimationMapper,
-                                                                            clientFactory.getEventBus());
+	AnimationMapper navAnimationMapper = new TabletNavAnimationMapper();
 
-    activityManager.setDisplay(display);
+	AnimatingActivityManager navActivityManager = new AnimatingActivityManager(
+		navActivityMapper, navAnimationMapper,
+		clientFactory.getEventBus());
 
-    RootPanel.get().add(display);
+	navActivityManager.setDisplay(navDisplay);
 
-  }
+	RootPanel.get().add(navContainer);
 
-  private void createTabletDisplay(ClientFactory clientFactory)
-  {
-    SimplePanel navContainer = new SimplePanel();
-    navContainer.getElement().setId("nav");
-    navContainer.getElement().addClassName("landscapeonly");
-    AnimatableDisplay navDisplay = GWT.create(AnimatableDisplay.class);
+	SimplePanel mainContainer = new SimplePanel();
+	mainContainer.getElement().setId("main");
+	AnimatableDisplay mainDisplay = GWT.create(AnimatableDisplay.class);
 
-    final TabletPortraitOverlay tabletPortraitOverlay = new TabletPortraitOverlay();
+	TabletMainActivityMapper tabletMainActivityMapper = new TabletMainActivityMapper(
+		clientFactory);
 
-    new OrientationRegionHandler(navContainer,
-                                 tabletPortraitOverlay,
-                                 navDisplay);
-    new MasterRegionHandler(clientFactory.getEventBus(),
-                            "nav",
-                            tabletPortraitOverlay);
+	AnimationMapper tabletMainAnimationMapper = new TabletMainAnimationMapper();
 
-    ActivityMapper navActivityMapper = new TabletNavActivityMapper(clientFactory);
+	AnimatingActivityManager mainActivityManager = new AnimatingActivityManager(
+		tabletMainActivityMapper, tabletMainAnimationMapper,
+		clientFactory.getEventBus());
 
-    AnimationMapper navAnimationMapper = new TabletNavAnimationMapper();
+	LayoutPanel layoutPanel = new LayoutPanel();
+	layoutPanel.add(new Label("Here it is"));
 
-    AnimatingActivityManager navActivityManager = new AnimatingActivityManager(navActivityMapper,
-                                                                               navAnimationMapper,
-                                                                               clientFactory.getEventBus());
+	mainActivityManager.setDisplay(mainDisplay);
+	mainContainer.setWidget(mainDisplay);
 
-    navActivityManager.setDisplay(navDisplay);
+	RootPanel.get().add(mainContainer);
 
-    RootPanel.get().add(navContainer);
+    }
 
-    SimplePanel mainContainer = new SimplePanel();
-    mainContainer.getElement().setId("main");
-    AnimatableDisplay mainDisplay = GWT.create(AnimatableDisplay.class);
+    @Override
+    public void onModuleLoad() {
 
-    TabletMainActivityMapper tabletMainActivityMapper = new TabletMainActivityMapper(clientFactory);
+	GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
-    AnimationMapper tabletMainAnimationMapper = new TabletMainAnimationMapper();
+	    @Override
+	    public void onUncaughtException(Throwable e) {
+		// TODO put in your own meaninigful handler
+		Window.alert("uncaught: " + e.getMessage());
+		e.printStackTrace();
 
-    AnimatingActivityManager mainActivityManager = new AnimatingActivityManager(tabletMainActivityMapper,
-                                                                                tabletMainAnimationMapper,
-                                                                                clientFactory.getEventBus());
+	    }
+	});
 
-    LayoutPanel layoutPanel = new LayoutPanel();
-    layoutPanel.add(new Label("Here it is"));
+	new Timer() {
+	    @Override
+	    public void run() {
+		start();
 
-    mainActivityManager.setDisplay(mainDisplay);
-    mainContainer.setWidget(mainDisplay);
+	    }
+	}.schedule(1);
 
-    RootPanel.get().add(mainContainer);
-
-  }
-
-  @Override
-  public void onModuleLoad()
-  {
-
-    GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler()
-    {
-
-      @Override
-      public void onUncaughtException(Throwable e)
-      {
-        // TODO put in your own meaninigful handler
-        Window.alert("uncaught: " + e.getMessage());
-        e.printStackTrace();
-
-      }
-    });
-
-    new Timer()
-    {
-      @Override
-      public void run()
-      {
-        start();
-
-      }
-    }.schedule(1);
-
-  }
+    }
 
 }
