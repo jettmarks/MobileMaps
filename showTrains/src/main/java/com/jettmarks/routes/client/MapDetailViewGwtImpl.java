@@ -130,8 +130,4 @@ public abstract class MapDetailViewGwtImpl implements DetailView {
 	return headerMainButton;
     }
 
-    public HTML getHeaderTapHandlers() {
-	return title;
-    }
-
 }

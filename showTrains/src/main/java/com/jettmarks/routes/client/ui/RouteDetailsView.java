@@ -17,6 +17,7 @@
  */
 package com.jettmarks.routes.client.ui;
 
+import com.google.gwt.user.client.ui.HTML;
 import com.jettmarks.routes.client.DetailView;
 
 /**
@@ -24,39 +25,40 @@ import com.jettmarks.routes.client.DetailView;
  * 
  * @author jett
  */
-public interface RouteDetailsView extends DetailView
-{
+public interface RouteDetailsView extends DetailView {
 
-  public abstract void setNotes(String notes);
+    public abstract HTML getHeaderTapHandlers();
 
-  public abstract String getNotes();
+    public abstract void setNotes(String notes);
 
-  public abstract void setDisplayName(String displayName);
+    public abstract String getNotes();
 
-  public abstract String getDisplayName();
+    public abstract void setDisplayName(String displayName);
 
-  public abstract void setRouteName(String routeName);
+    public abstract String getDisplayName();
 
-  public abstract String getRouteName();
+    public abstract void setRouteName(String routeName);
 
-  public abstract void setLeaderName(String leaderName);
+    public abstract String getRouteName();
 
-  public abstract String getLeaderName();
+    public abstract void setLeaderName(String leaderName);
 
-  public abstract void setLeaderEmail(String leaderEmail);
+    public abstract String getLeaderName();
 
-  public abstract String getLeaderEmail();
+    public abstract void setLeaderEmail(String leaderEmail);
 
-  public abstract void setLeaderPhone(String leaderPhone);
+    public abstract String getLeaderEmail();
 
-  public abstract String getLeaderPhone();
+    public abstract void setLeaderPhone(String leaderPhone);
 
-  public abstract void setDeparture(String departure);
+    public abstract String getLeaderPhone();
 
-  public abstract String getDeparture();
+    public abstract void setDeparture(String departure);
 
-  public abstract void setArrival(String arrival);
+    public abstract String getDeparture();
 
-  public abstract String getArrival();
+    public abstract void setArrival(String arrival);
+
+    public abstract String getArrival();
 
 }

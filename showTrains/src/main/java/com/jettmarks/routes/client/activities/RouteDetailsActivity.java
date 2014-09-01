@@ -20,6 +20,8 @@ package com.jettmarks.routes.client.activities;
 import java.util.Date;
 
 import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
@@ -69,16 +71,9 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 	    routeDetailsView.getMainButtonText().setText(headerText);
 
 	    addHandlerRegistration(routeDetailsView.getBackbutton()
-		    .addTapHandler(new TapHandler() {
-			@Override
-			public void onTap(TapEvent event) {
-			    DisplayGroupDTO displayGroup = RouteContainerFactory
-				    .getRouteContainer()
-				    .getCurrentDisplayGroup();
-			    clientFactory.getPlaceController().goTo(
-				    new EventPlace(displayGroup));
-			}
-		    }));
+		    .addTapHandler(new ReturnToEventTapHandler()));
+	    addHandlerRegistration(routeDetailsView.getHeaderTapHandlers()
+		    .addClickHandler(new ReturnToEventClickHandler()));
 	}
     }
 
@@ -157,6 +152,49 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 	view.setDisplayName(bikeTrainRoute.getDisplayName());
 
 	panel.setWidget(view);
+    }
+
+    /**
+     * Implementation of TapHandler that returns user back to the enclosing
+     * Event.
+     * 
+     * @author jett
+     */
+    public class ReturnToEventTapHandler implements TapHandler {
+
+	/**
+	 * @see com.googlecode.mgwt.dom.client.event.tap.TapHandler#onTap(com.googlecode
+	 *      .mgwt.dom.client.event.tap.TapEvent)
+	 */
+	@Override
+	public void onTap(TapEvent event) {
+	    DisplayGroupDTO displayGroup = RouteContainerFactory
+		    .getRouteContainer().getCurrentDisplayGroup();
+	    clientFactory.getPlaceController().goTo(
+		    new EventPlace(displayGroup));
+	}
+    }
+
+    /**
+     * Implementation of ClickHandler that returns user back to the enclosing
+     * Event.
+     * 
+     * @author jett
+     */
+    public class ReturnToEventClickHandler implements ClickHandler {
+
+	/**
+	 * @see com.google.gwt.event.dom.client.ClickHandler#onClick(com.google.gwt
+	 *      .event.dom.client.ClickEvent)
+	 */
+	@Override
+	public void onClick(ClickEvent event) {
+	    DisplayGroupDTO displayGroup = RouteContainerFactory
+		    .getRouteContainer().getCurrentDisplayGroup();
+	    clientFactory.getPlaceController().goTo(
+		    new EventPlace(displayGroup));
+	}
+
     }
 
 }

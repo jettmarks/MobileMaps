@@ -31,8 +31,6 @@ import com.googlecode.mgwt.ui.client.widget.MPhoneNumberTextBox;
 import com.googlecode.mgwt.ui.client.widget.MTextBox;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.WidgetList;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowRightButton;
 
 /**
  * Description.
@@ -72,10 +70,6 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 
     private HeaderButtonBar headerButtonBar;
 
-    private ArrowLeftButton backButton;
-
-    private ArrowRightButton forwardButton;
-
     /**
      * Default Constructor builds the widget.
      * 
@@ -88,22 +82,6 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 	main.setSize("100%", "100%");
 
 	setupHeader();
-	// headerPanel = new HeaderPanel();
-	// title = new HTML();
-	// headerPanel.setCenterWidget(title);
-	//
-	// headerMainButton = new HeaderButton();
-	// headerMainButton.setRoundButton(true);
-	//
-	// headerBackButton = new HeaderButton();
-	// headerBackButton.setBackButton(true);
-	//
-	// headerForwardButton = new HeaderButton();
-	// headerForwardButton.setRoundButton(false);
-	// headerForwardButton.setForwardButton(true);
-	//
-	// headerPanel.setLeftWidget(headerBackButton);
-	// main.add(headerPanel);
 	main.add(headerButtonBar);
 
 	// Setup the Form Area, less the Notes
@@ -125,18 +103,9 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 */
     private void setupHeader() {
 	headerButtonBar = new HeaderButtonBar();
-	// backButton = new ArrowLeftButton();
-	// headerButtonBar.add(backButton);
-	// headerButtonBar.add(new ButtonBarSpacer());
 	enableBackButton(true);
 	title = new HTML();
-	// title.setWordWrap(true);
-	// title.setWidth((ScreenSize.getWidth() - 88) + "px");
 	headerButtonBar.setTitle(title);
-	// headerButtonBar.add(new ButtonBarSpacer());
-	// forwardButton = new ArrowRightButton();
-	// headerButtonBar.add(forwardButton);
-	// forwardButton.setVisible(false);
     }
 
     /**
@@ -227,6 +196,14 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
     @Override
     public HasTapHandlers getMainButton() {
 	return headerMainButton;
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.ui.RouteDetailsView#getHeaderTapHandlers()
+     */
+    @Override
+    public HTML getHeaderTapHandlers() {
+	return title;
     }
 
     /**

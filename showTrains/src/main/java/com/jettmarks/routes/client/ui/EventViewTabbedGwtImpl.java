@@ -324,6 +324,10 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 	return headerButtonBar.getRightButton();
     }
 
+    public HTML getHeaderTapHandlers() {
+	return title;
+    }
+
     /**
      * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
      */
