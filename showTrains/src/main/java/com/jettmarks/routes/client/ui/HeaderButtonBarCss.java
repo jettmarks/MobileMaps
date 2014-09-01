@@ -28,4 +28,7 @@ public interface HeaderButtonBarCss extends CssResource {
     @ClassName("gwt-HTML-title")
     public String title();
 
+    @ClassName("gwt-HTML-titleDesktop")
+    public String titleDesktop();
+
 }

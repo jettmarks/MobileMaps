@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
+import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowRightButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
@@ -95,7 +96,11 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	add(new ButtonBarSpacer());
 
 	if (title != null) {
-	    title.setStylePrimaryName(this.css.title());
+	    if (MGWT.getOsDetection().isTablet()) {
+		title.setStylePrimaryName(this.css.titleDesktop());
+	    } else {
+		title.setStylePrimaryName(this.css.title());
+	    }
 	    add(title);
 	} else {
 	    add(titlePlaceholder);
