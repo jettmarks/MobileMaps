@@ -8,6 +8,7 @@
 	<inherits name="com.google.gwt.activity.Activity" />
 	<inherits name="com.googlecode.mgwt.MGWT"/>
 	<inherits name="com.google.gwt.maps.Maps"/>
+	<inherits name="com.google.gwt.resources.Resources"/>
 	
 	<inherits name="com.google.code.p.gwtchismes.GWTChismes" />
 	<stylesheet src="GWTC-compressed.css" />

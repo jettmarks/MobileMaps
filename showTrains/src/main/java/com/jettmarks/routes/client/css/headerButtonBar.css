@@ -1,0 +1,22 @@
+
+.gwt-HTML-title {
+}
+
+@if user.agent gecko1_8 {
+	.gwt-HTML-title {
+		\-moz-box-flex: 1;
+	}
+}
+
+@if user.agent safari {
+	.gwt-HTML-title {
+		\-webkit-box-flex: 1;
+	}
+}
+
+@if user.agent ie9 {
+	.gwt-HTML-title {
+		display: table-cell;
+		width: 50%;
+	}
+}

@@ -33,8 +33,6 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowRightButton;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
@@ -72,7 +70,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
     private CellList<Route> listWidget;
 
     private ScrollPanel scrollPanel;
-    private ButtonBar headerButtonBar;
+    private HeaderButtonBar headerButtonBar;
     private ArrowRightButton forwardButton;
     private ArrowLeftButton backButton;
 
@@ -97,16 +95,19 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
     * 
     */
     private void setupHeader() {
-	headerButtonBar = new ButtonBar();
-	backButton = new ArrowLeftButton();
-	headerButtonBar.add(backButton);
-	headerButtonBar.add(new ButtonBarSpacer());
+	headerButtonBar = new HeaderButtonBar();
+	// backButton = new ArrowLeftButton();
+	// headerButtonBar.add(backButton);
+	// headerButtonBar.add(new ButtonBarSpacer());
 
 	title = new HTML();
-	headerButtonBar.add(title);
-	headerButtonBar.add(new ButtonBarSpacer());
-	forwardButton = new ArrowRightButton();
-	headerButtonBar.add(forwardButton);
+	// title.setWordWrap(true);
+	// title.addStyleDependentName("title");
+	// title.setWidth((ScreenSize.getWidth() - 88) + "px");
+	headerButtonBar.setTitle(title);
+	// headerButtonBar.add(new ButtonBarSpacer());
+	// forwardButton = new ArrowRightButton();
+	// headerButtonBar.add(forwardButton);
     }
 
     /**
@@ -312,7 +313,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
      */
     @Override
     public HasTapHandlers getBackbutton() {
-	return backButton;
+	return headerButtonBar.getLeftButton();
     }
 
     /**
@@ -320,8 +321,15 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
      */
     @Override
     public HasTapHandlers getForwardbutton() {
-	return forwardButton;
-	// return headerForwardButton;
+	return headerButtonBar.getRightButton();
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
+     */
+    @Override
+    public void enableBackButton(boolean isEnabled) {
+	headerButtonBar.setLeftButtonEnabled(isEnabled);
     }
 
     /*
@@ -331,15 +339,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
      */
     @Override
     public void enableForwardButton(boolean isEnabled) {
-	forwardButton.setVisible(isEnabled);
-    }
-
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
-     */
-    @Override
-    public void enableBackButton(boolean isEnabled) {
-	backButton.setVisible(isEnabled);
+	headerButtonBar.setRightButtonEnabled(isEnabled);
     }
 
     /**

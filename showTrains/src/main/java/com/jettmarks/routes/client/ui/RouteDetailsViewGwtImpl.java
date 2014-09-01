@@ -33,8 +33,6 @@ import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.WidgetList;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowRightButton;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBar;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
 
 /**
  * Description.
@@ -72,7 +70,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 
     private LayoutPanel formPanel;
 
-    private ButtonBar headerButtonBar;
+    private HeaderButtonBar headerButtonBar;
 
     private ArrowLeftButton backButton;
 
@@ -126,21 +124,19 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 * 
 */
     private void setupHeader() {
-	headerButtonBar = new ButtonBar();
-	headerButtonBar.addStyleDependentName("train");
-	// headerPanel.setRightWidget(headerForwardButton);
-	backButton = new ArrowLeftButton();
-	headerButtonBar.add(backButton);
-	headerButtonBar.add(new ButtonBarSpacer());
+	headerButtonBar = new HeaderButtonBar();
+	// backButton = new ArrowLeftButton();
+	// headerButtonBar.add(backButton);
+	// headerButtonBar.add(new ButtonBarSpacer());
 	enableBackButton(true);
 	title = new HTML();
-	// headerPanel.setCenterWidget(title);
-	headerButtonBar.add(title);
-	headerButtonBar.add(new ButtonBarSpacer());
-	// headerPanel.setLeftWidget(headerBackButton);
-	forwardButton = new ArrowRightButton();
-	headerButtonBar.add(forwardButton);
-	forwardButton.setVisible(false);
+	// title.setWordWrap(true);
+	// title.setWidth((ScreenSize.getWidth() - 88) + "px");
+	headerButtonBar.setTitle(title);
+	// headerButtonBar.add(new ButtonBarSpacer());
+	// forwardButton = new ArrowRightButton();
+	// headerButtonBar.add(forwardButton);
+	// forwardButton.setVisible(false);
     }
 
     /**
@@ -206,7 +202,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
      * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
      */
     public void enableBackButton(boolean isEnabled) {
-	backButton.setVisible(isEnabled);
+	headerButtonBar.setLeftButtonEnabled(isEnabled);
     }
 
     /**
@@ -214,7 +210,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
      */
     @Override
     public HasTapHandlers getBackbutton() {
-	return backButton;
+	return headerButtonBar.getLeftButton();
     }
 
     /**
