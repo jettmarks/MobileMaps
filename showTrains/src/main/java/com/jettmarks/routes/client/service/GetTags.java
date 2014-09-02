@@ -29,29 +29,32 @@ import com.jettmarks.routes.client.bean.DisplayGroupDTO;
  * @author jett
  */
 
-public interface GetTags extends RemoteService
-{
-  /** Retrieve list of existing tags. */
-  public String[] getTagList();
+public interface GetTags extends RemoteService {
+    /** Retrieve list of existing tags. */
+    public String[] getTagList();
 
-  /** Retrieve list of tags available to user identified by token. */
-  public String[] getTagList(String token);
+    /** Retrieve list of tags available to user identified by token. */
+    public String[] getTagList(String token);
 
-  /** Retrieve list of DisplayGroups available for use. */
-  public String[] getDisplayGroupList();
+    /** Retrieve list of DisplayGroups available for use. */
+    public String[] getDisplayGroupList();
 
-  /** Retrieve the current (latest) Display Group ID. */
-  public int getLatestDisplayGroupID();
+    /** Retrieve the current (latest) Display Group ID. */
+    public int getLatestDisplayGroupID();
 
-  /** Get array of all Display Groups. */
-  public DisplayGroupDTO[] getDisplayGroups();
+    /** Get array of all Display Groups. */
+    public DisplayGroupDTO[] getDisplayGroups();
 
-  /** Get array of active Display Groups. */
-  public DisplayGroupDTO[] getActiveDisplayGroups();
+    /** Get array of active Display Groups. */
+    public DisplayGroupDTO[] getActiveDisplayGroups();
 
-  /** Get array of active Display Groups. */
-  public DisplayGroupDTO[] getBikeTrains();
+    /** Get array of active Bike Trains. */
+    public DisplayGroupDTO[] getBikeTrains();
 
-  /** Save New DisplayGroup. */
-  public int saveDisplayGroup(String description, String displayGroupName);
+    /** Get specific Bike Train. */
+    public DisplayGroupDTO getBikeTrain(String displayGroupName);
+
+    /** Save New DisplayGroup. */
+    public int saveDisplayGroup(String description, String displayGroupName);
+
 }

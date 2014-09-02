@@ -18,6 +18,7 @@
 package com.jettmarks.routes.client.activities;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.event.shared.EventBus;
@@ -31,6 +32,7 @@ import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.Topic;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.rep.EventContainer;
 import com.jettmarks.routes.client.service.GetTagsAsync;
 import com.jettmarks.routes.client.ui.EventSelectionView;
 
@@ -48,6 +50,7 @@ public class EventSelectionActivity extends MGWTAbstractActivity {
     private List<Topic> displayGroupTopics;
 
     private EventSelectionView view;
+    private HashMap<String, DisplayGroupDTO> displayGroupMap = new HashMap<String, DisplayGroupDTO>();
 
     /**
      * @param clientFactory
@@ -123,6 +126,7 @@ public class EventSelectionActivity extends MGWTAbstractActivity {
 	    for (DisplayGroupDTO dg : result) {
 		// For later use
 		displayGroupList.add(dg);
+		EventContainer.putEvent(dg.getDisplayName(), dg);
 		// For presenting in the view
 		Topic topic = new Topic((dg.getDescription()), 5);
 		displayGroupTopics.add(topic);

@@ -14,40 +14,44 @@ import com.jettmarks.routes.client.ui.EventView;
  * @author jett
  * 
  */
-public interface RouteContainer
-{
-  // TODO: Review this; don't want something so specific in here
-  public void setView(EventView view);
+public interface RouteContainer {
+    // TODO: Review this; don't want something so specific in here
+    public void setView(EventView view);
 
-  public void addRoutes(RouteRequestRouteName routeRequestRouteName);
+    public void addRoutes(RouteRequestRouteName routeRequestRouteName);
 
-  /**
-   * @param routeRequest
-   */
-  public void addRoutes(RouteRequest routeRequest);
+    /**
+     * @param routeRequest
+     */
+    public void addRoutes(RouteRequest routeRequest);
 
-  /**
-   * @param routeName
-   * @param route
-   */
-  public void put(String routeName, Route route);
+    /**
+     * @param routeName
+     * @param route
+     */
+    public void put(String routeName, Route route);
 
-  /**
+    /**
    * 
    */
-  public void updateProgress();
+    public void updateProgress();
 
-  public Route getSelectedRoute();
+    public Route getSelectedRoute();
 
-  public abstract void setSelectedRoute(Route route);
+    public abstract void setSelectedRoute(Route route);
 
-  public DisplayGroupDTO getCurrentDisplayGroup();
+    public DisplayGroupDTO getCurrentDisplayGroup();
 
-  public void setCurrentDisplayGroup(DisplayGroupDTO displayGroup);
+    public void setCurrentDisplayGroup(DisplayGroupDTO displayGroup);
 
-  /**
-   * @return
-   */
-  public boolean displayGroupHasChanged();
+    /**
+     * @return
+     */
+    public boolean displayGroupHasChanged();
+
+    /**
+     * @param displayGroupName
+     */
+    public DisplayGroupDTO getDisplayGroup(String displayGroupName);
 
 }

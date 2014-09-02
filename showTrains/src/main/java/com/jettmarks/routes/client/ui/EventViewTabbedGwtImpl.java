@@ -40,7 +40,9 @@ import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabPanel;
 import com.jettmarks.routes.client.MapDetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
+import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.Route;
+import com.jettmarks.routes.client.rep.EventContainer;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
@@ -267,7 +269,13 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
      */
     @Override
     public void resize() {
-	// See if this works here
+	// Pick up refreshed dgDto if we didn't get one at first
+	if (description == null) {
+	    DisplayGroupDTO dgDto = EventContainer.getEvent(displayGroupName);
+	    if (dgDto != null) {
+		setDescription(dgDto.getDescription());
+	    }
+	}
 	renderList();
 	if (mapBounds == null) {
 	    return;

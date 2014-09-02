@@ -22,6 +22,7 @@ import java.util.Date;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceTokenizer;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
+import com.jettmarks.routes.client.rep.EventContainer;
 
 public class EventPlace extends Place {
     /** Event's Name, URL, and time. */
@@ -45,6 +46,12 @@ public class EventPlace extends Place {
     public EventPlace(String displayGroupName) {
 	super();
 	this.displayGroupName = displayGroupName;
+	DisplayGroupDTO dgDto = EventContainer.getEvent(displayGroupName);
+	if (dgDto != null) {
+	    this.description = dgDto.getDescription();
+	    this.event = dgDto;
+	    this.eventDate = dgDto.getEventDate();
+	}
     }
 
     /**
@@ -60,7 +67,11 @@ public class EventPlace extends Place {
     public EventPlace(String dispGroup, String description) {
 	super();
 	this.displayGroupName = dispGroup;
-	this.description = description;
+	// this.description = description;
+	DisplayGroupDTO dgDto = EventContainer.getEvent(displayGroupName);
+	this.description = dgDto.getDescription();
+	this.event = dgDto;
+	this.eventDate = dgDto.getEventDate();
     }
 
     /**

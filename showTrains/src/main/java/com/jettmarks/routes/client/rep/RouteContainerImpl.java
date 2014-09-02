@@ -148,9 +148,7 @@ public class RouteContainerImpl implements RouteContainer {
 	}
 
 	if (!currentRouteRequest.hasNext()) {
-	    Window.setStatus("Resizing");
 	    mapView.resize();
-	    Window.setStatus("Done");
 	    gwtcProgress.hide();
 	} else
 	// ready to ask for next route
@@ -293,6 +291,18 @@ public class RouteContainerImpl implements RouteContainer {
     @Override
     public boolean displayGroupHasChanged() {
 	return displayGroupHasChanged;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.jettmarks.routes.client.rep.RouteContainer#getDisplayGroup(java.lang
+     * .String)
+     */
+    @Override
+    public DisplayGroupDTO getDisplayGroup(String displayGroupName) {
+	return null;
     }
 
 }
