@@ -22,6 +22,9 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
+import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
+import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent.ORIENTATION;
+import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
@@ -72,6 +75,13 @@ public class ShowGroupActivity extends DetailActivity {
 	    routeContainer.setCurrentDisplayGroup(displayGroup);
 	}
 	this.clientFactory = clientFactory;
+	MGWT.addOrientationChangeHandler(new OrientationChangeHandler() {
+
+	    @Override
+	    public void onOrientationChanged(OrientationChangeEvent event) {
+		adjustBackButtonVisibility(event.getOrientation());
+	    }
+	});
     }
 
     @Override
@@ -81,7 +91,10 @@ public class ShowGroupActivity extends DetailActivity {
 	// view.getBackbuttonText().setText("<");
 	// view.getForwardbuttonText().setText(">");
 
-	view.enableBackButton(!MGWT.getOsDetection().isTablet());
+	// view.enableBackButton(!MGWT.getOsDetection().isTablet());
+	ORIENTATION orientation = MGWT.getOrientation();
+	adjustBackButtonVisibility(orientation);
+
 	// Test only
 	// view.enableBackButton(true);
 	view.enableForwardButton(true);
@@ -108,6 +121,20 @@ public class ShowGroupActivity extends DetailActivity {
 	}
 	mapActivity.addRegistration(view);
 	panel.setWidget(view);
+    }
+
+    /**
+     * @param orientation
+     */
+    private void adjustBackButtonVisibility(ORIENTATION orientation) {
+	switch (orientation) {
+	case PORTRAIT:
+	    view.enableBackButton(true);
+	    break;
+	case LANDSCAPE:
+	    view.enableBackButton(false);
+	    break;
+	}
     }
 
     /**

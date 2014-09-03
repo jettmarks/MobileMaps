@@ -22,12 +22,15 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
+import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.mvp.client.AnimatableDisplay;
 import com.googlecode.mgwt.mvp.client.AnimatingActivityManager;
 import com.googlecode.mgwt.mvp.client.AnimationMapper;
@@ -144,6 +147,8 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 
 	RootPanel.get().add(mainContainer);
 
+	MGWT.addOrientationChangeHandler(new MyOrientationChangeHandler(
+		clientFactory));
     }
 
     @Override
@@ -170,4 +175,30 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 
     }
 
+    /**
+     * Description.
+     * 
+     * @author jett
+     */
+    public class EventSelectionPlaceOrientationChange extends
+	    EventSelectionPlace {
+
+    }
+
+    public class MyOrientationChangeHandler implements OrientationChangeHandler {
+
+	private ClientFactory clientFactory;
+
+	public MyOrientationChangeHandler(ClientFactory cf) {
+	    this.clientFactory = cf;
+	}
+
+	@Override
+	public void onOrientationChanged(OrientationChangeEvent event) {
+	    // Window.alert("We are hitting this");
+	    Place place = new EventSelectionPlaceOrientationChange();
+	    clientFactory.getPlaceController().goTo(place);
+	}
+
+    }
 }
