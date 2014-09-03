@@ -20,7 +20,6 @@ package com.jettmarks.routes.client.bean;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
-import com.jettmarks.routes.server.bean.DisplayElement;
 
 /**
  * Represents a generic Element to be displayed on a GWT map, and particularly

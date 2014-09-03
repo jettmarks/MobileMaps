@@ -32,8 +32,6 @@ import com.jettmarks.routes.client.common.FacilityType;
  */
 public class EncodedTrack implements IsSerializable
 {
-  private static final long serialVersionUID = 5043678240875093800L;
-  
   private String encodedPoints;
   private String encodedLevels;
   private String routeName;
