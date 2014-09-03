@@ -87,16 +87,11 @@ public class ShowGroupActivity extends DetailActivity {
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
-	// view.getMainButtonText().setText("Nav");
-	// view.getBackbuttonText().setText("<");
-	// view.getForwardbuttonText().setText(">");
 
-	// view.enableBackButton(!MGWT.getOsDetection().isTablet());
+	// For testing, a desktop browser can be narrowed to look like Portrait
 	ORIENTATION orientation = MGWT.getOrientation();
 	adjustBackButtonVisibility(orientation);
 
-	// Test only
-	// view.enableBackButton(true);
 	view.enableForwardButton(true);
 
 	if (routeContainer.displayGroupHasChanged()) {

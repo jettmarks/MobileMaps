@@ -27,70 +27,59 @@ import com.jettmarks.routes.client.ui.EventView;
  * Handles user activity for the main view when the map is still empty waiting
  * for a particular Bike Event to be chosen.
  * 
+ * This is only useful for the Desktop Landscape platform/orientation.
+ * 
  * @author jett
  */
 public class EmptyMapActivity extends DetailActivity {
-    private final ClientFactory clientFactory;
 
-    private EventView view;
+	private EventView view;
 
-    /**
-     * @param clientFactory
-     */
-    public EmptyMapActivity(ClientFactory clientFactory) {
-	super(clientFactory.getEventView(), "");
-	view = clientFactory.getEventView();
-	this.clientFactory = clientFactory;
-    }
+	/**
+	 * @param clientFactory
+	 */
+	public EmptyMapActivity(ClientFactory clientFactory) {
+		super(clientFactory.getEventView(), "");
+		view = clientFactory.getEventView();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.google.gwt.activity.shared.Activity#mayStop()
-     */
-    @Override
-    public String mayStop() {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	/** 
+	 * @see com.google.gwt.activity.shared.Activity#mayStop()
+	 */
+	@Override
+	public String mayStop() {
+		return null;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.google.gwt.activity.shared.Activity#onCancel()
-     */
-    @Override
-    public void onCancel() {
-	// TODO Auto-generated method stub
+	/** 
+	 * @see com.google.gwt.activity.shared.Activity#onCancel()
+	 */
+	@Override
+	public void onCancel() {
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.google.gwt.activity.shared.Activity#onStop()
-     */
-    @Override
-    public void onStop() {
-	// TODO Auto-generated method stub
+	/** 
+	 * @see com.google.gwt.activity.shared.Activity#onStop()
+	 */
+	@Override
+	public void onStop() {
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
-     * .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
-     */
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-	view.getHeaderTapHandlers().setText("Select an Event");
-	// view.getHeader().setText("Select an Event");
-	view.getForwardbuttonText().setText(">");
-	view.enableBackButton(false);
-	view.enableForwardButton(false);
-	panel.setWidget(view);
-    }
+	/** 
+	 * Kicks off the Empty Map View with title and buttons disabled.
+	 * 
+	 * @see
+	 * com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
+	 * .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+	 */
+	@Override
+	public void start(AcceptsOneWidget panel, EventBus eventBus) {
+		view.getHeaderTapHandlers().setText("Select an Event");
+		view.enableBackButton(false);
+		view.enableForwardButton(false);
+		panel.setWidget(view);
+	}
 
 }

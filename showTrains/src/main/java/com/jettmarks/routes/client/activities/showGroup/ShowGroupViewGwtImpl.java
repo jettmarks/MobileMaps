@@ -29,163 +29,131 @@ import com.jettmarks.routes.client.DetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.util.ScreenSize;
 
-//public class ShowGroupViewGwtImpl extends MapDetailViewGwtImpl implements ShowGroupView {
 public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements
-                                                           ShowGroupView
-{
-  private MTextBox mtbDescription = new MTextBox();
+		ShowGroupView {
+	private MTextBox mtbDescription = new MTextBox();
 
-  private MTextBox mtbDisplayGroupName = new MTextBox();
+	private MTextBox mtbDisplayGroupName = new MTextBox();
 
-  private MapWidget mapWidget;
+	private MapWidget mapWidget;
 
-  private HeaderButton viewDetailButton;
+	private HeaderButton viewDetailButton;
 
-  private static LatLngBounds mapBounds = null;
+	private static LatLngBounds mapBounds = null;
 
-  private static int currentZoomLevel = 13;
+	/**
+	 * @deprecated - Replaced by the EventSelectionView
+	 */
+	public ShowGroupViewGwtImpl() {
 
-  public ShowGroupViewGwtImpl()
-  {
+		// Take care of the header for navigation
+		viewDetailButton = new HeaderButton();
+		viewDetailButton.setForwardButton(true);
+		viewDetailButton.setText("Details");
+		headerPanel.setRightWidget(viewDetailButton);
 
-    // Take care of the header for navigation
-    viewDetailButton = new HeaderButton();
-    viewDetailButton.setForwardButton(true);
-    viewDetailButton.setText("Details");
-    headerPanel.setRightWidget(viewDetailButton);
+		LatLng atlanta = LatLng.newInstance(33.757787d, -84.359741d);
+		MapOptions opts = MapOptions.newInstance();
+		opts.setZoom(14);
+		opts.setCenter(atlanta);
+		opts.setMapTypeId(MapTypeId.ROADMAP);
+		opts.setScaleControl(true);
 
-    // LayoutPanel container = new LayoutPanel();
-    // main.add(container);
+		mapWidget = new MapWidget(opts);
+		mapWidget.setSize("100%", "100%");
+		ScreenSize.addRegistration(mapWidget);
 
-    LatLng atlanta = LatLng.newInstance(33.757787d, -84.359741d);
-    MapOptions opts = MapOptions.newInstance();
-    opts.setZoom(14);
-    opts.setCenter(atlanta);
-    opts.setMapTypeId(MapTypeId.ROADMAP);
-    opts.setScaleControl(true);
+		mapWidget.setHeight(ScreenSize.getHeight() - 40 + "px");
+		mapPanel.add(mapWidget);
 
-    mapWidget = new MapWidget(opts);
-    mapWidget.setSize("100%", "100%");
-    ScreenSize.addRegistration(mapWidget);
+	}
 
-    // mapWidget.setWidth(ScreenSize.getWidth()+"px");
-    mapWidget.setHeight(ScreenSize.getHeight() - 40 + "px");
-    // container.add(mapWidget);
-    mapPanel.add(mapWidget);
-    // scrollPanel.add(mapWidget);
-    // scrollPanel.setScrollingEnabledX(false);
-    // scrollPanel.setScrollingEnabledY(false);
+	/**
+	 * @return the description
+	 */
+	@Override
+	public String getDescription() {
+		return mtbDescription.getText();
+	}
 
-  }
+	/**
+	 * @param description
+	 *            the description to set
+	 */
+	@Override
+	public void setDescription(String description) {
+		mtbDescription.setText(description);
+		title.setHTML(description);
+	}
 
-  /**
-   * @return the description
-   */
-  @Override
-  public String getDescription()
-  {
-    return mtbDescription.getText();
-  }
+	/**
+	 * @return the displayGroupName
+	 */
+	@Override
+	public String getDisplayGroupName() {
+		return mtbDisplayGroupName.getText();
+	}
 
-  /**
-   * @param description
-   *          the description to set
-   */
-  @Override
-  public void setDescription(String description)
-  {
-    mtbDescription.setText(description);
-    title.setHTML(description);
-  }
+	/**
+	 * @param displayGroupName
+	 *            the displayGroupName to set
+	 */
+	@Override
+	public void setDisplayGroupName(String displayGroupName) {
+		mtbDisplayGroupName.setText(displayGroupName);
+	}
 
-  /**
-   * @return the displayGroupName
-   */
-  @Override
-  public String getDisplayGroupName()
-  {
-    return mtbDisplayGroupName.getText();
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jettmarks.routes.client.activities.showGroup.ShowGroupView#add(com.
+	 * jettmarks.routes.client.bean.Route)
+	 */
+	@Override
+	public void add(Route route) {
+		LatLngBounds routeBounds = route.getBounds();
+		if (mapBounds == null) {
+			mapBounds = routeBounds;
+		} else {
+			mapBounds.extend(routeBounds.getNorthEast());
+			mapBounds.extend(routeBounds.getSouthWest());
+		}
+		route.getPolyline().setMap(mapWidget);
+	}
 
-  /**
-   * @param displayGroupName
-   *          the displayGroupName to set
-   */
-  @Override
-  public void setDisplayGroupName(String displayGroupName)
-  {
-    mtbDisplayGroupName.setText(displayGroupName);
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jettmarks.routes.client.activities.showGroup.ShowGroupView#
+	 * getViewDetailButton()
+	 */
+	@Override
+	public HeaderButton getViewDetailButton() {
+		return viewDetailButton;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see
-   * com.jettmarks.routes.client.activities.showGroup.ShowGroupView#add(com.
-   * jettmarks.routes.client.bean.Route)
-   */
-  @Override
-  public void add(Route route)
-  {
-    LatLngBounds routeBounds = route.getBounds();
-    if (mapBounds == null)
-    {
-      mapBounds = routeBounds;
-    }
-    else
-    {
-      // if (!mapBounds.containsBounds(routeBounds))
-      mapBounds.extend(routeBounds.getNorthEast());
-      mapBounds.extend(routeBounds.getSouthWest());
-    }
-    // Tell observers the new route is here
-    // if (observer != null)
-    // {
-    // observer.onChange(getInstance(), route);
-    // }
-    route.getPolyline().setMap(mapWidget);
-  }
+	/**
+	 * Called when we want to fit all the routes within the visible portion of
+	 * the map.
+	 */
+	public void resize() {
+		if (mapBounds == null) {
+			return;
+		}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.jettmarks.routes.client.activities.showGroup.ShowGroupView#
-   * getViewDetailButton()
-   */
-  @Override
-  public HeaderButton getViewDetailButton()
-  {
-    return viewDetailButton;
-  }
+		mapWidget.fitBounds(mapBounds);
+	}
 
-  /**
-   * Called when we want to fit all the routes within the visible portion of the
-   * map.
-   */
-  public void resize()
-  {
-    if (mapBounds == null)
-    {
-      return;
-    }
-    // currentZoomLevel = mapBounds.;
-
-    mapWidget.fitBounds(mapBounds);
-    // LatLng center = mapBounds.getCenter();
-    // mapWidget.setCenter(center);
-    // mapWidget.setZoom(currentZoomLevel);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.jettmarks.routes.client.DetailView#getForwardbuttonText()
-   */
-  @Override
-  public HasText getForwardbuttonText()
-  {
-    // TODO Auto-generated method stub
-    return null;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jettmarks.routes.client.DetailView#getForwardbuttonText()
+	 */
+	@Override
+	public HasText getForwardbuttonText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
