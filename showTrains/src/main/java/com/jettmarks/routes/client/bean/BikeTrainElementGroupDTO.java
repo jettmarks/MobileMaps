@@ -17,7 +17,6 @@
  */
 package com.jettmarks.routes.client.bean;
 
-import com.jettmarks.routes.server.bean.BikeTrainElementGroup;
 
 
 /*
