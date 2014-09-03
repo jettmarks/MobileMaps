@@ -29,10 +29,6 @@ import com.jettmarks.routes.client.DetailViewGwtImpl;
 
 public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView
 {
-  private String description;
-
-  private String displayGroupName;
-
   private MTextBox mtbDescription = new MTextBox();
 
   private MTextBox mtbDisplayGroupName = new MTextBox();
@@ -75,12 +71,6 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView
 
     container.add(widgetList);
 
-    // TODO: put this back -- Map can't use it.
-    // scrollPanel.setScrollingEnabledX(false);
-    // scrollPanel.setWidget(container);
-    // workaround for android formfields jumping around when using
-    // -webkit-transform
-    // scrollPanel.setUsePos(MGWT.getOsDetection().isAndroid());
   }
 
   /**
@@ -99,7 +89,6 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView
   @Override
   public void setDescription(String description)
   {
-    this.description = description;
     mtbDescription.setText(description);
   }
 
@@ -119,7 +108,6 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView
   @Override
   public void setDisplayGroupName(String displayGroupName)
   {
-    this.displayGroupName = displayGroupName;
     mtbDisplayGroupName.setText(displayGroupName);
   }
 
@@ -132,15 +120,12 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView
     return saveButton;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
+  /** 
    * @see com.jettmarks.routes.client.DetailView#getForwardbuttonText()
    */
   @Override
   public HasText getForwardbuttonText()
   {
-    // TODO Auto-generated method stub
     return null;
   }
 
