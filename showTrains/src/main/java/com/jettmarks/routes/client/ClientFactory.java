@@ -19,7 +19,6 @@ import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 import com.jettmarks.routes.client.activities.DisplayGroupListView;
 import com.jettmarks.routes.client.activities.GetInvolvedView;
-import com.jettmarks.routes.client.activities.showGroup.ShowGroupView;
 import com.jettmarks.routes.client.forms.FormsView;
 import com.jettmarks.routes.client.ui.AboutView;
 import com.jettmarks.routes.client.ui.EventSelectionView;
@@ -36,8 +35,6 @@ public interface ClientFactory {
     public FormsView getFormsView();
 
     public DisplayGroupListView getDisplayGroupListView();
-
-    public ShowGroupView getShowGroupView();
 
     public EventView getEventView();
 

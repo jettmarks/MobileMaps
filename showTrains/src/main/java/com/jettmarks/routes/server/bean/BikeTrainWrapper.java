@@ -12,8 +12,6 @@ import com.jettmarks.routes.client.bean.BikeTrainDTO;
  */
 public class BikeTrainWrapper {
 
-	private static final long serialVersionUID = 1503581401854729905L;
-
 	/**
 	 * @param instance
 	 */

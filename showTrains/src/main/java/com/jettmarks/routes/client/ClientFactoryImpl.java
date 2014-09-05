@@ -21,8 +21,6 @@ import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.jettmarks.routes.client.activities.DisplayGroupListView;
 import com.jettmarks.routes.client.activities.DisplayGroupListViewGwtImpl;
 import com.jettmarks.routes.client.activities.GetInvolvedView;
-import com.jettmarks.routes.client.activities.showGroup.ShowGroupView;
-import com.jettmarks.routes.client.activities.showGroup.ShowGroupViewGwtImpl;
 import com.jettmarks.routes.client.forms.FormsView;
 import com.jettmarks.routes.client.forms.FormsViewGwtImpl;
 import com.jettmarks.routes.client.ui.AboutView;
@@ -50,8 +48,6 @@ public class ClientFactoryImpl implements ClientFactory {
     private FormsView formsView;
 
     private DisplayGroupListView displayGroupListView;
-
-    private ShowGroupView showGroupView;
 
     private EventView eventView;
 
@@ -101,16 +97,6 @@ public class ClientFactoryImpl implements ClientFactory {
 	return displayGroupListView;
     }
 
-    /**
-     * @see com.jettmarks.routes.client.ClientFactory#getShowGroupView()
-     */
-    @Override
-    public ShowGroupView getShowGroupView() {
-	if (showGroupView == null) {
-	    showGroupView = new ShowGroupViewGwtImpl();
-	}
-	return showGroupView;
-    }
 
     /*
      * (non-Javadoc)

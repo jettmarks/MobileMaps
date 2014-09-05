@@ -22,7 +22,6 @@ import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 
-import com.google.gwt.maps.client.base.LatLng;
 import com.jettmarks.gmaps.encoder.ParseGPX;
 import com.jettmarks.gmaps.encoder.PolylineEncoder;
 import com.jettmarks.gmaps.encoder.Track;
@@ -91,7 +90,7 @@ public class GetRouteImpl extends RemoteServiceServletSeparatePaths implements G
     }
     Track track = parser.getTrackFromGPX(rawTrack);
     PolylineEncoder encoder = new PolylineEncoder();
-    HashMap hash = encoder.dpEncode(track);
+    HashMap<String, String> hash = encoder.dpEncode(track);
     
     EncodedTrack encodedTrack = new EncodedTrack();
     int pointsCount = track.getTrackpoints().size();

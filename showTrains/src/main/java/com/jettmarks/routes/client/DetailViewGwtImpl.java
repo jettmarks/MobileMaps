@@ -1,8 +1,6 @@
 package com.jettmarks.routes.client;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.AbsolutePanel;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
