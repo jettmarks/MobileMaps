@@ -26,7 +26,6 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
@@ -40,9 +39,9 @@ import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.dialog.TabletPortraitOverlay;
 import com.googlecode.mgwt.ui.client.layout.MasterRegionHandler;
 import com.googlecode.mgwt.ui.client.layout.OrientationRegionHandler;
-import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.jettmarks.routes.client.css.AppBundle;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
+import com.jettmarks.routes.client.place.HomePlace;
 
 /**
  * Upon detection of tablet/desktop or phone, present either a PhoneDisplay or a
@@ -66,7 +65,7 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 		historyMapper);
 
 	historyHandler.register(clientFactory.getPlaceController(),
-		clientFactory.getEventBus(), new EventSelectionPlace());
+		clientFactory.getEventBus(), new HomePlace());
 
 	if ((MGWT.getOsDetection().isTablet())) {
 	    // very nasty workaround because GWT does not correctly support
@@ -113,6 +112,7 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 	new MasterRegionHandler(clientFactory.getEventBus(), "nav",
 		tabletPortraitOverlay);
 
+	// Nav Container
 	ActivityMapper navActivityMapper = new TabletNavActivityMapper(
 		clientFactory);
 
@@ -126,6 +126,7 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 
 	RootPanel.get().add(navContainer);
 
+	// Main Container
 	SimplePanel mainContainer = new SimplePanel();
 	mainContainer.getElement().setId("main");
 	AnimatableDisplay mainDisplay = GWT.create(AnimatableDisplay.class);
@@ -138,9 +139,6 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 	AnimatingActivityManager mainActivityManager = new AnimatingActivityManager(
 		tabletMainActivityMapper, tabletMainAnimationMapper,
 		clientFactory.getEventBus());
-
-	LayoutPanel layoutPanel = new LayoutPanel();
-	layoutPanel.add(new Label("Here it is"));
 
 	mainActivityManager.setDisplay(mainDisplay);
 	mainContainer.setWidget(mainDisplay);
@@ -158,7 +156,7 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 
 	    @Override
 	    public void onUncaughtException(Throwable e) {
-		// TODO put in your own meaninigful handler
+		// TODO put in your own meaningful handler
 		Window.alert("uncaught: " + e.getMessage());
 		e.printStackTrace();
 
