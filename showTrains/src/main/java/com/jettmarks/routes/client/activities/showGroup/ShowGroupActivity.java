@@ -50,30 +50,20 @@ public class ShowGroupActivity extends DetailActivity {
     private static MapActivity mapActivity = null;
 
     public ShowGroupActivity(Place newPlace, ClientFactory clientFactory) {
-	super(clientFactory.getShowGroupView(), "nav");
-	// if (newPlace instanceof ShowGroupPlace) {
-	// ShowGroupPlace place = (ShowGroupPlace)newPlace;
-	// String description = place.getDescription();
-	// String displayGroupName = place.getDisplayGroupName();
-	// ShowGroupView view = clientFactory.getShowGroupView();
-	// view.setDisplayGroupName(displayGroupName);
-	// view.setDescription(description);
-	// } else if (newPlace instanceof EventPlace){
-	if (newPlace instanceof EventPlace) {
-	    EventPlace place = (EventPlace) newPlace;
-	    String description = place.getDescription();
-	    String displayGroupName = place.getDisplayGroupName();
-	    view = clientFactory.getEventView();
-	    view.setDisplayGroupName(displayGroupName);
-	    view.setDescription(description);
-	    DisplayGroupDTO displayGroup = new DisplayGroupDTO();
-	    displayGroup.setDisplayName(displayGroupName);
-	    displayGroup.setDescription(description);
-	    displayGroup.setEventDate(place.getEventDate());
-	    routeContainer = RouteContainerFactory.getRouteContainer();
-	    routeContainer.setView(view);
-	    routeContainer.setCurrentDisplayGroup(displayGroup);
-	}
+	super(clientFactory.getEventView(), "nav");
+	EventPlace place = (EventPlace) newPlace;
+	String description = place.getDescription();
+	String displayGroupName = place.getDisplayGroupName();
+	view = clientFactory.getEventView();
+	view.setDisplayGroupName(displayGroupName);
+	view.setDescription(description);
+	DisplayGroupDTO displayGroup = new DisplayGroupDTO();
+	displayGroup.setDisplayName(displayGroupName);
+	displayGroup.setDescription(description);
+	displayGroup.setEventDate(place.getEventDate());
+	routeContainer = RouteContainerFactory.getRouteContainer();
+	routeContainer.setView(view);
+	routeContainer.setCurrentDisplayGroup(displayGroup);
 	this.clientFactory = clientFactory;
 	MGWT.addOrientationChangeHandler(new OrientationChangeHandler() {
 
@@ -98,9 +88,8 @@ public class ShowGroupActivity extends DetailActivity {
 	    // We'll be loading new records, so start the progress bar
 	    RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory
 		    .getRouteContainer();
-	    rcImpl.openProgressBar(null); // Will be re-opened later with the
-	    // proper
-	    // counts
+	    // Will be re-opened later with the proper counts
+	    rcImpl.openProgressBar(null);
 
 	    view.showMapTab();
 	    mapActivity = new MapActivity(view, clientFactory);
