@@ -27,8 +27,10 @@ import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.NavLink;
 import com.jettmarks.routes.client.place.AboutPlace;
-import com.jettmarks.routes.client.place.EventSelectionPlace;
+import com.jettmarks.routes.client.place.ConductPlace;
+import com.jettmarks.routes.client.place.FindRoutePlace;
 import com.jettmarks.routes.client.place.GetInvolvedPlace;
+import com.jettmarks.routes.client.place.ResourcesPlace;
 import com.jettmarks.routes.client.ui.HomeView;
 import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
 
@@ -105,10 +107,10 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
      */
     private List<NavLink> getLinks() {
 	List<NavLink> links = new ArrayList<NavLink>();
-	links.add(new NavLink("Find a Bike Train", new EventSelectionPlace()));
-	links.add(new NavLink("Become a Conductor"));
+	links.add(new NavLink("Find a Bike Train", new FindRoutePlace()));
+	links.add(new NavLink("Become a Conductor", new ConductPlace()));
 	links.add(new NavLink("Get Involved", new GetInvolvedPlace()));
-	links.add(new NavLink("Resources"));
+	links.add(new NavLink("Resources", new ResourcesPlace()));
 	links.add(new NavLink("About", new AboutPlace()));
 	return links;
     }

@@ -6,9 +6,9 @@ import com.googlecode.mgwt.mvp.client.AnimationMapper;
 
 public class TabletNavAnimationMapper implements AnimationMapper {
 
-	@Override
-	public Animation getAnimation(Place oldPlace, Place newPlace) {
-		return Animation.SLIDE;
-	}
+    @Override
+    public Animation getAnimation(Place oldPlace, Place newPlace) {
+	return Animation.POP;
+    }
 
 }

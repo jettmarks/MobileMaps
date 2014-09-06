@@ -37,7 +37,7 @@ public class AboutViewGwtImpl extends NavLinkViewGwtImpl implements AboutView {
 	VerticalPanel messagePanel = new VerticalPanel();
 
 	aboutMessage
-		.setText("<p>Atlanta Bike Trains is a Volunteer Program of the "
+		.setHTML("<p>Atlanta Bike Trains is a Volunteer Program of the "
 			+ "Atlanta Bicycle Coalition.</p>\n"
 			+ "<p>ABC's mission is to improve the "
 			+ "livability of our city through making it safer, more "

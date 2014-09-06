@@ -23,6 +23,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -40,8 +41,10 @@ import com.googlecode.mgwt.ui.client.dialog.TabletPortraitOverlay;
 import com.googlecode.mgwt.ui.client.layout.MasterRegionHandler;
 import com.googlecode.mgwt.ui.client.layout.OrientationRegionHandler;
 import com.jettmarks.routes.client.css.AppBundle;
+import com.jettmarks.routes.client.place.AboutPlace;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.HomePlace;
+import com.jettmarks.routes.client.place.PlaceClassifier;
 
 /**
  * Upon detection of tablet/desktop or phone, present either a PhoneDisplay or a
@@ -193,9 +196,20 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 
 	@Override
 	public void onOrientationChanged(OrientationChangeEvent event) {
+	    PlaceController pc = clientFactory.getPlaceController();
+	    Place currentPlace = pc.getWhere();
 	    // Window.alert("We are hitting this");
-	    Place place = new EventSelectionPlaceOrientationChange();
-	    clientFactory.getPlaceController().goTo(place);
+	    switch (PlaceClassifier.getPlaceType(currentPlace)) {
+	    case MAP:
+		Place place = new EventSelectionPlaceOrientationChange();
+		clientFactory.getPlaceController().goTo(place);
+		break;
+	    case OTHER:
+		break;
+	    default:
+	    }
+	    if (currentPlace instanceof AboutPlace)
+		return;
 	}
 
     }

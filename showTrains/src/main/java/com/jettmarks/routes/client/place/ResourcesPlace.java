@@ -26,8 +26,7 @@ import com.google.gwt.place.shared.PlaceTokenizer;
  * @author jett
  */
 public class ResourcesPlace extends Place {
-    public static class ResourcesPlaceTokenizer implements
-	    PlaceTokenizer<ResourcesPlace> {
+    public static class Tokenizer implements PlaceTokenizer<ResourcesPlace> {
 
 	@Override
 	public ResourcesPlace getPlace(String token) {

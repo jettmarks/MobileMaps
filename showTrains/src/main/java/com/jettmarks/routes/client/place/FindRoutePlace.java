@@ -26,8 +26,7 @@ import com.google.gwt.place.shared.PlaceTokenizer;
  * @author jett
  */
 public class FindRoutePlace extends Place {
-    public static class FindRoutePlaceTokenizer implements
-	    PlaceTokenizer<FindRoutePlace> {
+    public static class Tokenizer implements PlaceTokenizer<FindRoutePlace> {
 
 	@Override
 	public FindRoutePlace getPlace(String token) {
