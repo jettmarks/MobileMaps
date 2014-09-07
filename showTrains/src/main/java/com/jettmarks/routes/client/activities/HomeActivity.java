@@ -82,7 +82,7 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
 	super.start(panel, eventBus);
 	if (view == null) {
 	    view = clientFactory.getHomeView();
-	    view.getHeader().setText("Home");
+	    view.getHeader().setText("ABC Bike Trains - Home");
 	    List<NavLink> links = getLinks();
 	    view.getNavList().render(getLinks());
 	    view.getNavList().addCellSelectedHandler(

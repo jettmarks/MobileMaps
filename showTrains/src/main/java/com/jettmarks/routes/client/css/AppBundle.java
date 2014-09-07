@@ -22,4 +22,10 @@ public interface AppBundle extends ClientBundle {
 
     @Source("headerButtonBar.css")
     HeaderButtonBarCss headerButtonBarCss();
+
+    /**
+     * @return
+     */
+    @Source("home.png")
+    ImageResource getButtonBarHomeImage();
 }

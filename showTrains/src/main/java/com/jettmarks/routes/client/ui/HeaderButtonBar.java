@@ -26,11 +26,11 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.ui.client.MGWT;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowRightButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
+import com.googlecode.mgwt.ui.client.widget.buttonbar.InfoButton;
 import com.jettmarks.routes.client.css.AppBundle;
+import com.jettmarks.routes.client.ui.widget.HomeButton;
 
 /**
  * Replacement for ButtonBar where I can better manage the width of the central
@@ -45,8 +45,10 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
     private FlowPanel main;
     protected final HeaderButtonBarCss css;
 
-    private ArrowLeftButton leftButton = new ArrowLeftButton();
-    private ArrowRightButton rightButton = new ArrowRightButton();
+    private ButtonBarButtonBase leftButton = new HomeButton();
+    // private ArrowLeftButton leftButton = new ArrowLeftButton();
+    private ButtonBarButtonBase rightButton = new InfoButton();
+    // private ButtonBarButtonBase rightButton = new ArrowRightButton();
     private HTML title;
     private Widget leftPlaceholder = new ButtonBarButtonBase(null);
     private Widget titlePlaceholder = new HTML("   ");
@@ -169,7 +171,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
     /**
      * @return the leftButton
      */
-    public ArrowLeftButton getLeftButton() {
+    public ButtonBarButtonBase getLeftButton() {
 	return leftButton;
     }
 
@@ -177,14 +179,14 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
      * @param leftButton
      *            the leftButton to set
      */
-    public void setLeftButton(ArrowLeftButton leftButton) {
+    public void setLeftButton(ButtonBarButtonBase leftButton) {
 	this.leftButton = leftButton;
     }
 
     /**
      * @return the rightButton
      */
-    public ArrowRightButton getRightButton() {
+    public ButtonBarButtonBase getRightButton() {
 	return rightButton;
     }
 
@@ -192,7 +194,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
      * @param rightButton
      *            the rightButton to set
      */
-    public void setRightButton(ArrowRightButton rightButton) {
+    public void setRightButton(ButtonBarButtonBase rightButton) {
 	this.rightButton = rightButton;
     }
 
