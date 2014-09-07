@@ -52,7 +52,6 @@ public class NavLinkViewGwtImpl implements NavLinkView {
 	headerPanel.setTitle(title);
 	imagePanel = new VerticalPanel();
 	imagePanel.addStyleName("logo-image");
-	// imagePanel.setHeight("246px");
 	scrollPanel = new ScrollPanel();
 	linkCellList = new CellList<NavLink>(new NavLinkCell());
 	main.add(headerPanel);

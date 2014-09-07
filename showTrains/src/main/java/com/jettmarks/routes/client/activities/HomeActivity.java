@@ -42,6 +42,7 @@ import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
 public class HomeActivity extends MGWTAbstractActivity implements Activity {
 
     private final ClientFactory clientFactory;
+    private static HomeView view = null;
 
     /**
      * @param cf
@@ -93,12 +94,14 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
-	final HomeView view = clientFactory.getHomeView();
-	view.getHeader().setText("Home");
-	List<NavLink> links = getLinks();
-	view.getNavList().render(getLinks());
-	view.getNavList().addCellSelectedHandler(
-		new NavLinkSelectedHandler(links, clientFactory));
+	if (view == null) {
+	    view = clientFactory.getHomeView();
+	    view.getHeader().setText("Home");
+	    List<NavLink> links = getLinks();
+	    view.getNavList().render(getLinks());
+	    view.getNavList().addCellSelectedHandler(
+		    new NavLinkSelectedHandler(links, clientFactory));
+	}
 	panel.setWidget(view);
     }
 
