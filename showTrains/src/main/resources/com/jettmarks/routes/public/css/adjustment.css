@@ -2,5 +2,15 @@
 
 /* Override of Button Bar */
 .mgwt-ButtonBar {
-	height : 39px;
+	height : 40px;
+	border-bottom: 1px solid #797F90;
+	border-top: none;
+}
+
+.GCVPG1WDAO-navLink {
+	background: url("/bikeTrains/images/logoWithRays_470x246.png") no-repeat scroll 0 0 #d5dc50;
+}
+
+.logo-image {
+	margin-bottom : 240px;
 }

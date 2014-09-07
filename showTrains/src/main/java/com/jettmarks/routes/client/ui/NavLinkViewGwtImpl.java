@@ -19,6 +19,7 @@ package com.jettmarks.routes.client.ui;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
@@ -31,11 +32,12 @@ import com.jettmarks.routes.client.NavLink;
  * @author jett
  */
 public class NavLinkViewGwtImpl implements NavLinkView {
-    public LayoutPanel main;
-    public HTML title;
-    public HeaderButtonBar headerPanel;
-    public CellList<NavLink> linkCellList;
-    public ScrollPanel scrollPanel;
+    protected LayoutPanel main;
+    protected HTML title;
+    protected HeaderButtonBar headerPanel;
+    protected CellList<NavLink> linkCellList;
+    protected ScrollPanel scrollPanel;
+    protected VerticalPanel imagePanel;
 
     public NavLinkViewGwtImpl(CellList<NavLink> linkCellList) {
 	this.linkCellList = linkCellList;
@@ -43,12 +45,18 @@ public class NavLinkViewGwtImpl implements NavLinkView {
 
     public NavLinkViewGwtImpl() {
 	main = new LayoutPanel();
+	main.addStyleDependentName("navLink");
 	title = new HTML();
 	headerPanel = new HeaderButtonBar();
+	headerPanel.addStyleDependentName("navLink");
 	headerPanel.setTitle(title);
+	imagePanel = new VerticalPanel();
+	imagePanel.addStyleName("logo-image");
+	// imagePanel.setHeight("246px");
 	scrollPanel = new ScrollPanel();
 	linkCellList = new CellList<NavLink>(new NavLinkCell());
 	main.add(headerPanel);
+	main.add(imagePanel);
 	main.add(scrollPanel);
     }
 
