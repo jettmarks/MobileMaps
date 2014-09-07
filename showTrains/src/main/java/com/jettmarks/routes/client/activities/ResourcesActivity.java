@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 19, 2014
+ * Created Sep 7, 2014
  */
 package com.jettmarks.routes.client.activities;
 
@@ -26,28 +26,24 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.NavLink;
-import com.jettmarks.routes.client.place.AboutPlace;
 import com.jettmarks.routes.client.place.ConductorPlace;
-import com.jettmarks.routes.client.place.FindRoutePlace;
-import com.jettmarks.routes.client.place.GetInvolvedPlace;
-import com.jettmarks.routes.client.place.ResourcesPlace;
-import com.jettmarks.routes.client.ui.HomeView;
 import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
+import com.jettmarks.routes.client.ui.ResourcesView;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class HomeActivity extends MGWTAbstractActivity implements Activity {
+public class ResourcesActivity extends MGWTAbstractActivity implements Activity {
 
-    private final ClientFactory clientFactory;
-    private static HomeView view = null;
+    private ResourcesView view;
+    private ClientFactory clientFactory;
 
     /**
      * @param cf
      */
-    public HomeActivity(ClientFactory cf) {
+    public ResourcesActivity(ClientFactory cf) {
 	this.clientFactory = cf;
     }
 
@@ -81,8 +77,8 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
 	if (view == null) {
-	    view = clientFactory.getHomeView();
-	    view.getHeader().setText("Home");
+	    view = clientFactory.getResourcesView();
+	    view.getHeader().setText("Resources");
 	    List<NavLink> links = getLinks();
 	    view.getNavList().render(getLinks());
 	    view.getNavList().addCellSelectedHandler(
@@ -96,11 +92,18 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
      */
     private List<NavLink> getLinks() {
 	List<NavLink> links = new ArrayList<NavLink>();
-	links.add(new NavLink("Find a Bike Train", new FindRoutePlace()));
+	// links.add(new NavLink("ABC Programs running Bike Trains",
+	// "http://atlantabike.org/BikeTrainPrograms"));
+
+	links.add(new NavLink("Atlanta Bike Challenge",
+		"https://www.lovetoride.net/atlanta/user_sessions/new?a=1&locale=en-US"));
 	links.add(new NavLink("Become a Conductor", new ConductorPlace()));
-	links.add(new NavLink("Get Involved", new GetInvolvedPlace()));
-	links.add(new NavLink("Resources", new ResourcesPlace()));
-	links.add(new NavLink("About", new AboutPlace()));
+	links.add(new NavLink("Bike Buddies",
+		"http://www.atlantabike.org/content/Bike-Buddies-here-help"));
+	links.add(new NavLink("Bike Commuters of Atlanta - Facebook Group",
+		"https://www.facebook.com/groups/bikecommutersatl/"));
+	links.add(new NavLink("Bike Suitability Maps",
+		"http://www.atlantabike.org/DMAtlantaSuitabilityMap"));
 	return links;
     }
 

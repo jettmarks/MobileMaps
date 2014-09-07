@@ -20,18 +20,24 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.jettmarks.routes.client.activities.DisplayGroupListView;
 import com.jettmarks.routes.client.activities.DisplayGroupListViewGwtImpl;
-import com.jettmarks.routes.client.activities.GetInvolvedView;
 import com.jettmarks.routes.client.forms.FormsView;
 import com.jettmarks.routes.client.forms.FormsViewGwtImpl;
 import com.jettmarks.routes.client.ui.AboutView;
 import com.jettmarks.routes.client.ui.AboutViewGwtImpl;
+import com.jettmarks.routes.client.ui.ConductorView;
+import com.jettmarks.routes.client.ui.ConductorViewGwtImpl;
 import com.jettmarks.routes.client.ui.EventSelectionView;
 import com.jettmarks.routes.client.ui.EventSelectionViewGwtImpl;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.EventViewTabbedGwtImpl;
+import com.jettmarks.routes.client.ui.FindRouteView;
+import com.jettmarks.routes.client.ui.FindRouteViewGwtImpl;
+import com.jettmarks.routes.client.ui.GetInvolvedView;
 import com.jettmarks.routes.client.ui.GetInvolvedViewGwtImpl;
 import com.jettmarks.routes.client.ui.HomeView;
 import com.jettmarks.routes.client.ui.HomeViewGwtImpl;
+import com.jettmarks.routes.client.ui.ResourcesView;
+import com.jettmarks.routes.client.ui.ResourcesViewGwtImpl;
 import com.jettmarks.routes.client.ui.RouteDetailsView;
 import com.jettmarks.routes.client.ui.RouteDetailsViewGwtImpl;
 
@@ -60,6 +66,12 @@ public class ClientFactoryImpl implements ClientFactory {
     private AboutView aboutView;
 
     private GetInvolvedView getInvolvedView;
+
+    private FindRouteView findRouteView;
+
+    private ConductorView conductorView;
+
+    private ResourcesView resourcesView;
 
     public ClientFactoryImpl() {
 	eventBus = new SimpleEventBus();
@@ -97,10 +109,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	return displayGroupListView;
     }
 
-
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.jettmarks.routes.client.ClientFactory#getEventView()
      */
     @Override
@@ -111,9 +120,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	return eventView;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.jettmarks.routes.client.ClientFactory#getRouteDetailsView()
      */
     @Override
@@ -124,9 +131,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	return routeDetailsView;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.jettmarks.routes.client.ClientFactory#getEventSelectionView()
      */
     @Override
@@ -137,9 +142,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	return eventSelectionView;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.jettmarks.routes.client.ClientFactory#getHomeView()
      */
     @Override
@@ -150,9 +153,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	return homeView;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.jettmarks.routes.client.ClientFactory#getAboutView()
      */
     @Override
@@ -163,9 +164,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	return aboutView;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.jettmarks.routes.client.ClientFactory#getGetInvolvedView()
      */
     @Override
@@ -174,6 +173,41 @@ public class ClientFactoryImpl implements ClientFactory {
 	    getInvolvedView = new GetInvolvedViewGwtImpl();
 	}
 	return getInvolvedView;
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.ClientFactory#getFindRouteView()
+     */
+    @Override
+    public FindRouteView getFindRouteView() {
+	if (findRouteView == null) {
+	    findRouteView = new FindRouteViewGwtImpl();
+	}
+	return findRouteView;
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.ClientFactory#getConductorView()
+     */
+    @Override
+    public ConductorView getConductorView() {
+	if (conductorView == null) {
+	    conductorView = new ConductorViewGwtImpl();
+	}
+	return conductorView;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.jettmarks.routes.client.ClientFactory#getResourcesView()
+     */
+    @Override
+    public ResourcesView getResourcesView() {
+	if (resourcesView == null) {
+	    resourcesView = new ResourcesViewGwtImpl();
+	}
+	return resourcesView;
     }
 
 }

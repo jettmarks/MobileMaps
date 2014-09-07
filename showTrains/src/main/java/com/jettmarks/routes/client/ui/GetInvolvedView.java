@@ -17,30 +17,12 @@
  */
 package com.jettmarks.routes.client.ui;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HTML;
 
 /**
  * Description.
- * 
+ *
  * @author jett
  */
-public class GetInvolvedViewGwtImpl extends NavLinkViewGwtImpl implements
-	GetInvolvedView {
+public interface GetInvolvedView extends NavLinkView {
 
-    private HTML message = new HTML();
-
-    public GetInvolvedViewGwtImpl() {
-
-	// Add in the relevant CSS for this view
-	DOM.setElementAttribute(main.getElement(), "id", "about-view");
-	scrollPanel.addStyleDependentName("message");
-
-	message.setHTML("Atlanta Bike Trains are dependent on our members and "
-		+ "volunteers to make Atlanta a Bicycle Friendly City."
-		+ " Here's how you can help.");
-	main.add(message);
-	scrollPanel.add(linkCellList);
-	scrollPanel.refresh();
-    }
 }

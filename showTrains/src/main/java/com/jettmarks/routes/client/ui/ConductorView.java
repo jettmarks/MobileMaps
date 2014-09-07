@@ -13,30 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 19, 2014
+ * Created Aug 20, 2014
  */
-package com.jettmarks.routes.client.place;
-
-import com.google.gwt.place.shared.Place;
-import com.google.gwt.place.shared.PlaceTokenizer;
+package com.jettmarks.routes.client.ui;
 
 /**
  * Description.
- * 
+ *
  * @author jett
  */
-public class ConductPlace extends Place {
-    public static class Tokenizer implements PlaceTokenizer<ConductPlace> {
+public interface ConductorView extends NavLinkView {
 
-	@Override
-	public ConductPlace getPlace(String token) {
-	    return new ConductPlace();
-	}
-
-	@Override
-	public String getToken(ConductPlace place) {
-	    return "conduct";
-	}
-
-    }
 }

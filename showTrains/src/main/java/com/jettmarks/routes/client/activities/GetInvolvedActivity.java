@@ -26,7 +26,8 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.NavLink;
-import com.jettmarks.routes.client.place.ConductPlace;
+import com.jettmarks.routes.client.place.ConductorPlace;
+import com.jettmarks.routes.client.ui.GetInvolvedView;
 import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
 
 /**
@@ -71,7 +72,7 @@ public class GetInvolvedActivity extends MGWTAbstractActivity implements
      */
     private List<NavLink> getLinks() {
 	List<NavLink> links = new ArrayList<NavLink>();
-	links.add(new NavLink("Create a Bike Train", new ConductPlace()));
+	links.add(new NavLink("Create a Bike Train", new ConductorPlace()));
 	links.add(new NavLink("Become a Bike Buddy",
 		"http://atlantabike.org/content/Bike-Buddies-here-help"));
 	links.add(new NavLink("Volunteer",

@@ -26,12 +26,10 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.NavLink;
-import com.jettmarks.routes.client.place.AboutPlace;
-import com.jettmarks.routes.client.place.ConductorPlace;
-import com.jettmarks.routes.client.place.FindRoutePlace;
-import com.jettmarks.routes.client.place.GetInvolvedPlace;
-import com.jettmarks.routes.client.place.ResourcesPlace;
-import com.jettmarks.routes.client.ui.HomeView;
+import com.jettmarks.routes.client.bean.DisplayGroupDTO;
+import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.place.EventSelectionPlace;
+import com.jettmarks.routes.client.ui.FindRouteView;
 import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
 
 /**
@@ -39,15 +37,15 @@ import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
  * 
  * @author jett
  */
-public class HomeActivity extends MGWTAbstractActivity implements Activity {
+public class FindRouteActivity extends MGWTAbstractActivity implements Activity {
 
     private final ClientFactory clientFactory;
-    private static HomeView view = null;
+    private static FindRouteView view = null;
 
     /**
      * @param cf
      */
-    public HomeActivity(ClientFactory cf) {
+    public FindRouteActivity(ClientFactory cf) {
 	this.clientFactory = cf;
     }
 
@@ -81,8 +79,8 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
 	if (view == null) {
-	    view = clientFactory.getHomeView();
-	    view.getHeader().setText("Home");
+	    view = clientFactory.getFindRouteView();
+	    view.getHeader().setText("Find a Bike Train");
 	    List<NavLink> links = getLinks();
 	    view.getNavList().render(getLinks());
 	    view.getNavList().addCellSelectedHandler(
@@ -96,11 +94,14 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
      */
     private List<NavLink> getLinks() {
 	List<NavLink> links = new ArrayList<NavLink>();
-	links.add(new NavLink("Find a Bike Train", new FindRoutePlace()));
-	links.add(new NavLink("Become a Conductor", new ConductorPlace()));
-	links.add(new NavLink("Get Involved", new GetInvolvedPlace()));
-	links.add(new NavLink("Resources", new ResourcesPlace()));
-	links.add(new NavLink("About", new AboutPlace()));
+	DisplayGroupDTO standingRoutes = new DisplayGroupDTO("btStanding");
+	standingRoutes.setDescription("Standing Bike Trains");
+	links.add(new NavLink("Join an upcoming Event",
+		new EventSelectionPlace()));
+	links.add(new NavLink("Accompany a 'Standing' Route", new EventPlace(
+		standingRoutes)));
+	links.add(new NavLink("Bike Buddies",
+		"http://www.atlantabike.org/content/Bike-Buddies-here-help"));
 	return links;
     }
 

@@ -13,34 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 20, 2014
+ * Created Aug 19, 2014
  */
 package com.jettmarks.routes.client.ui;
 
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Widget;
+import com.googlecode.mgwt.ui.client.widget.CellList;
+import com.jettmarks.routes.client.NavLink;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class GetInvolvedViewGwtImpl extends NavLinkViewGwtImpl implements
-	GetInvolvedView {
+public interface FindRouteView extends NavLinkView {
 
-    private HTML message = new HTML();
+    public CellList<NavLink> getNavList();
 
-    public GetInvolvedViewGwtImpl() {
+    public Widget asWidget();
 
-	// Add in the relevant CSS for this view
-	DOM.setElementAttribute(main.getElement(), "id", "about-view");
-	scrollPanel.addStyleDependentName("message");
-
-	message.setHTML("Atlanta Bike Trains are dependent on our members and "
-		+ "volunteers to make Atlanta a Bicycle Friendly City."
-		+ " Here's how you can help.");
-	main.add(message);
-	scrollPanel.add(linkCellList);
-	scrollPanel.refresh();
-    }
+    public HasText getHeader();
 }

@@ -13,17 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 20, 2014
+ * Created Aug 19, 2014
  */
-package com.jettmarks.routes.client.activities;
+package com.jettmarks.routes.client.ui;
 
-import com.jettmarks.routes.client.ui.NavLinkView;
+import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Widget;
+import com.googlecode.mgwt.ui.client.widget.CellList;
+import com.jettmarks.routes.client.NavLink;
 
 /**
  * Description.
- *
+ * 
  * @author jett
  */
-public interface GetInvolvedView extends NavLinkView {
+public interface ResourcesView extends NavLinkView {
 
+    public CellList<NavLink> getNavList();
+
+    public Widget asWidget();
+
+    public HasText getHeader();
 }

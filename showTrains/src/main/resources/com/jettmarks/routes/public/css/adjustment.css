@@ -14,3 +14,8 @@
 .logo-image {
 	margin-bottom : 240px;
 }
+
+.mgwt-ScrollPanel-message {
+	margin : 28px;
+	color : #1B5767;
+}

@@ -49,7 +49,7 @@ public class PlaceClassifier {
 	    return PlaceType.OTHER;
 	if (place instanceof AboutPlace)
 	    return PlaceType.OTHER;
-	if (place instanceof ConductPlace)
+	if (place instanceof ConductorPlace)
 	    return PlaceType.OTHER;
 	if (place instanceof ResourcesPlace)
 	    return PlaceType.OTHER;

@@ -13,49 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Aug 19, 2014
+ * Created Aug 20, 2014
  */
 package com.jettmarks.routes.client.activities;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
-import com.jettmarks.routes.client.NavLink;
-import com.jettmarks.routes.client.place.AboutPlace;
-import com.jettmarks.routes.client.place.ConductorPlace;
-import com.jettmarks.routes.client.place.FindRoutePlace;
-import com.jettmarks.routes.client.place.GetInvolvedPlace;
-import com.jettmarks.routes.client.place.ResourcesPlace;
-import com.jettmarks.routes.client.ui.HomeView;
-import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
+import com.jettmarks.routes.client.ui.ConductorView;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class HomeActivity extends MGWTAbstractActivity implements Activity {
+public class ConductorActivity extends MGWTAbstractActivity implements Activity {
 
     private final ClientFactory clientFactory;
-    private static HomeView view = null;
 
     /**
-     * @param cf
+     * @param clientFactory
      */
-    public HomeActivity(ClientFactory cf) {
+    public ConductorActivity(ClientFactory cf) {
 	this.clientFactory = cf;
     }
 
-    /**
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.gwt.activity.shared.Activity#mayStop()
      */
     @Override
     public String mayStop() {
+	// TODO Auto-generated method stub
 	return null;
     }
 
@@ -64,6 +56,8 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
      */
     @Override
     public void onCancel() {
+	// TODO Auto-generated method stub
+
     }
 
     /**
@@ -71,6 +65,8 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
      */
     @Override
     public void onStop() {
+	// TODO Auto-generated method stub
+
     }
 
     /**
@@ -80,28 +76,9 @@ public class HomeActivity extends MGWTAbstractActivity implements Activity {
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
-	if (view == null) {
-	    view = clientFactory.getHomeView();
-	    view.getHeader().setText("Home");
-	    List<NavLink> links = getLinks();
-	    view.getNavList().render(getLinks());
-	    view.getNavList().addCellSelectedHandler(
-		    new NavLinkSelectedHandler(links, clientFactory));
-	}
+	final ConductorView view = clientFactory.getConductorView();
+	view.getHeader().setText("Serve as a Conductor");
 	panel.setWidget(view);
-    }
-
-    /**
-     * @return
-     */
-    private List<NavLink> getLinks() {
-	List<NavLink> links = new ArrayList<NavLink>();
-	links.add(new NavLink("Find a Bike Train", new FindRoutePlace()));
-	links.add(new NavLink("Become a Conductor", new ConductorPlace()));
-	links.add(new NavLink("Get Involved", new GetInvolvedPlace()));
-	links.add(new NavLink("Resources", new ResourcesPlace()));
-	links.add(new NavLink("About", new AboutPlace()));
-	return links;
     }
 
 }
