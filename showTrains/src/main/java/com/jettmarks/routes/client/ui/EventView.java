@@ -71,4 +71,6 @@ public interface EventView extends DetailView {
 
     public abstract HTML getHeaderTapHandlers();
 
+    public abstract HasTapHandlers getHomeButton();
+
 }

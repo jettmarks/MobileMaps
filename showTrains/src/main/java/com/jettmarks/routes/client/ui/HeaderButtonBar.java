@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.ui.client.MGWT;
+import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
 import com.googlecode.mgwt.ui.client.widget.buttonbar.InfoButton;
@@ -45,8 +46,8 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
     private FlowPanel main;
     protected final HeaderButtonBarCss css;
 
-    private ButtonBarButtonBase leftButton = new HomeButton();
-    // private ArrowLeftButton leftButton = new ArrowLeftButton();
+    // private ButtonBarButtonBase leftButton = new HomeButton();
+    private ButtonBarButtonBase leftButton = new ArrowLeftButton();
     private ButtonBarButtonBase rightButton = new InfoButton();
     // private ButtonBarButtonBase rightButton = new ArrowRightButton();
     private HTML title;
@@ -56,6 +57,8 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 
     private boolean leftButtonEnabled = false;
     private boolean rightButtonEnabled = false;
+    private ButtonBarButtonBase homeButton = new HomeButton();
+    private boolean homeButtonEnabled = true;
 
     /**
      * Constructor for HeaderButtonBar.
@@ -89,6 +92,9 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
      */
     private void refresh() {
 	main.clear();
+	if (homeButtonEnabled) {
+	    add(homeButton);
+	}
 	if (leftButton != null && leftButtonEnabled) {
 	    add(leftButton);
 	} else {
@@ -244,5 +250,27 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
     public void setRightButtonEnabled(boolean rightButtonEnabled) {
 	this.rightButtonEnabled = rightButtonEnabled;
 	refresh();
+    }
+
+    /**
+     * @return the homeButtonEnabled
+     */
+    public boolean isHomeButtonEnabled() {
+	return homeButtonEnabled;
+    }
+
+    /**
+     * @param homeButtonEnabled
+     *            the homeButtonEnabled to set
+     */
+    public void setHomeButtonEnabled(boolean homeButtonEnabled) {
+	this.homeButtonEnabled = homeButtonEnabled;
+    }
+
+    /**
+     * @return the homeButton
+     */
+    public ButtonBarButtonBase getHomeButton() {
+	return homeButton;
     }
 }

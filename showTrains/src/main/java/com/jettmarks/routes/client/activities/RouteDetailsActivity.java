@@ -33,6 +33,7 @@ import com.jettmarks.routes.client.bean.BikeTrainDTO;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
@@ -151,7 +152,26 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 	// Populate View with the BikeTrainRoute
 	view.setDisplayName(bikeTrainRoute.getDisplayName());
 
+	setNavHandlers(view);
+
 	panel.setWidget(view);
+    }
+
+    /**
+     * @param view
+     */
+    protected void setNavHandlers(RouteDetailsView view) {
+	addHandlerRegistration(view.getHomeButton().addTapHandler(
+		new TapHandler() {
+
+		    @Override
+		    public void onTap(TapEvent event) {
+			clientFactory.getPlaceController()
+				.goTo(new HomePlace());
+		    }
+
+		}));
+
     }
 
     /**

@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
@@ -72,5 +73,15 @@ public class NavLinkViewGwtImpl implements NavLinkView {
     @Override
     public CellList<NavLink> getNavList() {
 	return linkCellList;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.jettmarks.routes.client.ui.NavLinkView#getHomeButton()
+     */
+    @Override
+    public HasTapHandlers getHomeButton() {
+	return headerPanel.getHomeButton();
     }
 }

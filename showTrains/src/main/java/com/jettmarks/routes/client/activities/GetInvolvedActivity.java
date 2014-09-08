@@ -23,7 +23,6 @@ import java.util.List;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.NavLink;
 import com.jettmarks.routes.client.place.ConductorPlace;
@@ -35,16 +34,15 @@ import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
  * 
  * @author jett
  */
-public class GetInvolvedActivity extends MGWTAbstractActivity implements
-	Activity {
+public class GetInvolvedActivity extends NavLinkActivity implements Activity {
 
-    private ClientFactory clientFactory;
+    private static GetInvolvedView view = null;
 
     /**
      * @param clientFactory
      */
     public GetInvolvedActivity(ClientFactory cf) {
-	this.clientFactory = cf;
+	super(cf);
     }
 
     /*
@@ -58,12 +56,15 @@ public class GetInvolvedActivity extends MGWTAbstractActivity implements
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
-	final GetInvolvedView view = clientFactory.getGetInvolvedView();
-	view.getHeader().setText("Get Involved");
-	List<NavLink> links = getLinks();
-	view.getNavList().render(getLinks());
-	view.getNavList().addCellSelectedHandler(
-		new NavLinkSelectedHandler(links, clientFactory));
+	if (view == null) {
+	    view = clientFactory.getGetInvolvedView();
+	    view.getHeader().setText("Get Involved");
+	    setNavHandlers(view);
+	    List<NavLink> links = getLinks();
+	    view.getNavList().render(getLinks());
+	    view.getNavList().addCellSelectedHandler(
+		    new NavLinkSelectedHandler(links, clientFactory));
+	}
 	panel.setWidget(view);
     }
 

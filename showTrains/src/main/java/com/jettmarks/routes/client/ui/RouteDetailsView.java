@@ -18,6 +18,7 @@
 package com.jettmarks.routes.client.ui;
 
 import com.google.gwt.user.client.ui.HTML;
+import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.jettmarks.routes.client.DetailView;
 
 /**
@@ -60,5 +61,10 @@ public interface RouteDetailsView extends DetailView {
     public abstract void setArrival(String arrival);
 
     public abstract String getArrival();
+
+    /**
+     * @return
+     */
+    public abstract HasTapHandlers getHomeButton();
 
 }

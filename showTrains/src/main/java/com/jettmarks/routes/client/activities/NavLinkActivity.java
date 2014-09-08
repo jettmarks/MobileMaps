@@ -13,85 +13,86 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Jul 26, 2014
+ * Created Sep 7, 2014
  */
 package com.jettmarks.routes.client.activities;
 
+import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
+import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
-import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.place.HomePlace;
-import com.jettmarks.routes.client.ui.EventView;
+import com.jettmarks.routes.client.ui.NavLinkView;
 
 /**
- * Handles user activity for the main view when the map is still empty waiting
- * for a particular Bike Event to be chosen.
- * 
- * This is only useful for the Desktop Landscape platform/orientation.
+ * Description.
  * 
  * @author jett
  */
-public class EmptyMapActivity extends DetailActivity {
+public class NavLinkActivity extends MGWTAbstractActivity implements Activity {
 
-    private EventView view;
-    private final ClientFactory clientFactory;
+    protected final ClientFactory clientFactory;
 
     /**
-     * @param clientFactory
+     * @param cf
      */
-    public EmptyMapActivity(ClientFactory clientFactory) {
-	super(clientFactory.getEventView(), "");
-	view = clientFactory.getEventView();
-	this.clientFactory = clientFactory;
+    public NavLinkActivity(ClientFactory cf) {
+	this.clientFactory = cf;
     }
 
-    /**
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.gwt.activity.shared.Activity#mayStop()
      */
     @Override
     public String mayStop() {
+	// TODO Auto-generated method stub
 	return null;
     }
 
-    /**
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.gwt.activity.shared.Activity#onCancel()
      */
     @Override
     public void onCancel() {
+	// TODO Auto-generated method stub
 
     }
 
-    /**
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.google.gwt.activity.shared.Activity#onStop()
      */
     @Override
     public void onStop() {
+	// TODO Auto-generated method stub
 
     }
 
-    /**
-     * Kicks off the Empty Map View with title and buttons disabled.
+    /*
+     * (non-Javadoc)
      * 
-     * @see com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
-     *      .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+     * @see
+     * com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
+     * .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
      */
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
-	view.getHeaderTapHandlers().setText("Select an Event");
-	view.enableBackButton(false);
-	view.enableForwardButton(false);
-	setNavHandlers(view);
-	panel.setWidget(view);
+	super.start(panel, eventBus);
     }
 
     /**
-     * @param view2
+     * @param view
      */
-    protected void setNavHandlers(EventView view2) {
-	addHandlerRegistration(view2.getHomeButton().addTapHandler(
+    protected void setNavHandlers(NavLinkView view) {
+	addHandlerRegistration(view.getHomeButton().addTapHandler(
 		new TapHandler() {
 
 		    @Override

@@ -26,5 +26,6 @@ public class HomeViewGwtImpl extends NavLinkViewGwtImpl implements HomeView {
 
     public HomeViewGwtImpl() {
 	scrollPanel.add(linkCellList);
+	headerPanel.setHomeButtonEnabled(false);
     }
 }

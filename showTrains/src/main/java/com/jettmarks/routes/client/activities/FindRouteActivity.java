@@ -23,7 +23,6 @@ import java.util.List;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.NavLink;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
@@ -37,16 +36,15 @@ import com.jettmarks.routes.client.ui.NavLinkSelectedHandler;
  * 
  * @author jett
  */
-public class FindRouteActivity extends MGWTAbstractActivity implements Activity {
+public class FindRouteActivity extends NavLinkActivity implements Activity {
 
-    private final ClientFactory clientFactory;
     private static FindRouteView view = null;
 
     /**
      * @param cf
      */
     public FindRouteActivity(ClientFactory cf) {
-	this.clientFactory = cf;
+	super(cf);
     }
 
     /**
@@ -82,6 +80,7 @@ public class FindRouteActivity extends MGWTAbstractActivity implements Activity 
 	    view = clientFactory.getFindRouteView();
 	    view.getHeader().setText("Find a Bike Train");
 	    List<NavLink> links = getLinks();
+	    setNavHandlers(view);
 	    view.getNavList().render(getLinks());
 	    view.getNavList().addCellSelectedHandler(
 		    new NavLinkSelectedHandler(links, clientFactory));

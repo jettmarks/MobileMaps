@@ -20,7 +20,6 @@ package com.jettmarks.routes.client.activities;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.ui.AboutView;
 
@@ -29,15 +28,15 @@ import com.jettmarks.routes.client.ui.AboutView;
  * 
  * @author jett
  */
-public class AboutActivity extends MGWTAbstractActivity implements Activity {
+public class AboutActivity extends NavLinkActivity implements Activity {
 
-    private final ClientFactory clientFactory;
+    private static AboutView view = null;
 
     /**
      * @param clientFactory
      */
     public AboutActivity(ClientFactory cf) {
-	this.clientFactory = cf;
+	super(cf);
     }
 
     /*
@@ -83,8 +82,11 @@ public class AboutActivity extends MGWTAbstractActivity implements Activity {
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
-	final AboutView view = clientFactory.getAboutView();
-	view.getHeader().setText("About");
+	if (view == null) {
+	    view = clientFactory.getAboutView();
+	    view.getHeader().setText("About");
+	    setNavHandlers(view);
+	}
 	panel.setWidget(view);
     }
 

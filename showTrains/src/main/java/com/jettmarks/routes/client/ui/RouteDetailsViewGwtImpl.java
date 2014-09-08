@@ -332,7 +332,6 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
      */
     @Override
     public String getNotes() {
-	// return notes;
 	return notesHTML.getText();
     }
 
@@ -344,6 +343,14 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
     public void setNotes(String notes) {
 	notesHTML.setText(notes);
 	scrollPanel.refresh();
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.ui.RouteDetailsView#getHomeButton()
+     */
+    @Override
+    public HasTapHandlers getHomeButton() {
+	return headerButtonBar.getHomeButton();
     }
 
 }

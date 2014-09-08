@@ -27,6 +27,7 @@ import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
+import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.EventView;
@@ -78,7 +79,19 @@ public class MapActivity extends DetailActivity {
      * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
      */
     public void addRegistration(EventView eventView) {
-	// super.start(panel, eventBus);
+	addHandlerRegistration(eventView.getHomeButton().addTapHandler(
+		new TapHandler() {
+
+		    @Override
+		    public void onTap(TapEvent event) {
+			mapView.clearMap();
+			RouteContainerFactory.getRouteContainer()
+				.setSelectedRoute(null);
+			clientFactory.getPlaceController()
+				.goTo(new HomePlace());
+		    }
+
+		}));
 	addHandlerRegistration(eventView.getHeaderTapHandlers()
 		.addClickHandler(new ClickHandler() {
 

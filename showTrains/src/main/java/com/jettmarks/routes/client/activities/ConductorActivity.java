@@ -20,7 +20,6 @@ package com.jettmarks.routes.client.activities;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.ui.ConductorView;
 
@@ -29,15 +28,15 @@ import com.jettmarks.routes.client.ui.ConductorView;
  * 
  * @author jett
  */
-public class ConductorActivity extends MGWTAbstractActivity implements Activity {
+public class ConductorActivity extends NavLinkActivity implements Activity {
 
-    private final ClientFactory clientFactory;
+    private static ConductorView view = null;
 
     /**
      * @param clientFactory
      */
     public ConductorActivity(ClientFactory cf) {
-	this.clientFactory = cf;
+	super(cf);
     }
 
     /*
@@ -76,8 +75,11 @@ public class ConductorActivity extends MGWTAbstractActivity implements Activity 
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
-	final ConductorView view = clientFactory.getConductorView();
-	view.getHeader().setText("Serve as a Conductor");
+	if (view == null) {
+	    view = clientFactory.getConductorView();
+	    view.getHeader().setText("Serve as a Conductor");
+	    setNavHandlers(view);
+	}
 	panel.setWidget(view);
     }
 

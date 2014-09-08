@@ -23,7 +23,6 @@ import java.util.List;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.NavLink;
 import com.jettmarks.routes.client.place.ConductorPlace;
@@ -35,16 +34,15 @@ import com.jettmarks.routes.client.ui.ResourcesView;
  * 
  * @author jett
  */
-public class ResourcesActivity extends MGWTAbstractActivity implements Activity {
+public class ResourcesActivity extends NavLinkActivity implements Activity {
 
-    private ResourcesView view;
-    private ClientFactory clientFactory;
+    private static ResourcesView view = null;
 
     /**
      * @param cf
      */
     public ResourcesActivity(ClientFactory cf) {
-	this.clientFactory = cf;
+	super(cf);
     }
 
     /**
@@ -79,6 +77,7 @@ public class ResourcesActivity extends MGWTAbstractActivity implements Activity 
 	if (view == null) {
 	    view = clientFactory.getResourcesView();
 	    view.getHeader().setText("Resources");
+	    setNavHandlers(view);
 	    List<NavLink> links = getLinks();
 	    view.getNavList().render(getLinks());
 	    view.getNavList().addCellSelectedHandler(
