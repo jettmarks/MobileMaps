@@ -69,7 +69,8 @@ public class EmptyMapActivity extends DetailActivity {
      */
     @Override
     public void onStop() {
-
+	super.onStop();
+	cancelAllHandlerRegistrations();
     }
 
     /**

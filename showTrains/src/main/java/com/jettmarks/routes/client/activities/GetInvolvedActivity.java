@@ -45,13 +45,19 @@ public class GetInvolvedActivity extends NavLinkActivity implements Activity {
 	super(cf);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.
-     * gwt.user.client.ui.AcceptsOneWidget,
-     * com.google.gwt.event.shared.EventBus)
+    /**
+     * @see com.jettmarks.routes.client.activities.NavLinkActivity#onStop()
+     */
+    @Override
+    public void onStop() {
+	super.onStop();
+	cancelAllHandlerRegistrations();
+    }
+
+    /**
+     * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.
+     *      gwt.user.client.ui.AcceptsOneWidget,
+     *      com.google.gwt.event.shared.EventBus)
      */
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
