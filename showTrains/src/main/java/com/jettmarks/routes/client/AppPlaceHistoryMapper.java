@@ -20,6 +20,7 @@ import com.google.gwt.place.shared.WithTokenizers;
 import com.jettmarks.routes.client.place.AboutPlace;
 import com.jettmarks.routes.client.place.ConductorPlace;
 import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.FindRoutePlace;
 import com.jettmarks.routes.client.place.GetInvolvedPlace;
 import com.jettmarks.routes.client.place.ResourcesPlace;
@@ -30,6 +31,7 @@ import com.jettmarks.routes.client.place.ResourcesPlace;
  */
 @WithTokenizers({ EventPlace.Tokenizer.class, AboutPlace.Tokenizer.class,
 	FindRoutePlace.Tokenizer.class, ConductorPlace.Tokenizer.class,
-	GetInvolvedPlace.Tokenizer.class, ResourcesPlace.Tokenizer.class })
+	GetInvolvedPlace.Tokenizer.class, ResourcesPlace.Tokenizer.class,
+	EventSelectionPlace.Tokenizer.class })
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
 }

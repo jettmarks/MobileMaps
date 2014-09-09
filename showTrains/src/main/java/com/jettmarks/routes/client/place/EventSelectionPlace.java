@@ -18,14 +18,27 @@
 package com.jettmarks.routes.client.place;
 
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceTokenizer;
 
 /**
  * Allows selecting an event from the list of Display Groups so you can view the
  * map of routes for that event.
- *
+ * 
  * @author jett
  */
-public class EventSelectionPlace extends Place
-{
+public class EventSelectionPlace extends Place {
+    public static class Tokenizer implements
+	    PlaceTokenizer<EventSelectionPlace> {
 
+	@Override
+	public EventSelectionPlace getPlace(String token) {
+	    return new EventSelectionPlace();
+	}
+
+	@Override
+	public String getToken(EventSelectionPlace place) {
+	    return "eventSelection";
+	}
+
+    }
 }
