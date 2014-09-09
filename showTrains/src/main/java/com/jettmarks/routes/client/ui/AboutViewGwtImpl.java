@@ -27,31 +27,31 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author jett
  */
 public class AboutViewGwtImpl extends NavLinkViewGwtImpl implements AboutView {
-    private HTML aboutMessage = new HTML();
+	private HTML aboutMessage = new HTML();
 
-    public AboutViewGwtImpl() {
+	public AboutViewGwtImpl() {
 
-	// Add in the relevant CSS for this view
-	DOM.setElementAttribute(main.getElement(), "id", "about-view");
+		// Add in the relevant CSS for this view
+		DOM.setElementAttribute(main.getElement(), "id", "about-view");
 
-	VerticalPanel messagePanel = new VerticalPanel();
+		VerticalPanel messagePanel = new VerticalPanel();
 
-	aboutMessage
-		.setHTML("<p>Atlanta Bike Trains is a Volunteer Program of the "
-			+ "Atlanta Bicycle Coalition.</p>\n"
-			+ "<p>ABC's mission is to improve the "
-			+ "livability of our city through making it safer, more "
-			+ "attractive and more fun to ride bikes for work, travel and "
-			+ "pleasure.</p>\n"
-			+ "<p>Bike Trains recognize that we all face barriers "
-			+ "to riding more, but finding a friendly companion to ride with doesn't have "
-			+ "to be one of them.</p></br>");
+		aboutMessage
+				.setHTML("<p>Atlanta Bike Trains is a Volunteer Program of the "
+						+ "Atlanta Bicycle Coalition.</p>\n"
+						+ "<p>ABC's mission is <b>To create a healthier, more livable "
+						+ "Atlanta by making it safer, easier, and more attractive to "
+						+ "bicycle for fun, fitness, and transportation.</b></p>"
+						+ "<p>Bike Trains recognize that we all face barriers "
+						+ "to riding more, but finding a friendly companion to ride with doesn't have "
+						+ "to be one of them.</p></br>"
+						+ "<p><center>Copyright &copy; 2014 Atlanta Bike Geeks</center></p>"
+						+ "<p><center>Release 1.9.2</center></p>"
+						);
 
-	DOM.setElementAttribute(messagePanel.getElement(), "id",
-		"about-view-message");
-	messagePanel.add(aboutMessage);
-	// messagePanel.addSouth(aboutMessage, 150);
-	// scrollPanel.add(messagePanel);
-	main.add(messagePanel);
-    }
+		DOM.setElementAttribute(messagePanel.getElement(), "id",
+				"about-view-message");
+		messagePanel.add(aboutMessage);
+		main.add(messagePanel);
+	}
 }
