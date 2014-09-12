@@ -17,6 +17,9 @@
  */
 package com.jettmarks.routes.client.rep;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.code.p.gwtchismes.client.GWTCProgress;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -54,6 +57,8 @@ public class RouteContainerImpl implements RouteContainer {
     private DisplayGroupDTO displayGroup = null;
 
     private boolean displayGroupHasChanged;
+
+    private List<EventView> viewList = new ArrayList<EventView>();
 
     /*
      * (non-Javadoc)
@@ -109,7 +114,10 @@ public class RouteContainerImpl implements RouteContainer {
      */
     @Override
     public void put(String routeName, Route route) {
-	mapView.add(route);
+	for (EventView view : viewList) {
+	    view.add(route);
+	}
+	// mapView.add(route);
     }
 
     /**
@@ -143,12 +151,18 @@ public class RouteContainerImpl implements RouteContainer {
     public void updateProgress() {
 	// Not much to do if we load a single route at a time.
 	if (currentRouteRequest == null) {
-	    mapView.resize();
+	    for (EventView view : viewList) {
+		view.resize();
+		// mapView.resize();
+	    }
 	    return;
 	}
 
 	if (!currentRouteRequest.hasNext()) {
-	    mapView.resize();
+	    for (EventView view : viewList) {
+		view.resize();
+		// mapView.resize();
+	    }
 	    gwtcProgress.hide();
 	} else
 	// ready to ask for next route
@@ -195,7 +209,10 @@ public class RouteContainerImpl implements RouteContainer {
 	// {
 	// mapView.enableForwardButton(selectedRoute != null);
 	// }
-	mapView.selectRoute(selectedRoute);
+	for (EventView view : viewList) {
+	    view.selectRoute(selectedRoute);
+	}
+	// mapView.selectRoute(selectedRoute);
     }
 
     /*
@@ -280,6 +297,14 @@ public class RouteContainerImpl implements RouteContainer {
     @Override
     public void setView(EventView view) {
 	mapView = view;
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.rep.RouteContainer#addView(com.jettmarks.routes.client.ui.EventView)
+     */
+    @Override
+    public void addView(EventView view) {
+	viewList.add(view);
     }
 
     /*
