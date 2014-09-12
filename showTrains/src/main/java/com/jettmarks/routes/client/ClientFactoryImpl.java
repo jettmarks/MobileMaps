@@ -29,6 +29,7 @@ import com.jettmarks.routes.client.ui.ConductorViewGwtImpl;
 import com.jettmarks.routes.client.ui.EventSelectionView;
 import com.jettmarks.routes.client.ui.EventSelectionViewGwtImpl;
 import com.jettmarks.routes.client.ui.EventView;
+import com.jettmarks.routes.client.ui.EventViewListOnlyGwtImpl;
 import com.jettmarks.routes.client.ui.EventViewTabbedGwtImpl;
 import com.jettmarks.routes.client.ui.FindRouteView;
 import com.jettmarks.routes.client.ui.FindRouteViewGwtImpl;
@@ -72,6 +73,8 @@ public class ClientFactoryImpl implements ClientFactory {
     private ConductorView conductorView;
 
     private ResourcesView resourcesView;
+
+    private EventViewListOnlyGwtImpl eventListView;
 
     public ClientFactoryImpl() {
 	eventBus = new SimpleEventBus();
@@ -118,6 +121,17 @@ public class ClientFactoryImpl implements ClientFactory {
 	    eventView = new EventViewTabbedGwtImpl();
 	}
 	return eventView;
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.ClientFactory#getEventListView()
+     */
+    @Override
+    public EventView getEventListView() {
+	if (eventListView == null) {
+	    eventListView = new EventViewListOnlyGwtImpl();
+	}
+	return eventListView;
     }
 
     /**

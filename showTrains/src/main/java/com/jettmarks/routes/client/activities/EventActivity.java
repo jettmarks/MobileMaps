@@ -15,12 +15,10 @@
  *
  * Created Apr 20, 2014
  */
-package com.jettmarks.routes.client.activities.showGroup;
+package com.jettmarks.routes.client.activities;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent.ORIENTATION;
@@ -28,17 +26,15 @@ import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
-import com.jettmarks.routes.client.activities.MapActivity;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.place.EventPlace;
-import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.rep.RouteContainerImpl;
 import com.jettmarks.routes.client.rep.ServiceWrapper;
 import com.jettmarks.routes.client.ui.EventView;
 
-public class ShowGroupActivity extends DetailActivity {
+public class EventActivity extends DetailActivity {
 
     private final ClientFactory clientFactory;
 
@@ -49,12 +45,12 @@ public class ShowGroupActivity extends DetailActivity {
     // Yes, unconventional that I'm using a second Activity
     private static MapActivity mapActivity = null;
 
-    public ShowGroupActivity(Place newPlace, ClientFactory clientFactory) {
+    public EventActivity(Place newPlace, ClientFactory clientFactory) {
 	super(clientFactory.getEventView(), "nav");
 	EventPlace place = (EventPlace) newPlace;
 	String description = place.getDescription();
 	String displayGroupName = place.getDisplayGroupName();
-	view = clientFactory.getEventView();
+	view = clientFactory.getEventListView();
 	view.setDisplayGroupName(displayGroupName);
 	view.setDescription(description);
 	DisplayGroupDTO displayGroup = new DisplayGroupDTO();
@@ -74,18 +70,6 @@ public class ShowGroupActivity extends DetailActivity {
 	});
     }
 
-    /**
-     * Responsible for removing the Handler Registrations.
-     * 
-     * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
-     */
-    @Override
-    public void onStop() {
-        super.onStop();
-        cancelAllHandlerRegistrations();
-        mapActivity.onStop();
-    }
-
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
@@ -103,7 +87,8 @@ public class ShowGroupActivity extends DetailActivity {
 	    // Will be re-opened later with the proper counts
 	    rcImpl.openProgressBar(null);
 
-	    view.showMapTab();
+	    // Not applicable to non-tabbed view
+	    // view.showMapTab();
 	    mapActivity = new MapActivity(view, clientFactory);
 
 	    // Kicks off reading the routes in the DisplayGroup under control
@@ -115,9 +100,7 @@ public class ShowGroupActivity extends DetailActivity {
 	} else if (routeContainer.getSelectedRoute() != null) {
 	    view.selectRoute(routeContainer.getSelectedRoute());
 	}
-	if (mapActivity != null) {
-	    mapActivity.addRegistration(view);
-	}
+	mapActivity.addRegistration(view);
 	panel.setWidget(view);
     }
 
@@ -136,39 +119,15 @@ public class ShowGroupActivity extends DetailActivity {
     }
 
     /**
-     * Callback response for saving a Display Group.
+     * Responsible for removing the Handler Registrations.
      * 
-     * After saving, we go to the Home Place.
-     * 
-     * @author jett
+     * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
      */
-    public class SaveDisplayGroupCallback<T> implements AsyncCallback<Integer> {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.
-	 * Throwable )
-	 */
-	@Override
-	public void onFailure(Throwable caught) {
-	    // Not sure what to do here
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.
-	 * Object)
-	 */
-	@Override
-	public void onSuccess(Integer result) {
-	    Window.alert("Saved Display Group as ID: " + result);
-	    clientFactory.getPlaceController().goTo(new HomePlace());
-	}
-
+    @Override
+    public void onStop() {
+	super.onStop();
+	cancelAllHandlerRegistrations();
+	mapActivity.onStop();
     }
 
 }

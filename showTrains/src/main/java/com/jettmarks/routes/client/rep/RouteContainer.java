@@ -15,8 +15,10 @@ import com.jettmarks.routes.client.ui.EventView;
  * 
  */
 public interface RouteContainer {
-    // TODO: Review this; don't want something so specific in here
+    // TODO: Review this; don't want something so specific in here; see addView
     public void setView(EventView view);
+
+    public void addView(EventView view);
 
     public void addRoutes(RouteRequestRouteName routeRequestRouteName);
 
@@ -53,5 +55,4 @@ public interface RouteContainer {
      * @param displayGroupName
      */
     public DisplayGroupDTO getDisplayGroup(String displayGroupName);
-
 }

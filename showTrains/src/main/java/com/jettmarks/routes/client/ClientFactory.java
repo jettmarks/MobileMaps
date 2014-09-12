@@ -78,4 +78,9 @@ public interface ClientFactory {
      */
     public ResourcesView getResourcesView();
 
+    /**
+     * @return
+     */
+    public EventView getEventListView();
+
 }
