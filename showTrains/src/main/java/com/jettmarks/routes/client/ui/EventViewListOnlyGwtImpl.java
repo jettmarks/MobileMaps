@@ -20,8 +20,6 @@ package com.jettmarks.routes.client.ui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gwt.maps.client.MapOptions;
-import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.LatLngBounds;
@@ -33,30 +31,22 @@ import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
-import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
-import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
-import com.jettmarks.routes.client.MapDetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
-import com.jettmarks.routes.client.ui.tab.ListTabBarButton;
-import com.jettmarks.routes.client.ui.tab.MapTabBarButton;
-import com.jettmarks.routes.client.util.ScreenSize;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class EventViewListOnlyGwtImpl extends MapDetailViewGwtImpl implements
+public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
 	EventView {
     private MapWidget mapWidget;
 
     private static LatLngBounds mapBounds = null;
-
-    private static int currentZoomLevel = 13;
 
     private List<Route> routes = new ArrayList<Route>();
 
@@ -76,53 +66,13 @@ public class EventViewListOnlyGwtImpl extends MapDetailViewGwtImpl implements
 
 	// Take care of the header for navigation
 	setupHeader();
-	// mapWidget = prepareMap();
 	listWidget = prepareList();
 	setupListPanel(listWidget);
-	// tabPanel = new TabPanel();
-	// tabPanel.addTab(prepareMapTab(mapWidget));
-	// tabPanel.addTab(prepareListTab(listWidget));
 
 	main.add(headerButtonBar);
-	// main.add(tabPanel);
 	main.add(scrollPanel);
     }
 
-    /**
-    * 
-    */
-    private void setupHeader() {
-	headerButtonBar = new HeaderButtonBar();
-	title = new HTML();
-	headerButtonBar.setTitle(title);
-    }
-
-    /**
-     * @param mapWidget2
-     * @return
-     */
-    private Tab prepareMapTab(MapWidget mapWidget2) {
-	Tab tab = new Tab();
-
-	TabBarButtonBase button = new MapTabBarButton();
-	tab.setButton(button);
-	tab.setWidget(mapWidget2);
-	return tab;
-    }
-
-    /**
-     * @param listWidget
-     * @return
-     */
-    private Tab prepareListTab(CellList<Route> listWidget) {
-	Tab tab = new Tab();
-	setupListPanel(listWidget);
-
-	TabBarButtonBase button = new ListTabBarButton();
-	tab.setButton(button);
-	tab.setWidget(scrollPanel);
-	return tab;
-    }
 
     /**
      * @param listWidget
@@ -174,28 +124,6 @@ public class EventViewListOnlyGwtImpl extends MapDetailViewGwtImpl implements
 	return cellList;
     }
 
-    /**
-     * Setup the Map along with resize registration.
-     * 
-     * The mapWidget comes out of this.
-     */
-    private MapWidget prepareMap() {
-	MapWidget mapWidget;
-
-	LatLng atlanta = LatLng.newInstance(33.757787d, -84.359741d);
-	MapOptions opts = MapOptions.newInstance();
-	opts.setZoom(currentZoomLevel);
-	opts.setCenter(atlanta);
-	opts.setMapTypeId(MapTypeId.ROADMAP);
-	opts.setScaleControl(true);
-
-	mapWidget = new MapWidget(opts);
-	// Only the height has to be spec'd
-	mapWidget.setSize("100%", "100%");
-	mapWidget.setHeight(ScreenSize.getHeight() - 89 + "px");
-	ScreenSize.addRegistration(mapWidget);
-	return mapWidget;
-    }
 
     /**
      * Adjusts bounds, adds markers and puts it on the mapWidget that is part of

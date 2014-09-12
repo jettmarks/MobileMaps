@@ -31,20 +31,11 @@ import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
-import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
-import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
-import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
-import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
-import com.jettmarks.routes.client.MapDetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.rep.EventContainer;
-import com.jettmarks.routes.client.rep.RouteContainer;
-import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
-import com.jettmarks.routes.client.ui.tab.ListTabBarButton;
-import com.jettmarks.routes.client.ui.tab.MapTabBarButton;
 import com.jettmarks.routes.client.util.ScreenSize;
 
 /**
@@ -52,7 +43,7 @@ import com.jettmarks.routes.client.util.ScreenSize;
  * 
  * @author jett
  */
-public class EventViewMapOnlyGwtImpl extends MapDetailViewGwtImpl implements
+public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	EventView {
     private MapWidget mapWidget;
 
@@ -79,94 +70,10 @@ public class EventViewMapOnlyGwtImpl extends MapDetailViewGwtImpl implements
 	// Take care of the header for navigation
 	setupHeader();
 	mapWidget = prepareMap();
-	// listWidget = prepareList();
-	// tabPanel = new TabPanel();
-	// tabPanel.addTab(prepareMapTab(mapWidget));
-	// tabPanel.addTab(prepareListTab(listWidget));
-
 	main.add(headerButtonBar);
-	// main.add(tabPanel);
 	main.add(mapWidget);
     }
 
-    /**
-    * 
-    */
-    private void setupHeader() {
-	headerButtonBar = new HeaderButtonBar();
-	title = new HTML();
-	headerButtonBar.setTitle(title);
-    }
-
-    /**
-     * @param mapWidget2
-     * @return
-     */
-    private Tab prepareMapTab(MapWidget mapWidget2) {
-	Tab tab = new Tab();
-
-	TabBarButtonBase button = new MapTabBarButton();
-	tab.setButton(button);
-	tab.setWidget(mapWidget2);
-	return tab;
-    }
-
-    /**
-     * @param listWidget
-     * @return
-     */
-    private Tab prepareListTab(CellList<Route> listWidget) {
-	Tab tab = new Tab();
-	scrollPanel = new ScrollPanel();
-	scrollPanel.add(listWidget);
-	scrollPanel.setSize("100%", "100%");
-	scrollPanel.setHeight(ScreenSize.getHeight() - 80 + "px");
-	scrollPanel.setScrollingEnabledX(true);
-
-	TabBarButtonBase button = new ListTabBarButton();
-	tab.setButton(button);
-	tab.setWidget(scrollPanel);
-	return tab;
-    }
-
-    /**
-     * Setup the List of Bike Trains.
-     * 
-     * This is responsible for responding to the changes of selection performed
-     * on the list tab. This should probably be moved out to the activity.
-     * 
-     * @return
-     */
-    private CellList<Route> prepareList() {
-	CellList<Route> cellList = new CellList<Route>(new RouteCell());
-	cellList.addCellSelectedHandler(new CellSelectedHandler() {
-
-	    // TODO: Move out to the activity
-	    @Override
-	    public void onCellSelected(CellSelectedEvent event) {
-		RouteContainer rc = RouteContainerFactory.getRouteContainer();
-		// Turn off any highlighted route
-		BikeTrainRoute previouslySelectedRoute = (BikeTrainRoute) rc
-			.getSelectedRoute();
-		if (previouslySelectedRoute != null) {
-		    previouslySelectedRoute.toggleHighlight();
-		}
-
-		// Turn on the selected route
-		Route route = routes.get(event.getIndex());
-		BikeTrainRoute bikeTrainRoute = (BikeTrainRoute) route;
-
-		bikeTrainRoute.toggleHighlight();
-
-		// Make the announcement (which might be able to handle the
-		// other tasks too)
-		RouteContainerFactory.getRouteContainer().setSelectedRoute(
-			route);
-	    }
-
-	});
-	return cellList;
-    }
 
     /**
      * Setup the Map along with resize registration.
@@ -248,9 +155,7 @@ public class EventViewMapOnlyGwtImpl extends MapDetailViewGwtImpl implements
 	endMarker.setMap(mapWidget2);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see com.jettmarks.routes.client.ui.EventView#resize()
      */
     @Override
@@ -300,9 +205,7 @@ public class EventViewMapOnlyGwtImpl extends MapDetailViewGwtImpl implements
 	title.setText(description);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see com.jettmarks.routes.client.MapDetailViewGwtImpl#getBackbutton()
      */
     @Override
@@ -330,9 +233,7 @@ public class EventViewMapOnlyGwtImpl extends MapDetailViewGwtImpl implements
 	headerButtonBar.setLeftButtonEnabled(isEnabled);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see com.jettmarks.routes.client.ui.EventView#enableForwardButton()
      */
     @Override
@@ -356,24 +257,10 @@ public class EventViewMapOnlyGwtImpl extends MapDetailViewGwtImpl implements
 	    listWidget.setSelectedIndex(index++, selected);
 	}
 	if (route != null) {
-	    // headerPanel.setCenter("View " + route.getDisplayName());
 	    title.setText("View " + route.getDisplayName());
 	} else {
-	    // headerPanel.setCenter(getDescription());
 	    title.setText(getDescription());
 	}
-	// Popup with choice to view more detail about the route.
-	// List<OptionsDialogEntry> list = new ArrayList<OptionsDialogEntry>();
-	// list.add(new OptionsDialogEntry("View " + route.getDisplayName(),
-	// ButtonType.CONFIRM));
-	// list.add(new OptionsDialogEntry("Cancel", ButtonType.NORMAL));
-	//
-	// Dialogs.options(list, new OptionCallback() {
-	//
-	// @Override
-	// public void onOptionSelected(int index) {
-	// }
-	// });
     }
 
     /**

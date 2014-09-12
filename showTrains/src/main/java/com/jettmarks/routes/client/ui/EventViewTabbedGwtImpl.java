@@ -17,8 +17,6 @@
  */
 package com.jettmarks.routes.client.ui;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
@@ -26,8 +24,6 @@ import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
-import com.google.gwt.user.client.ui.HTML;
-import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
@@ -36,7 +32,6 @@ import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabPanel;
-import com.jettmarks.routes.client.MapDetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.Route;
@@ -53,7 +48,7 @@ import com.jettmarks.routes.client.util.ScreenSize;
  * 
  * @author jett
  */
-public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
+public class EventViewTabbedGwtImpl extends EventViewBaseImpl implements
 	EventView {
     private MapWidget mapWidget;
 
@@ -61,16 +56,7 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 
     private static int currentZoomLevel = 13;
 
-    private List<Route> routes = new ArrayList<Route>();
-
-    private String description;
-
-    private String displayGroupName;
-
     private CellList<Route> listWidget;
-
-    private ScrollPanel scrollPanel;
-    private HeaderButtonBar headerButtonBar;
 
     public EventViewTabbedGwtImpl() {
 	// super();
@@ -87,15 +73,6 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
 
 	main.add(headerButtonBar);
 	main.add(tabPanel);
-    }
-
-    /**
-    * 
-    */
-    private void setupHeader() {
-	headerButtonBar = new HeaderButtonBar();
-	title = new HTML();
-	headerButtonBar.setTitle(title);
     }
 
     /**
@@ -270,77 +247,6 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
     }
 
     /**
-     * @return the dispGroupName
-     */
-    public String getDisplayGroupName() {
-	return displayGroupName;
-    }
-
-    /**
-     * @param dispGroupName
-     *            the dispGroupName to set
-     */
-    public void setDisplayGroupName(String dispGroupName) {
-	this.displayGroupName = dispGroupName;
-    }
-
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-	return description;
-    }
-
-    /**
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-	this.description = description;
-	title.setText(description);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.jettmarks.routes.client.MapDetailViewGwtImpl#getBackbutton()
-     */
-    @Override
-    public HasTapHandlers getBackbutton() {
-	return headerButtonBar.getLeftButton();
-    }
-
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#getForwardbutton()
-     */
-    @Override
-    public HasTapHandlers getForwardbutton() {
-	return headerButtonBar.getRightButton();
-    }
-
-    public HTML getHeaderTapHandlers() {
-	return title;
-    }
-
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
-     */
-    @Override
-    public void enableBackButton(boolean isEnabled) {
-	headerButtonBar.setLeftButtonEnabled(isEnabled);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.jettmarks.routes.client.ui.EventView#enableForwardButton()
-     */
-    @Override
-    public void enableForwardButton(boolean isEnabled) {
-	headerButtonBar.setRightButtonEnabled(isEnabled);
-    }
-
-    /**
      * Responds to external activity telling us a route has been selected.
      * 
      * 
@@ -404,13 +310,5 @@ public class EventViewTabbedGwtImpl extends MapDetailViewGwtImpl implements
     @Override
     public void showListTab() {
 	tabPanel.setSelectedChild(1);
-    }
-
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#getHomeButton()
-     */
-    @Override
-    public HasTapHandlers getHomeButton() {
-	return headerButtonBar.getHomeButton();
     }
 }
