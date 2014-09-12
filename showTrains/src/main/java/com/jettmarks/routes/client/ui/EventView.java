@@ -19,6 +19,7 @@ package com.jettmarks.routes.client.ui;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
+import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.Route;
 
@@ -31,6 +32,7 @@ import com.jettmarks.routes.client.bean.Route;
  * @author jett
  */
 public interface EventView extends DetailView {
+
     public abstract void setDisplayGroupName(String displayGroupName);
 
     public abstract String getDisplayGroupName();
@@ -72,5 +74,10 @@ public interface EventView extends DetailView {
     public abstract HTML getHeaderTapHandlers();
 
     public abstract HasTapHandlers getHomeButton();
+
+    public abstract void setRouteSelectedHandler(
+	    CellSelectedHandler routeListCellSelectedHandler);
+
+    public abstract Route getRoute(int index);
 
 }

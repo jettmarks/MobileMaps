@@ -24,9 +24,13 @@ import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent.ORIENTATION;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
+import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
+import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
+import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
@@ -91,17 +95,30 @@ public class EventActivity extends DetailActivity {
 	    // view.showMapTab();
 	    mapActivity = new MapActivity(view, clientFactory);
 
-	    // Kicks off reading the routes in the DisplayGroup under control
-	    // of the RouteContainer
-	    DisplayGroupDTO dispGroup = new DisplayGroupDTO();
-	    dispGroup.setDisplayName(view.getDisplayGroupName());
-	    ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
-	    serviceWrapper.showRoutes(dispGroup);
+	    beginReadingRoutesAsync(view.getDisplayGroupName());
 	} else if (routeContainer.getSelectedRoute() != null) {
 	    view.selectRoute(routeContainer.getSelectedRoute());
 	}
+	view.setRouteSelectedHandler(new RouteListCellSelectedHandler());
 	mapActivity.addRegistration(view);
 	panel.setWidget(view);
+    }
+
+    /**
+     * Uses async calls to retrieve the routes under control of the 
+     * RouteContainer.
+     * 
+     * @param displayGroupName
+     */
+    private void beginReadingRoutesAsync(String displayGroupName) {
+	    // Kicks off reading the routes in the DisplayGroup under control
+	    // of the RouteContainer
+	RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory
+		    .getRouteContainer();
+	DisplayGroupDTO dispGroup = new DisplayGroupDTO();
+	dispGroup.setDisplayName(displayGroupName);
+	ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
+	serviceWrapper.showRoutes(dispGroup);
     }
 
     /**
@@ -125,9 +142,38 @@ public class EventActivity extends DetailActivity {
      */
     @Override
     public void onStop() {
-	super.onStop();
-	cancelAllHandlerRegistrations();
-	mapActivity.onStop();
+        // TODO: I believe this is the place we can make sure the map elements
+        // are cleared and returned to their previous empty state.
+        super.onStop();
+        cancelAllHandlerRegistrations();
+        mapActivity.onStop();
+    }
+
+    public class RouteListCellSelectedHandler implements CellSelectedHandler {
+    
+        @Override
+        public void onCellSelected(CellSelectedEvent event) {
+		RouteContainer rc = RouteContainerFactory.getRouteContainer();
+		// Turn off any highlighted route
+		BikeTrainRoute previouslySelectedRoute = (BikeTrainRoute) rc
+			.getSelectedRoute();
+		if (previouslySelectedRoute != null) {
+		    previouslySelectedRoute.toggleHighlight();
+		}
+
+		// Turn on the selected route
+//		Route route = routes.get(event.getIndex());
+		Route route = view.getRoute(event.getIndex());
+		BikeTrainRoute bikeTrainRoute = (BikeTrainRoute) route;
+
+		bikeTrainRoute.toggleHighlight();
+
+		// Make the announcement (which might be able to handle the
+		// other tasks too)
+		RouteContainerFactory.getRouteContainer().setSelectedRoute(
+			route);
+        }
+    
     }
 
 }

@@ -24,18 +24,11 @@ import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
-import com.google.gwt.maps.client.base.LatLngBounds;
-import com.google.gwt.maps.client.overlays.Marker;
 import com.google.gwt.user.client.ui.HTML;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
-import com.jettmarks.routes.client.bean.BikeTrainRoute;
-import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.Route;
-import com.jettmarks.routes.client.rep.EventContainer;
-import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
 import com.jettmarks.routes.client.util.ScreenSize;
 
 /**
@@ -47,8 +40,6 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	EventView {
     private MapWidget mapWidget;
 
-    private static LatLngBounds mapBounds = null;
-
     private static int currentZoomLevel = 13;
 
     private List<Route> routes = new ArrayList<Route>();
@@ -57,13 +48,10 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 
     private String displayGroupName;
 
-    private CellList<Route> listWidget;
-
     private ScrollPanel scrollPanel;
     private HeaderButtonBar headerButtonBar;
 
     public EventViewMapOnlyGwtImpl() {
-	// super();
 	main = new LayoutPanel();
 	main.setSize("100%", "100%");
 
@@ -99,79 +87,11 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
     }
 
     /**
-     * Adjusts bounds, adds markers and puts it on the mapWidget that is part of
-     * this view.
-     * 
-     * Passed as a generic Route, but understood to be a BikeTrainRoute.
-     * 
-     * @see com.jettmarks.routes.client.ui.EventView#add(com.jettmarks.routes.client
-     *      .bean.Route)
-     */
-    @Override
-    public void add(Route route) {
-	BikeTrainRoute bikeRoute = (BikeTrainRoute) route;
-	// Take care of the map
-	LatLngBounds routeBounds = bikeRoute.getBounds();
-	if (mapBounds == null) {
-	    mapBounds = routeBounds;
-	} else {
-	    mapBounds.extend(routeBounds.getNorthEast());
-	    mapBounds.extend(routeBounds.getSouthWest());
-	}
-	routes.add(bikeRoute);
-	addBeginEndMarkers(route, mapWidget);
-	bikeRoute.setMap(mapWidget);
-	bikeRoute.highlight(false);
-    }
-
-    /**
      * Called after last route has been loaded.
      */
     public void renderList() {
 	listWidget.render(routes);
 	scrollPanel.refresh();
-    }
-
-    /**
-     * Hides details of figuring out where to put the markers on the route.
-     * 
-     * @param route
-     * @param mapWidget2
-     */
-    private void addBeginEndMarkers(Route route, MapWidget mapWidget2) {
-	if (route.getPoints() == null)
-	    return;
-	int pointCount = route.getPoints().length;
-	if (pointCount == 0)
-	    return;
-
-	LatLng beginLatLng = route.getPoints()[0];
-	LatLng endLatLng = route.getPoints()[pointCount - 1];
-	Marker beginMarker = MarkerFactory.getInstance(MarkerType.START_MARKER,
-		beginLatLng);
-	Marker endMarker = MarkerFactory.getInstance(MarkerType.END_MARKER,
-		endLatLng);
-	beginMarker.setMap(mapWidget2);
-	endMarker.setMap(mapWidget2);
-    }
-
-    /** 
-     * @see com.jettmarks.routes.client.ui.EventView#resize()
-     */
-    @Override
-    public void resize() {
-	// Pick up refreshed dgDto if we didn't get one at first
-	if (description == null) {
-	    DisplayGroupDTO dgDto = EventContainer.getEvent(displayGroupName);
-	    if (dgDto != null) {
-		setDescription(dgDto.getDescription());
-	    }
-	}
-	renderList();
-	if (mapBounds == null) {
-	    return;
-	}
-	mapWidget.fitBounds(mapBounds);
     }
 
     /**
@@ -261,20 +181,6 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	} else {
 	    title.setText(getDescription());
 	}
-    }
-
-    /**
-     * Removes all routes from the map.
-     * 
-     * @see com.jettmarks.routes.client.ui.EventView#clearMap()
-     */
-    @Override
-    public void clearMap() {
-	for (Route r : routes) {
-	    r.setMap(null);
-	}
-	routes.clear();
-	mapBounds = null;
     }
 
     /**

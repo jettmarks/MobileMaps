@@ -48,30 +48,30 @@ public abstract class MapDetailViewGwtImpl implements DetailView {
     protected TabPanel tabPanel;
 
     public MapDetailViewGwtImpl() {
-	main = new LayoutPanel();
-	main.setSize("100%", "100%");
-	headerPanel = new HeaderPanel();
-	title = new HTML();
-	headerPanel.setCenterWidget(title);
-	// headerPanel.add(title);
-	// headerPanel.add(new ButtonBarSpacer());
-
-	headerMainButton = new HeaderButton();
-	headerMainButton.setRoundButton(true);
-
-	headerBackButton = new HeaderButton();
-	headerBackButton.setBackButton(true);
-	// headerBackButton.setVisible(!MGWT.getOsDetection().isAndroid());
-
-	headerForwardButton = new HeaderButton();
-	headerForwardButton.setRoundButton(false);
-	headerForwardButton.setForwardButton(true);
-	headerForwardButton.setVisible(false); // f until we have a route
-					       // selected
-
-	tabPanel = new TabPanel();
-	main.add(headerPanel);
-	main.add(tabPanel);
+//	main = new LayoutPanel();
+//	main.setSize("100%", "100%");
+//	headerPanel = new HeaderPanel();
+//	title = new HTML();
+//	headerPanel.setCenterWidget(title);
+//	// headerPanel.add(title);
+//	// headerPanel.add(new ButtonBarSpacer());
+//
+//	headerMainButton = new HeaderButton();
+//	headerMainButton.setRoundButton(true);
+//
+//	headerBackButton = new HeaderButton();
+//	headerBackButton.setBackButton(true);
+//	// headerBackButton.setVisible(!MGWT.getOsDetection().isAndroid());
+//
+//	headerForwardButton = new HeaderButton();
+//	headerForwardButton.setRoundButton(false);
+//	headerForwardButton.setForwardButton(true);
+//	headerForwardButton.setVisible(false); // f until we have a route
+//					       // selected
+//
+//	tabPanel = new TabPanel();
+//	main.add(headerPanel);
+//	main.add(tabPanel);
     }
 
     /**
