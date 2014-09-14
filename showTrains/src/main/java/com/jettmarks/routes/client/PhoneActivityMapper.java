@@ -6,12 +6,12 @@ import com.google.gwt.place.shared.Place;
 import com.jettmarks.routes.client.activities.AboutActivity;
 import com.jettmarks.routes.client.activities.ConductorActivity;
 import com.jettmarks.routes.client.activities.DisplayGroupListActivity;
+import com.jettmarks.routes.client.activities.EventTabbedActivity;
 import com.jettmarks.routes.client.activities.FindRouteActivity;
 import com.jettmarks.routes.client.activities.GetInvolvedActivity;
 import com.jettmarks.routes.client.activities.HomeActivity;
 import com.jettmarks.routes.client.activities.ResourcesActivity;
 import com.jettmarks.routes.client.activities.RouteDetailsActivity;
-import com.jettmarks.routes.client.activities.showGroup.ShowGroupActivity;
 import com.jettmarks.routes.client.forms.FormsActivity;
 import com.jettmarks.routes.client.forms.FormsPlace;
 import com.jettmarks.routes.client.place.AboutPlace;
@@ -74,7 +74,8 @@ public class PhoneActivityMapper implements ActivityMapper {
 	}
 
 	if (place instanceof EventPlace) {
-	    return new ShowGroupActivity(place, clientFactory);
+	    // return new ShowGroupActivity(place, clientFactory);
+	    return new EventTabbedActivity(place, clientFactory);
 	}
 
 	if (place instanceof RouteDetailsPlace) {

@@ -80,6 +80,8 @@ public class ClientFactoryImpl implements ClientFactory {
 
     private EventViewBaseImpl eventMapView;
 
+    private EventViewBaseImpl eventTabbedView;
+
     public ClientFactoryImpl() {
 	eventBus = new SimpleEventBus();
 
@@ -144,11 +146,20 @@ public class ClientFactoryImpl implements ClientFactory {
     @Override
     public EventView getEventMapView() {
 	if (eventMapView == null) {
-	    // TODO: create the desired instance
 	    eventMapView = new EventViewMapOnlyGwtImpl();
-	    // eventMapView = new EventViewTabbedGwtImpl();
 	}
 	return eventMapView;
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.ClientFactory#getEventTabbedView()
+     */
+    @Override
+    public EventView getEventTabbedView() {
+	if (eventTabbedView == null) {
+	    eventTabbedView = new EventViewTabbedGwtImpl();
+	}
+	return eventTabbedView;
     }
 
     /**
