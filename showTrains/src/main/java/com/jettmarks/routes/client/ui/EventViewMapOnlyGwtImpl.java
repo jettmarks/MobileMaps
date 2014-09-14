@@ -68,7 +68,7 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	mapWidget = new MapWidget(opts);
 	// Only the height has to be spec'd
 	mapWidget.setSize("100%", "100%");
-	mapWidget.setHeight(ScreenSize.getHeight() - 89 + "px");
+	mapWidget.setHeight(ScreenSize.getHeight() - 39 + "px");
 	ScreenSize.addRegistration(mapWidget);
 	return mapWidget;
     }
@@ -193,18 +193,13 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
     /**
      * Responds to external activity telling us a route has been selected.
      * 
-     * Null value for newIndex will turn off all selections.
+     * Map Only view doesn't have to worry about the list and the map has been
+     * covered by calls to the separate routes.
      * 
      * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
      */
     @Override
     public void selectRoute(Integer newIndex) {
-	if (currentIndex != null) {
-	    listWidget.setSelectedIndex(currentIndex, false);
-	}
-	if (newIndex != null) {
-	    listWidget.setSelectedIndex(newIndex, true);
-	}
 	currentIndex = newIndex;
     }
 }

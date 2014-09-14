@@ -31,6 +31,7 @@ import com.jettmarks.routes.client.ui.EventSelectionViewGwtImpl;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.EventViewBaseImpl;
 import com.jettmarks.routes.client.ui.EventViewListOnlyGwtImpl;
+import com.jettmarks.routes.client.ui.EventViewMapOnlyGwtImpl;
 import com.jettmarks.routes.client.ui.EventViewTabbedGwtImpl;
 import com.jettmarks.routes.client.ui.FindRouteView;
 import com.jettmarks.routes.client.ui.FindRouteViewGwtImpl;
@@ -144,8 +145,8 @@ public class ClientFactoryImpl implements ClientFactory {
     public EventView getEventMapView() {
 	if (eventMapView == null) {
 	    // TODO: create the desired instance
-	    // eventMapView = new EventViewMapOnlyGwtImpl();
-	    eventMapView = new EventViewTabbedGwtImpl();
+	    eventMapView = new EventViewMapOnlyGwtImpl();
+	    // eventMapView = new EventViewTabbedGwtImpl();
 	}
 	return eventMapView;
     }
