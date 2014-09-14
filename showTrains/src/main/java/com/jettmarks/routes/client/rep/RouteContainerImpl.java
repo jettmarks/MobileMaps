@@ -27,6 +27,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.dialog.AlertDialog;
 import com.jettmarks.routes.client.activities.EventActivity;
+import com.jettmarks.routes.client.activities.RouteDetailsActivity;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayElementDTO;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
@@ -68,6 +69,8 @@ public class RouteContainerImpl implements RouteContainer {
 
     private Integer currentIndex = null;
 
+    private RouteDetailsActivity routeDetailsActivity;
+
     /**
      * @see com.jettmarks.routes.client.rep.RouteContainer#addActivity(com.jettmarks.routes.client.activities.EventActivity)
      */
@@ -75,6 +78,18 @@ public class RouteContainerImpl implements RouteContainer {
     public void addActivity(EventActivity eventActivity) {
 	activityList.add(eventActivity);
 	// this.eventActivity = eventActivity;
+    }
+
+    /**
+     * Invoked when the Route Details activity is ready to be notified of
+     * changes in the Route.
+     * 
+     * @see com.jettmarks.routes.client.rep.RouteContainer#setDetailsActivity(com.jettmarks.routes.client.activities.RouteDetailsActivity)
+     */
+    @Override
+    public void setDetailsActivity(RouteDetailsActivity routeDetailsActivity) {
+	this.routeDetailsActivity = routeDetailsActivity;
+
     }
 
     /**
@@ -227,6 +242,9 @@ public class RouteContainerImpl implements RouteContainer {
 	currentIndex = newIndex;
 	for (EventActivity eventActivity : activityList) {
 	    eventActivity.setSelectedRoute(newIndex, selectedRoute);
+	}
+	if (routeDetailsActivity != null) {
+	    routeDetailsActivity.setViewDetails((BikeTrainRoute) selectedRoute);
 	}
     }
 
