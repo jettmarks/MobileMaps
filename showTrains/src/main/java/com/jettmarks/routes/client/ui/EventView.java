@@ -86,4 +86,9 @@ public interface EventView extends DetailView {
      */
     void selectRoute(Integer newIndex);
 
+    /**
+     * @param b
+     */
+    public abstract void enableHomeButton(boolean b);
+
 }

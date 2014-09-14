@@ -118,6 +118,14 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
     }
 
     /**
+     * @see com.jettmarks.routes.client.ui.EventView#enableHomeButton(boolean)
+     */
+    @Override
+    public void enableHomeButton(boolean b) {
+	headerButtonBar.setHomeButtonEnabled(b);
+    }
+
+    /**
      * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
      */
     @Override

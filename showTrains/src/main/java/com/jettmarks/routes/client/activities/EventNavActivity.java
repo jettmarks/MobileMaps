@@ -18,7 +18,9 @@
 package com.jettmarks.routes.client.activities;
 
 import com.google.gwt.activity.shared.Activity;
+import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.jettmarks.routes.client.ClientFactory;
 
 /**
@@ -34,5 +36,19 @@ public class EventNavActivity extends EventActivity implements Activity {
     public EventNavActivity(Place newPlace, ClientFactory clientFactory) {
 	super(clientFactory.getEventListView());
 	super.setupInstance(newPlace, clientFactory);
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.activities.EventActivity#start(com.google.gwt.user.client.ui.AcceptsOneWidget,
+     *      com.google.gwt.event.shared.EventBus)
+     */
+    @Override
+    public void start(AcceptsOneWidget panel, EventBus eventBus) {
+	super.start(panel, eventBus);
+	view.getHeader().setText("Trains");
+	// Nav won't need these buttons
+	view.enableHomeButton(false);
+	view.enableBackButton(false);
+	view.enableForwardButton(false);
     }
 }

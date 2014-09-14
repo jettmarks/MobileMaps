@@ -265,6 +265,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
      */
     public void setHomeButtonEnabled(boolean homeButtonEnabled) {
 	this.homeButtonEnabled = homeButtonEnabled;
+	refresh();
     }
 
     /**
