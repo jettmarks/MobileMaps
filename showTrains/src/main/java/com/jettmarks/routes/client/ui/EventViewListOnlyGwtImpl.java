@@ -17,7 +17,6 @@
  */
 package com.jettmarks.routes.client.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HTML;
@@ -25,7 +24,7 @@ import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.CellList;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
 import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
-import com.jettmarks.routes.client.bean.Route;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 
 /**
  * Description.
@@ -35,14 +34,11 @@ import com.jettmarks.routes.client.bean.Route;
 public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
 	EventView {
 
-    private List<Route> routes = new ArrayList<Route>();
-
     private String description;
 
     private String displayGroupName;
 
     private ScrollPanel scrollPanel;
-    private HeaderButtonBar headerButtonBar;
 
     public EventViewListOnlyGwtImpl() {
 	main = new LayoutPanel();
@@ -56,11 +52,10 @@ public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
 	main.add(scrollPanel);
     }
 
-
     /**
      * @param listWidget
      */
-    private void setupListPanel(CellList<Route> listWidget) {
+    private void setupListPanel(CellList<BikeTrainRoute> listWidget) {
 	scrollPanel = new ScrollPanel();
 	scrollPanel.add(listWidget);
 	scrollPanel.setSize("100%", "100%");
@@ -68,11 +63,10 @@ public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
 	scrollPanel.setScrollingEnabledX(true);
     }
 
-
     /**
      * Called after last route has been loaded.
      */
-    public void renderList() {
+    public void renderList(List<BikeTrainRoute> routes) {
 	listWidget.render(routes);
 	scrollPanel.refresh();
     }
@@ -138,7 +132,7 @@ public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
 	headerButtonBar.setLeftButtonEnabled(isEnabled);
     }
 
-    /** 
+    /**
      * @see com.jettmarks.routes.client.ui.EventView#enableForwardButton()
      */
     @Override
@@ -149,24 +143,19 @@ public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
     /**
      * Responds to external activity telling us a route has been selected.
      * 
+     * Null value for newIndex will turn off all selections.
+     * 
      * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
      */
     @Override
-    public void selectRoute(Route route) {
-	int index = 0;
-	for (Route r : routes) {
-	    String title = r.getDisplayName();
-	    boolean selected = (route != null)
-		    && title.equals(route.getDisplayName());
-	    listWidget.setSelectedIndex(index++, selected);
+    public void selectRoute(Integer newIndex) {
+	if (currentIndex != null) {
+	    listWidget.setSelectedIndex(currentIndex, false);
 	}
-	if (route != null) {
-	    // headerPanel.setCenter("View " + route.getDisplayName());
-	    title.setText("View " + route.getDisplayName());
-	} else {
-	    // headerPanel.setCenter(getDescription());
-	    title.setText(getDescription());
+	if (newIndex != null) {
+	    listWidget.setSelectedIndex(newIndex, true);
 	}
+	currentIndex = newIndex;
     }
 
     /**
@@ -176,11 +165,10 @@ public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
      * @see com.jettmarks.routes.client.ui.EventViewBaseImpl#resize()
      */
     @Override
-    public void resize() {
-	super.resize();
-	renderList();
+    public void resize(List<BikeTrainRoute> routes) {
+	super.resize(routes);
+	renderList(routes);
     }
-
 
     /**
      * @see com.jettmarks.routes.client.ui.EventView#showMapTab()

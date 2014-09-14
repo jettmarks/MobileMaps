@@ -17,10 +17,13 @@
  */
 package com.jettmarks.routes.client.ui;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.HTML;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.DetailView;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.Route;
 
 /**
@@ -48,11 +51,6 @@ public interface EventView extends DetailView {
      */
     public abstract HasTapHandlers getForwardbutton();
 
-    /**
-     * May want to refactor so RouteContainer doesn't have to know about it.
-     */
-    public abstract void resize();
-
     public abstract void enableForwardButton(boolean isEnabled);
 
     public abstract void selectRoute(Route route);
@@ -78,6 +76,14 @@ public interface EventView extends DetailView {
     public abstract void setRouteSelectedHandler(
 	    CellSelectedHandler routeListCellSelectedHandler);
 
-    public abstract Route getRoute(int index);
+    /**
+     * @param routes
+     */
+    void resize(List<BikeTrainRoute> routes);
+
+    /**
+     * @param newIndex
+     */
+    void selectRoute(Integer newIndex);
 
 }

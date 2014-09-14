@@ -26,8 +26,11 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.dialog.AlertDialog;
+import com.jettmarks.routes.client.activities.EventActivity;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayElementDTO;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
+import com.jettmarks.routes.client.bean.DisplayOnlyRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.bean.RouteRequest;
 import com.jettmarks.routes.client.bean.RouteRequestRouteName;
@@ -46,26 +49,37 @@ public class RouteContainerImpl implements RouteContainer {
 
     private static RequestType requestType = RequestType.UNDETERMINED;
 
-    private EventView mapView = null;
-
     private static RouteRequest currentRouteRequest = null;
 
     private static GWTCProgress gwtcProgress;
 
-    private Route selectedRoute = null;
+    private DisplayOnlyRoute selectedRoute = null;
 
     private DisplayGroupDTO displayGroup = null;
 
     private boolean displayGroupHasChanged;
 
     private List<EventView> viewList = new ArrayList<EventView>();
+    private List<EventActivity> activityList = new ArrayList<EventActivity>();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks
-     * .routes .client.bean.RouteRequestRouteName)
+    // private EventActivity eventActivity;
+
+    protected List<BikeTrainRoute> routes = new ArrayList<BikeTrainRoute>();
+
+    private Integer currentIndex = null;
+
+    /**
+     * @see com.jettmarks.routes.client.rep.RouteContainer#addActivity(com.jettmarks.routes.client.activities.EventActivity)
+     */
+    @Override
+    public void addActivity(EventActivity eventActivity) {
+	activityList.add(eventActivity);
+	// this.eventActivity = eventActivity;
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks
+     *      .routes .client.bean.RouteRequestRouteName)
      */
     @Override
     public void addRoutes(RouteRequestRouteName routeRequestRouteName) {
@@ -73,12 +87,9 @@ public class RouteContainerImpl implements RouteContainer {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks
-     * .routes .client.bean.RouteRequest)
+    /**
+     * @see com.jettmarks.routes.client.ui.RouteContainer#addRoutes(com.jettmarks
+     *      .routes .client.bean.RouteRequest)
      */
     @Override
     public void addRoutes(RouteRequest routeRequest) {
@@ -107,17 +118,22 @@ public class RouteContainerImpl implements RouteContainer {
 
     /**
      * This method allows drawing each of the routes as they come back from the
-     * server; we add them to the view as each one comes in.
+     * server; we add them to the view -- using the activity -- as each one
+     * comes in.
      * 
      * @see com.jettmarks.routes.client.ui.RouteContainer#put(java.lang.String,
      *      com.jettmarks.routes.client.bean.Route)
      */
     @Override
     public void put(String routeName, Route route) {
-	for (EventView view : viewList) {
-	    view.add(route);
+	routes.add((BikeTrainRoute) route);
+	for (EventActivity eventActivity : activityList) {
+	    eventActivity.add(route);
 	}
-	// mapView.add(route);
+	// TODO: Not sure if this is the way we want to go anymore
+	// for (EventView view : viewList) {
+	// view.add(route);
+	// }
     }
 
     /**
@@ -151,17 +167,15 @@ public class RouteContainerImpl implements RouteContainer {
     public void updateProgress() {
 	// Not much to do if we load a single route at a time.
 	if (currentRouteRequest == null) {
-	    for (EventView view : viewList) {
-		view.resize();
-		// mapView.resize();
+	    for (EventActivity eventActivity : activityList) {
+		eventActivity.resize(routes);
 	    }
 	    return;
 	}
 
 	if (!currentRouteRequest.hasNext()) {
-	    for (EventView view : viewList) {
-		view.resize();
-		// mapView.resize();
+	    for (EventActivity eventActivity : activityList) {
+		eventActivity.resize(routes);
 	    }
 	    gwtcProgress.hide();
 	} else
@@ -203,16 +217,31 @@ public class RouteContainerImpl implements RouteContainer {
     }
 
     @Override
-    public void setSelectedRoute(Route route) {
-	selectedRoute = route;
-	// if (mapView != null)
-	// {
-	// mapView.enableForwardButton(selectedRoute != null);
-	// }
-	for (EventView view : viewList) {
-	    view.selectRoute(selectedRoute);
+    public void setSelectedRoute(Integer newIndex) {
+
+	// Turn off any highlighted route on map
+	if (selectedRoute != null) {
+	    selectedRoute.toggleHighlight();
 	}
-	// mapView.selectRoute(selectedRoute);
+
+	// Turn on the selected route
+	if (routes != null && newIndex != null) {
+	    selectedRoute = routes.get(newIndex);
+	    selectedRoute.toggleHighlight();
+	}
+
+	currentIndex = newIndex;
+	for (EventActivity eventActivity : activityList) {
+	    eventActivity.setSelectedRoute(newIndex, selectedRoute);
+	}
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.rep.RouteContainer#getSelectedRouteIndex()
+     */
+    @Override
+    public Integer getSelectedRouteIndex() {
+	return currentIndex;
     }
 
     /*
@@ -245,7 +274,17 @@ public class RouteContainerImpl implements RouteContainer {
 		    .equals(displayGroup.getDisplayName()));
 	}
 	if (this.displayGroup != null && displayGroupHasChanged) {
-	    clearPreviousMap();
+	    // Turn off any selected route
+	    if (selectedRoute != null) {
+		selectedRoute.toggleHighlight();
+	    }
+	    for (EventActivity eventActivity : activityList) {
+		eventActivity.clearMap();
+	    }
+	    for (Route r : routes) {
+		r.setMap(null);
+	    }
+	    routes.clear();
 	}
 	this.displayGroup = displayGroup;
     }
@@ -254,7 +293,6 @@ public class RouteContainerImpl implements RouteContainer {
    * 
    */
     private void clearPreviousMap() {
-	mapView.clearMap();
     }
 
     /**
@@ -287,18 +325,6 @@ public class RouteContainerImpl implements RouteContainer {
 	}
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.jettmarks.routes.client.rep.RouteContainer#setView(com.jettmarks.
-     * routes .client.ui.EventView)
-     */
-    @Override
-    public void setView(EventView view) {
-	mapView = view;
-    }
-
     /**
      * @see com.jettmarks.routes.client.rep.RouteContainer#addView(com.jettmarks.routes.client.ui.EventView)
      */
@@ -307,27 +333,48 @@ public class RouteContainerImpl implements RouteContainer {
 	viewList.add(view);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.jettmarks.routes.client.rep.RouteContainer#displayGroupHasChanged()
+    /**
+     * @see com.jettmarks.routes.client.rep.RouteContainer#displayGroupHasChanged()
      */
     @Override
     public boolean displayGroupHasChanged() {
 	return displayGroupHasChanged;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.jettmarks.routes.client.rep.RouteContainer#getDisplayGroup(java.lang
-     * .String)
+    /**
+     * @see com.jettmarks.routes.client.rep.RouteContainer#getDisplayGroup(java.lang
+     *      .String)
      */
     @Override
     public DisplayGroupDTO getDisplayGroup(String displayGroupName) {
 	return null;
+    }
+
+    /**
+     * Accepts a route as the selectedRoute, and turns it into the more useful
+     * index which is passed to the selectedRoute(Integer newIndex) method.
+     * 
+     * @see com.jettmarks.routes.client.rep.RouteContainer#setSelectedRoute(com.jettmarks.routes.client.bean.DisplayOnlyRoute)
+     */
+    @Override
+    public void setSelectedRoute(DisplayOnlyRoute requestedRoute) {
+	// Handle trivial case first
+	if (requestedRoute == null) {
+	    setSelectedRoute((Integer) null);
+	    return;
+	}
+
+	Integer newIndex = null;
+	int index = 0;
+	for (Route route : routes) {
+	    String displayName = route.getDisplayName();
+	    if (displayName != null
+		    && displayName.equals(requestedRoute.getDisplayName())) {
+		newIndex = index;
+	    }
+	    index++;
+	}
+	setSelectedRoute(newIndex);
     }
 
 }

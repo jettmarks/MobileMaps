@@ -3,7 +3,9 @@
  */
 package com.jettmarks.routes.client.rep;
 
+import com.jettmarks.routes.client.activities.EventActivity;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
+import com.jettmarks.routes.client.bean.DisplayOnlyRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.bean.RouteRequest;
 import com.jettmarks.routes.client.bean.RouteRequestRouteName;
@@ -15,8 +17,6 @@ import com.jettmarks.routes.client.ui.EventView;
  * 
  */
 public interface RouteContainer {
-    // TODO: Review this; don't want something so specific in here; see addView
-    public void setView(EventView view);
 
     public void addView(EventView view);
 
@@ -40,7 +40,7 @@ public interface RouteContainer {
 
     public Route getSelectedRoute();
 
-    public abstract void setSelectedRoute(Route route);
+    public abstract void setSelectedRoute(Integer i);
 
     public DisplayGroupDTO getCurrentDisplayGroup();
 
@@ -55,4 +55,19 @@ public interface RouteContainer {
      * @param displayGroupName
      */
     public DisplayGroupDTO getDisplayGroup(String displayGroupName);
+
+    /**
+     * @return
+     */
+    public Integer getSelectedRouteIndex();
+
+    /**
+     * @param displayOnlyRoute
+     */
+    public void setSelectedRoute(DisplayOnlyRoute displayOnlyRoute);
+
+    /**
+     * @param eventActivity
+     */
+    public void addActivity(EventActivity eventActivity);
 }

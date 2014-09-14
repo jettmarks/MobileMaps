@@ -86,7 +86,7 @@ public class MapActivity extends DetailActivity {
 		    public void onTap(TapEvent event) {
 			mapView.clearMap();
 			RouteContainerFactory.getRouteContainer()
-				.setSelectedRoute(null);
+				.setSelectedRoute((Integer) null);
 			clientFactory.getPlaceController()
 				.goTo(new HomePlace());
 		    }
@@ -118,7 +118,7 @@ public class MapActivity extends DetailActivity {
 		    public void onTap(TapEvent event) {
 			mapView.clearMap();
 			RouteContainerFactory.getRouteContainer()
-				.setSelectedRoute(null);
+				.setSelectedRoute((Integer) null);
 			clientFactory.getPlaceController().goTo(
 				new EventSelectionPlace());
 		    }

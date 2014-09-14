@@ -17,7 +17,6 @@
  */
 package com.jettmarks.routes.client.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.maps.client.MapOptions;
@@ -27,8 +26,7 @@ import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.user.client.ui.HTML;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
-import com.jettmarks.routes.client.bean.Route;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.util.ScreenSize;
 
 /**
@@ -38,18 +36,8 @@ import com.jettmarks.routes.client.util.ScreenSize;
  */
 public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	EventView {
-    private MapWidget mapWidget;
 
     private static int currentZoomLevel = 13;
-
-    private List<Route> routes = new ArrayList<Route>();
-
-    private String description;
-
-    private String displayGroupName;
-
-    private ScrollPanel scrollPanel;
-    private HeaderButtonBar headerButtonBar;
 
     public EventViewMapOnlyGwtImpl() {
 	main = new LayoutPanel();
@@ -61,7 +49,6 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	main.add(headerButtonBar);
 	main.add(mapWidget);
     }
-
 
     /**
      * Setup the Map along with resize registration.
@@ -87,11 +74,15 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
     }
 
     /**
-     * Called after last route has been loaded.
+     * @see com.jettmarks.routes.client.ui.EventViewBaseImpl#resize()
      */
-    public void renderList() {
-	listWidget.render(routes);
-	scrollPanel.refresh();
+    @Override
+    public void resize(List<BikeTrainRoute> routes) {
+	super.resize(routes);
+	if (mapBounds == null) {
+	    return;
+	}
+	mapWidget.fitBounds(mapBounds);
     }
 
     /**
@@ -125,7 +116,7 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	title.setText(description);
     }
 
-    /** 
+    /**
      * @see com.jettmarks.routes.client.MapDetailViewGwtImpl#getBackbutton()
      */
     @Override
@@ -153,7 +144,7 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	headerButtonBar.setLeftButtonEnabled(isEnabled);
     }
 
-    /** 
+    /**
      * @see com.jettmarks.routes.client.ui.EventView#enableForwardButton()
      */
     @Override
@@ -166,22 +157,14 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
      * 
      * 
      * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
+     * @Override public void selectRoute(Route route) { int index = 0; for
+     *           (Route r : routes) { String title = r.getDisplayName(); boolean
+     *           selected = (route != null) &&
+     *           title.equals(route.getDisplayName());
+     *           listWidget.setSelectedIndex(index++, selected); } if (route !=
+     *           null) { title.setText("View " + route.getDisplayName()); } else
+     *           { title.setText(getDescription()); } }
      */
-    @Override
-    public void selectRoute(Route route) {
-	int index = 0;
-	for (Route r : routes) {
-	    String title = r.getDisplayName();
-	    boolean selected = (route != null)
-		    && title.equals(route.getDisplayName());
-	    listWidget.setSelectedIndex(index++, selected);
-	}
-	if (route != null) {
-	    title.setText("View " + route.getDisplayName());
-	} else {
-	    title.setText(getDescription());
-	}
-    }
 
     /**
      * @see com.jettmarks.routes.client.ui.EventView#showMapTab()
@@ -205,5 +188,23 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
     @Override
     public HasTapHandlers getHomeButton() {
 	return headerButtonBar.getHomeButton();
+    }
+
+    /**
+     * Responds to external activity telling us a route has been selected.
+     * 
+     * Null value for newIndex will turn off all selections.
+     * 
+     * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
+     */
+    @Override
+    public void selectRoute(Integer newIndex) {
+	if (currentIndex != null) {
+	    listWidget.setSelectedIndex(currentIndex, false);
+	}
+	if (newIndex != null) {
+	    listWidget.setSelectedIndex(newIndex, true);
+	}
+	currentIndex = newIndex;
     }
 }

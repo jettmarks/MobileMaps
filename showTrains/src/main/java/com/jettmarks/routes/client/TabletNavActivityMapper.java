@@ -4,6 +4,7 @@ import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 import com.jettmarks.routes.client.activities.EventActivity;
+import com.jettmarks.routes.client.activities.EventNavActivity;
 import com.jettmarks.routes.client.activities.EventSelectionActivity;
 import com.jettmarks.routes.client.place.EventPlace;
 
@@ -32,7 +33,7 @@ public class TabletNavActivityMapper implements ActivityMapper {
      */
     private Activity getEventActivity(Place place) {
 	if (eventActivity == null) {
-	    eventActivity = new EventActivity(place, clientFactory);
+	    eventActivity = new EventNavActivity(place, clientFactory);
 	}
 	return eventActivity;
     }

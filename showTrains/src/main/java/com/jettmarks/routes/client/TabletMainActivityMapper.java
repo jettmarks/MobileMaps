@@ -7,13 +7,13 @@ import com.googlecode.mgwt.ui.client.MGWT;
 import com.jettmarks.routes.client.activities.AboutActivity;
 import com.jettmarks.routes.client.activities.ConductorActivity;
 import com.jettmarks.routes.client.activities.EmptyMapActivity;
+import com.jettmarks.routes.client.activities.EventMainActivity;
 import com.jettmarks.routes.client.activities.EventSelectionActivity;
 import com.jettmarks.routes.client.activities.FindRouteActivity;
 import com.jettmarks.routes.client.activities.GetInvolvedActivity;
 import com.jettmarks.routes.client.activities.HomeActivity;
 import com.jettmarks.routes.client.activities.ResourcesActivity;
 import com.jettmarks.routes.client.activities.RouteDetailsActivity;
-import com.jettmarks.routes.client.activities.showGroup.ShowGroupActivity;
 import com.jettmarks.routes.client.forms.FormsActivity;
 import com.jettmarks.routes.client.forms.FormsPlace;
 import com.jettmarks.routes.client.place.AboutPlace;
@@ -65,7 +65,8 @@ public class TabletMainActivityMapper implements ActivityMapper {
 	}
 
 	if (newPlace instanceof EventPlace) {
-	    return new ShowGroupActivity(newPlace, clientFactory);
+	    return new EventMainActivity(newPlace, clientFactory);
+	    // return new ShowGroupActivity(newPlace, clientFactory);
 	}
 
 	if (newPlace instanceof ConductorPlace) {

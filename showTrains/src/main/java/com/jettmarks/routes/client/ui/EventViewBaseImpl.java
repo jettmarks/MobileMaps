@@ -1,6 +1,5 @@
 package com.jettmarks.routes.client.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.maps.client.MapWidget;
@@ -15,20 +14,23 @@ import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.MapDetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
+import com.jettmarks.routes.client.bean.DisplayOnlyRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.rep.EventContainer;
 import com.jettmarks.routes.client.ui.MarkerFactory.MarkerType;
 
-public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView {
+public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
+	EventView {
 
     protected static LatLngBounds mapBounds = null;
     protected MapWidget mapWidget;
-    protected List<Route> routes = new ArrayList<Route>();
-    protected final CellList<Route> listWidget = new CellList<Route>(new RouteCell());
+    protected final CellList<BikeTrainRoute> listWidget = new CellList<BikeTrainRoute>(
+	    new RouteCell());
     protected String description;
     protected String displayGroupName;
     protected ScrollPanel scrollPanel;
     protected HeaderButtonBar headerButtonBar;
+    protected Integer currentIndex;
 
     public EventViewBaseImpl() {
     }
@@ -37,9 +39,9 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView
     * 
     */
     protected void setupHeader() {
-        headerButtonBar = new HeaderButtonBar();
-        title = new HTML();
-        headerButtonBar.setTitle(title);
+	headerButtonBar = new HeaderButtonBar();
+	title = new HTML();
+	headerButtonBar.setTitle(title);
     }
 
     /**
@@ -53,26 +55,25 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView
      */
     @Override
     public void add(Route route) {
-        BikeTrainRoute bikeRoute = (BikeTrainRoute) route;
-        // Take care of the map
-        LatLngBounds routeBounds = bikeRoute.getBounds();
-        if (mapBounds == null) {
-            mapBounds = routeBounds;
-        } else {
-            mapBounds.extend(routeBounds.getNorthEast());
-            mapBounds.extend(routeBounds.getSouthWest());
-        }
-        routes.add(bikeRoute);
-        addBeginEndMarkers(route, mapWidget);
-        bikeRoute.setMap(mapWidget);
-        bikeRoute.highlight(false);
+	DisplayOnlyRoute bikeRoute = (DisplayOnlyRoute) route;
+	// Take care of the map
+	LatLngBounds routeBounds = bikeRoute.getBounds();
+	if (mapBounds == null) {
+	    mapBounds = routeBounds;
+	} else {
+	    mapBounds.extend(routeBounds.getNorthEast());
+	    mapBounds.extend(routeBounds.getSouthWest());
+	}
+	addBeginEndMarkers(route, mapWidget);
+	bikeRoute.setMap(mapWidget);
+	bikeRoute.highlight(false);
     }
 
     /**
      * @return the dispGroupName
      */
     public String getDisplayGroupName() {
-        return displayGroupName;
+	return displayGroupName;
     }
 
     /**
@@ -80,14 +81,14 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView
      *            the dispGroupName to set
      */
     public void setDisplayGroupName(String dispGroupName) {
-        this.displayGroupName = dispGroupName;
+	this.displayGroupName = dispGroupName;
     }
 
     /**
      * @return the description
      */
     public String getDescription() {
-        return description;
+	return description;
     }
 
     /**
@@ -95,13 +96,13 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView
      *            the description to set
      */
     public void setDescription(String description) {
-        this.description = description;
-        title.setText(description);
+	this.description = description;
+	title.setText(description);
     }
 
     @Override
     public HasTapHandlers getBackbutton() {
-        return headerButtonBar.getLeftButton();
+	return headerButtonBar.getLeftButton();
     }
 
     /**
@@ -109,11 +110,11 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView
      */
     @Override
     public HasTapHandlers getForwardbutton() {
-        return headerButtonBar.getRightButton();
+	return headerButtonBar.getRightButton();
     }
 
     public HTML getHeaderTapHandlers() {
-        return title;
+	return title;
     }
 
     /**
@@ -121,12 +122,12 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView
      */
     @Override
     public void enableBackButton(boolean isEnabled) {
-        headerButtonBar.setLeftButtonEnabled(isEnabled);
+	headerButtonBar.setLeftButtonEnabled(isEnabled);
     }
 
     @Override
     public void enableForwardButton(boolean isEnabled) {
-        headerButtonBar.setRightButtonEnabled(isEnabled);
+	headerButtonBar.setRightButtonEnabled(isEnabled);
     }
 
     /**
@@ -134,67 +135,64 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView
      */
     @Override
     public HasTapHandlers getHomeButton() {
-        return headerButtonBar.getHomeButton();
+	return headerButtonBar.getHomeButton();
     }
-
 
     @Override
     public void selectRoute(Route route) {
-	// TODO Auto-generated method stub
-	
+
+	if (route != null) {
+	    title.setText("View " + route.getDisplayName());
+	} else {
+	    title.setText(getDescription());
+	}
     }
 
     @Override
     public void showMapTab() {
 	// TODO Auto-generated method stub
-	
+
     }
 
     @Override
     public void showListTab() {
 	// TODO Auto-generated method stub
-	
+
     }
 
     @Override
     public void setRouteSelectedHandler(
 	    CellSelectedHandler routeListCellSelectedHandler) {
-        listWidget.addCellSelectedHandler(routeListCellSelectedHandler);
+	listWidget.addCellSelectedHandler(routeListCellSelectedHandler);
     }
 
+    // @Override
+    // public Route getRoute(int index) {
+    // return routes.get(index);
+    // }
+    /**
+     * Invoked once all routes have been read from the async service.
+     * 
+     * @see com.jettmarks.routes.client.ui.EventView#resize()
+     */
     @Override
-    public Route getRoute(int index) {
-	return routes.get(index);
-    }
-
-    @Override
-    public void resize() {
-        // Pick up refreshed dgDto if we didn't get one at first
-        if (description == null) {
-            DisplayGroupDTO dgDto = EventContainer.getEvent(displayGroupName);
-            if (dgDto != null) {
-        	setDescription(dgDto.getDescription());
-            }
-        }
-        if (mapBounds == null) {
-            return;
-        }
-        mapWidget.fitBounds(mapBounds);
+    public void resize(List<BikeTrainRoute> routes) {
+	// Pick up refreshed dgDto if we didn't get one at first
+	if (description == null) {
+	    DisplayGroupDTO dgDto = EventContainer.getEvent(displayGroupName);
+	    if (dgDto != null) {
+		setDescription(dgDto.getDescription());
+	    }
+	}
+	// subclasses perform their own specific action
     }
 
     /**
      * Removes all routes from the map.
      * 
      * @see com.jettmarks.routes.client.ui.EventView#clearMap()
+     * @Override public void clearMap() { }
      */
-    @Override
-    public void clearMap() {
-        for (Route r : routes) {
-            r.setMap(null);
-        }
-        routes.clear();
-        mapBounds = null;
-    }
 
     /**
      * Hides details of figuring out where to put the markers on the route.
@@ -203,19 +201,37 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements EventView
      * @param mapWidget2
      */
     void addBeginEndMarkers(Route route, MapWidget mapWidget2) {
-        if (route.getPoints() == null)
-            return;
-        int pointCount = route.getPoints().length;
-        if (pointCount == 0)
-            return;
-    
-        LatLng beginLatLng = route.getPoints()[0];
-        LatLng endLatLng = route.getPoints()[pointCount - 1];
-        Marker beginMarker = MarkerFactory.getInstance(MarkerType.START_MARKER,
-        	beginLatLng);
-        Marker endMarker = MarkerFactory.getInstance(MarkerType.END_MARKER,
-        	endLatLng);
-        beginMarker.setMap(mapWidget2);
-        endMarker.setMap(mapWidget2);
+	if (route.getPoints() == null)
+	    return;
+	int pointCount = route.getPoints().length;
+	if (pointCount == 0)
+	    return;
+
+	LatLng beginLatLng = route.getPoints()[0];
+	LatLng endLatLng = route.getPoints()[pointCount - 1];
+	Marker beginMarker = MarkerFactory.getInstance(MarkerType.START_MARKER,
+		beginLatLng);
+	Marker endMarker = MarkerFactory.getInstance(MarkerType.END_MARKER,
+		endLatLng);
+	beginMarker.setMap(mapWidget2);
+	endMarker.setMap(mapWidget2);
     }
+
+    /**
+     * @see com.jettmarks.routes.client.ui.EventView#clearMap()
+     */
+    @Override
+    public void clearMap() {
+	mapBounds = null;
+    }
+
+    /**
+     * Subclasses provide specific action.
+     * 
+     * @see com.jettmarks.routes.client.ui.EventView#selectRoute(java.lang.Integer)
+     */
+    @Override
+    public void selectRoute(Integer newIndex) {
+    }
+
 }

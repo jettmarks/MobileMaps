@@ -38,6 +38,12 @@ import com.jettmarks.routes.client.rep.RouteContainerImpl;
 import com.jettmarks.routes.client.rep.ServiceWrapper;
 import com.jettmarks.routes.client.ui.EventView;
 
+/**
+ * Description.
+ * 
+ * @author jett
+ * @deprecated = Subclasses of EventActivity are where it's at.
+ */
 public class ShowGroupActivity extends DetailActivity {
 
     private final ClientFactory clientFactory;
@@ -54,7 +60,7 @@ public class ShowGroupActivity extends DetailActivity {
 	EventPlace place = (EventPlace) newPlace;
 	String description = place.getDescription();
 	String displayGroupName = place.getDisplayGroupName();
-	view = clientFactory.getEventView();
+	view = clientFactory.getEventMapView();
 	view.setDisplayGroupName(displayGroupName);
 	view.setDescription(description);
 	DisplayGroupDTO displayGroup = new DisplayGroupDTO();
@@ -81,9 +87,9 @@ public class ShowGroupActivity extends DetailActivity {
      */
     @Override
     public void onStop() {
-        super.onStop();
-        cancelAllHandlerRegistrations();
-        mapActivity.onStop();
+	super.onStop();
+	cancelAllHandlerRegistrations();
+	mapActivity.onStop();
     }
 
     @Override

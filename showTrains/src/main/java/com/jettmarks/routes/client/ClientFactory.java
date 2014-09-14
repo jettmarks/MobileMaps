@@ -83,4 +83,9 @@ public interface ClientFactory {
      */
     public EventView getEventListView();
 
+    /**
+     * @return
+     */
+    public EventView getEventMapView();
+
 }

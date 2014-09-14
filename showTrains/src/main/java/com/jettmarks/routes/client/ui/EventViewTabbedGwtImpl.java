@@ -17,6 +17,7 @@
  */
 package com.jettmarks.routes.client.ui;
 
+import java.util.List;
 
 import com.google.gwt.maps.client.MapOptions;
 import com.google.gwt.maps.client.MapTypeId;
@@ -28,7 +29,7 @@ import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.tabbar.Tab;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabBarButtonBase;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabPanel;
-import com.jettmarks.routes.client.bean.Route;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.ui.tab.ListTabBarButton;
 import com.jettmarks.routes.client.ui.tab.MapTabBarButton;
 import com.jettmarks.routes.client.util.ScreenSize;
@@ -40,7 +41,6 @@ import com.jettmarks.routes.client.util.ScreenSize;
  */
 public class EventViewTabbedGwtImpl extends EventViewBaseImpl implements
 	EventView {
-    MapWidget mapWidget;
 
     private static int currentZoomLevel = 13;
 
@@ -76,7 +76,7 @@ public class EventViewTabbedGwtImpl extends EventViewBaseImpl implements
      * @param listWidget
      * @return
      */
-    private Tab prepareListTab(CellList<Route> listWidget) {
+    private Tab prepareListTab(CellList<BikeTrainRoute> listWidget) {
 	Tab tab = new Tab();
 	scrollPanel = new ScrollPanel();
 	scrollPanel.add(listWidget);
@@ -114,35 +114,52 @@ public class EventViewTabbedGwtImpl extends EventViewBaseImpl implements
     }
 
     /**
-     * Called after last route has been loaded.
+     * Called after last route has been loaded. public void
+     * renderList(List<Route> routes) { listWidget.render(routes);
+     * scrollPanel.refresh(); }
      */
-    public void renderList() {
-	listWidget.render(routes);
-	scrollPanel.refresh();
-    }
 
     /**
      * Responds to external activity telling us a route has been selected.
      * 
+     * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
+     * @Override public void selectRoute(Route route, int index) { for (int i =
+     *           0; i<listWidget.) { String title = r.getDisplayName(); boolean
+     *           selected = (route != null) &&
+     *           title.equals(route.getDisplayName());
+     *           listWidget.setSelectedIndex(index++, selected); } if (route !=
+     *           null) { title.setText("View " + route.getDisplayName()); } else
+     *           { title.setText(getDescription()); } }
+     */
+
+    /**
+     * Responds to external activity telling us a route has been selected.
+     * 
+     * Null value for newIndex will turn off all selections.
      * 
      * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
      */
     @Override
-    public void selectRoute(Route route) {
-	int index = 0;
-	for (Route r : routes) {
-	    String title = r.getDisplayName();
-	    boolean selected = (route != null)
-		    && title.equals(route.getDisplayName());
-	    listWidget.setSelectedIndex(index++, selected);
+    public void selectRoute(Integer newIndex) {
+	if (currentIndex != null) {
+	    listWidget.setSelectedIndex(currentIndex, false);
 	}
-	if (route != null) {
-	    // headerPanel.setCenter("View " + route.getDisplayName());
-	    title.setText("View " + route.getDisplayName());
-	} else {
-	    // headerPanel.setCenter(getDescription());
-	    title.setText(getDescription());
+	if (newIndex != null) {
+	    listWidget.setSelectedIndex(newIndex, true);
 	}
+	currentIndex = newIndex;
+    }
+
+    /**
+     * Called when the async routes have all been added; the list specifically
+     * will render the List (generate HTML).
+     * 
+     * @see com.jettmarks.routes.client.ui.EventViewBaseImpl#resize()
+     */
+    @Override
+    public void resize(List<BikeTrainRoute> routes) {
+	super.resize(routes);
+	renderList(routes);
     }
 
     /**
@@ -159,5 +176,13 @@ public class EventViewTabbedGwtImpl extends EventViewBaseImpl implements
     @Override
     public void showListTab() {
 	tabPanel.setSelectedChild(1);
+    }
+
+    /**
+     * Called after last route has been loaded.
+     */
+    public void renderList(List<BikeTrainRoute> routes) {
+	listWidget.render(routes);
+	scrollPanel.refresh();
     }
 }

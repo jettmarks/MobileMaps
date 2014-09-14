@@ -17,44 +17,60 @@
  */
 package com.jettmarks.routes.client.activities;
 
+import java.util.List;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.maps.client.events.click.ClickMapEvent;
+import com.google.gwt.maps.client.events.click.ClickMapHandler;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent.ORIENTATION;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
+import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
+import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.googlecode.mgwt.ui.client.MGWT;
+import com.googlecode.mgwt.ui.client.dialog.AlertDialog;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
 import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.ClientFactory;
-import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
+import com.jettmarks.routes.client.bean.DisplayOnlyRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.place.EventSelectionPlace;
+import com.jettmarks.routes.client.place.HomePlace;
+import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.rep.RouteContainerImpl;
 import com.jettmarks.routes.client.rep.ServiceWrapper;
 import com.jettmarks.routes.client.ui.EventView;
 
-public class EventActivity extends DetailActivity {
+public class EventActivity extends MGWTAbstractActivity {
 
-    private final ClientFactory clientFactory;
+    protected ClientFactory clientFactory;
 
-    private EventView view;
+    protected EventView view;
+    protected RouteContainer routeContainer;
 
-    private RouteContainer routeContainer;
+    protected EventActivity(EventView view) {
+	this.view = view;
+    }
 
-    // Yes, unconventional that I'm using a second Activity
-    private static MapActivity mapActivity = null;
-
-    public EventActivity(Place newPlace, ClientFactory clientFactory) {
-	super(clientFactory.getEventView(), "nav");
+    /**
+     * @param newPlace
+     * @param clientFactory
+     */
+    protected void setupInstance(Place newPlace, ClientFactory clientFactory) {
+	this.clientFactory = clientFactory;
 	EventPlace place = (EventPlace) newPlace;
 	String description = place.getDescription();
 	String displayGroupName = place.getDisplayGroupName();
-	view = clientFactory.getEventListView();
 	view.setDisplayGroupName(displayGroupName);
 	view.setDescription(description);
 	DisplayGroupDTO displayGroup = new DisplayGroupDTO();
@@ -62,9 +78,9 @@ public class EventActivity extends DetailActivity {
 	displayGroup.setDescription(description);
 	displayGroup.setEventDate(place.getEventDate());
 	routeContainer = RouteContainerFactory.getRouteContainer();
+	routeContainer.addActivity(this);
 	routeContainer.addView(view);
 	routeContainer.setCurrentDisplayGroup(displayGroup);
-	this.clientFactory = clientFactory;
 	MGWT.addOrientationChangeHandler(new OrientationChangeHandler() {
 
 	    @Override
@@ -91,30 +107,26 @@ public class EventActivity extends DetailActivity {
 	    // Will be re-opened later with the proper counts
 	    rcImpl.openProgressBar(null);
 
-	    // Not applicable to non-tabbed view
-	    // view.showMapTab();
-	    mapActivity = new MapActivity(view, clientFactory);
-
 	    beginReadingRoutesAsync(view.getDisplayGroupName());
 	} else if (routeContainer.getSelectedRoute() != null) {
-	    view.selectRoute(routeContainer.getSelectedRoute());
+	    view.selectRoute(routeContainer.getSelectedRouteIndex());
 	}
 	view.setRouteSelectedHandler(new RouteListCellSelectedHandler());
-	mapActivity.addRegistration(view);
+	this.addRegistration(view);
 	panel.setWidget(view);
     }
 
     /**
-     * Uses async calls to retrieve the routes under control of the 
+     * Uses async calls to retrieve the routes under control of the
      * RouteContainer.
      * 
      * @param displayGroupName
      */
     private void beginReadingRoutesAsync(String displayGroupName) {
-	    // Kicks off reading the routes in the DisplayGroup under control
-	    // of the RouteContainer
+	// Kicks off reading the routes in the DisplayGroup under control
+	// of the RouteContainer
 	RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory
-		    .getRouteContainer();
+		.getRouteContainer();
 	DisplayGroupDTO dispGroup = new DisplayGroupDTO();
 	dispGroup.setDisplayName(displayGroupName);
 	ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
@@ -142,38 +154,159 @@ public class EventActivity extends DetailActivity {
      */
     @Override
     public void onStop() {
-        // TODO: I believe this is the place we can make sure the map elements
-        // are cleared and returned to their previous empty state.
-        super.onStop();
-        cancelAllHandlerRegistrations();
-        mapActivity.onStop();
+	// TODO: I believe this is the place we can make sure the map elements
+	// are cleared and returned to their previous empty state.
+	super.onStop();
+	cancelAllHandlerRegistrations();
     }
 
     public class RouteListCellSelectedHandler implements CellSelectedHandler {
-    
-        @Override
-        public void onCellSelected(CellSelectedEvent event) {
-		RouteContainer rc = RouteContainerFactory.getRouteContainer();
-		// Turn off any highlighted route
-		BikeTrainRoute previouslySelectedRoute = (BikeTrainRoute) rc
-			.getSelectedRoute();
-		if (previouslySelectedRoute != null) {
-		    previouslySelectedRoute.toggleHighlight();
-		}
 
-		// Turn on the selected route
-//		Route route = routes.get(event.getIndex());
-		Route route = view.getRoute(event.getIndex());
-		BikeTrainRoute bikeTrainRoute = (BikeTrainRoute) route;
+	@Override
+	public void onCellSelected(CellSelectedEvent event) {
+	    RouteContainer rc = RouteContainerFactory.getRouteContainer();
+	    // We tell the RouteContainer about the event, and it tells us
+	    // what we need to do
+	    rc.setSelectedRoute(event.getIndex());
+	}
 
-		bikeTrainRoute.toggleHighlight();
+    }
 
-		// Make the announcement (which might be able to handle the
-		// other tasks too)
-		RouteContainerFactory.getRouteContainer().setSelectedRoute(
-			route);
-        }
-    
+    /**
+     * As routes come in, we pass to the view and also keep a list in the
+     * activity.
+     * 
+     * This provides a single list even though there may be multiple parts to
+     * the view or multiple views.
+     * 
+     * We're also adding the event handling for the route's polylines here as
+     * well.
+     * 
+     * @param route
+     */
+    public void add(Route route) {
+	view.add(route);
+	DisplayOnlyRoute btRoute = (DisplayOnlyRoute) route;
+	btRoute.addHandlerRegistration(new RouteClickMapHandler(btRoute));
+    }
+
+    /**
+     * @param newIndex
+     * @param selectedRoute
+     */
+    public void setSelectedRoute(Integer newIndex, Route selectedRoute) {
+
+	view.selectRoute(newIndex);
+	// TODO: we may want to change how we think of the header
+	if (selectedRoute != null) {
+	    view.getHeader().setText("View " + selectedRoute.getDisplayName());
+	} else {
+	    // view.getHeader().setText(getDescription());
+	}
+    }
+
+    /**
+     * 
+     */
+    public void clearMap() {
+	view.clearMap();
+    }
+
+    public void resize(List<BikeTrainRoute> routes) {
+	view.resize(routes);
+    }
+
+    /**
+     * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.gwt
+     *      .user.client.ui.AcceptsOneWidget,
+     *      com.google.gwt.event.shared.EventBus)
+     */
+    public void addRegistration(EventView eventView) {
+	addHandlerRegistration(eventView.getHomeButton().addTapHandler(
+		new TapHandler() {
+
+		    @Override
+		    public void onTap(TapEvent event) {
+			RouteContainerFactory.getRouteContainer()
+				.setSelectedRoute((Integer) null);
+			view.clearMap();
+			clientFactory.getPlaceController()
+				.goTo(new HomePlace());
+		    }
+
+		}));
+	addHandlerRegistration(eventView.getHeaderTapHandlers()
+		.addClickHandler(new ClickHandler() {
+
+		    @Override
+		    public void onClick(ClickEvent event) {
+			BikeTrainRoute selectedRoute = (BikeTrainRoute) RouteContainerFactory
+				.getRouteContainer().getSelectedRoute();
+			if (selectedRoute != null) {
+			    clientFactory.getPlaceController().goTo(
+				    new RouteDetailsPlace(selectedRoute));
+			} else {
+			    AlertDialog noRouteSelectedAlert = new AlertDialog(
+				    "No Train Selected",
+				    "Choose a Bike Train to view");
+			    noRouteSelectedAlert.show();
+			}
+		    }
+		}));
+
+	addHandlerRegistration(eventView.getBackbutton().addTapHandler(
+		new TapHandler() {
+
+		    @Override
+		    public void onTap(TapEvent event) {
+			view.clearMap();
+			RouteContainerFactory.getRouteContainer()
+				.setSelectedRoute((Integer) null);
+			clientFactory.getPlaceController().goTo(
+				new EventSelectionPlace());
+		    }
+
+		}));
+
+	addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
+		new TapHandler() {
+		    @Override
+		    public void onTap(TapEvent event) {
+			BikeTrainRoute selectedRoute = (BikeTrainRoute) RouteContainerFactory
+				.getRouteContainer().getSelectedRoute();
+			if (selectedRoute != null) {
+			    clientFactory.getPlaceController().goTo(
+				    new RouteDetailsPlace(selectedRoute));
+			} else {
+			    AlertDialog noRouteSelectedAlert = new AlertDialog(
+				    "No Train Selected",
+				    "Choose a Bike Train to view");
+			    noRouteSelectedAlert.show();
+			}
+		    }
+		}));
+    }
+
+    /**
+     * Description.
+     * 
+     * @author jett
+     */
+    public class RouteClickMapHandler implements ClickMapHandler {
+
+	DisplayOnlyRoute displayOnlyRoute = null;
+
+	public RouteClickMapHandler(DisplayOnlyRoute route) {
+	    displayOnlyRoute = route;
+	}
+
+	@Override
+	public void onEvent(ClickMapEvent event) {
+	    // Invoked when the polyline is clicked
+	    RouteContainerFactory.getRouteContainer().setSelectedRoute(
+		    displayOnlyRoute);
+	}
+
     }
 
 }
