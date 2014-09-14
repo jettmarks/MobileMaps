@@ -4,6 +4,7 @@
 package com.jettmarks.routes.client.rep;
 
 import com.jettmarks.routes.client.activities.EventActivity;
+import com.jettmarks.routes.client.activities.RouteDetailsActivity;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.DisplayOnlyRoute;
 import com.jettmarks.routes.client.bean.Route;
@@ -70,4 +71,9 @@ public interface RouteContainer {
      * @param eventActivity
      */
     public void addActivity(EventActivity eventActivity);
+
+    /**
+     * @param routeDetailsActivity
+     */
+    public void setDetailsActivity(RouteDetailsActivity routeDetailsActivity);
 }

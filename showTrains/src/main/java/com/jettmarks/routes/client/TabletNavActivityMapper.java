@@ -7,6 +7,7 @@ import com.jettmarks.routes.client.activities.EventActivity;
 import com.jettmarks.routes.client.activities.EventNavActivity;
 import com.jettmarks.routes.client.activities.EventSelectionActivity;
 import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.place.RouteDetailsPlace;
 
 public class TabletNavActivityMapper implements ActivityMapper {
 
@@ -23,6 +24,8 @@ public class TabletNavActivityMapper implements ActivityMapper {
     @Override
     public Activity getActivity(Place place) {
 	if (place instanceof EventPlace) {
+	    return getEventActivity(place);
+	} else if (place instanceof RouteDetailsPlace) {
 	    return getEventActivity(place);
 	} else
 	    return getEventSelectionActivity();

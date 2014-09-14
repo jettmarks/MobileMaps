@@ -51,6 +51,8 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 
     private String headerText = null;
 
+    private RouteDetailsView view;
+
     /**
      * @param detailView
      * @param eventId
@@ -61,26 +63,19 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 
 	if (newPlace instanceof RouteDetailsPlace) {
 	    RouteDetailsPlace place = (RouteDetailsPlace) newPlace;
-	    RouteDetailsView routeDetailsView = clientFactory
-		    .getRouteDetailsView();
+	    view = clientFactory.getRouteDetailsView();
 	    bikeTrainRoute = place.getRoute();
-	    if (bikeTrainRoute == null) {
-		headerText = "Select a Route";
-	    } else {
-		headerText = bikeTrainRoute.getDisplayName();
-	    }
-	    routeDetailsView.getMainButtonText().setText(headerText);
 
-	    addHandlerRegistration(routeDetailsView.getBackbutton()
-		    .addTapHandler(new ReturnToEventTapHandler()));
-	    addHandlerRegistration(routeDetailsView.getHeaderTapHandlers()
-		    .addClickHandler(new ReturnToEventClickHandler()));
+	    RouteContainerFactory.getRouteContainer().setDetailsActivity(this);
+
+	    addHandlerRegistration(view.getBackbutton().addTapHandler(
+		    new ReturnToEventTapHandler()));
+	    addHandlerRegistration(view.getHeaderTapHandlers().addClickHandler(
+		    new ReturnToEventClickHandler()));
 	}
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.google.gwt.activity.shared.Activity#mayStop()
      */
     @Override
@@ -89,9 +84,7 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 	return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.google.gwt.activity.shared.Activity#onCancel()
      */
     @Override
@@ -100,9 +93,7 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.google.gwt.activity.shared.Activity#onStop()
      */
     @Override
@@ -110,19 +101,30 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 	cancelAllHandlerRegistrations();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
-     * .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+    /**
+     * @see com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
+     *      .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
      */
     @Override
     public void start(AcceptsOneWidget panel, EventBus eventBus) {
 	super.start(panel, eventBus);
-	final RouteDetailsView view = clientFactory.getRouteDetailsView();
+	setViewDetails(bikeTrainRoute);
+	setNavHandlers(view);
+	panel.setWidget(view);
+    }
 
-	// view.getBackbuttonText().setText("<");
+    /**
+     * Fills the form with details from the bikeTrainRoute.
+     * 
+     * @param bikeTrainRoute
+     */
+    public void setViewDetails(BikeTrainRoute bikeTrainRoute) {
+	this.bikeTrainRoute = bikeTrainRoute;
+	if (bikeTrainRoute == null) {
+	    headerText = "Select a Route";
+	} else {
+	    headerText = bikeTrainRoute.getDisplayName();
+	}
 	view.getHeader().setText(headerText);
 
 	// Populate View with the BikeTrain
@@ -135,8 +137,7 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 	Date yesterday = new Date(currentTime.getTime() - 86400000);
 	DisplayGroupDTO currentDisplayGroup = rc.getCurrentDisplayGroup();
 
-	// if
-	// (rc.getCurrentDisplayGroup().getDisplayName().equals("bt1408-Aug")) {
+	// Based on date, decide whether to display contact info
 	if (currentDisplayGroup == null
 		|| currentDisplayGroup.getEventDate() == null
 		|| currentDisplayGroup.getEventDate().after(yesterday)) {
@@ -151,10 +152,6 @@ public class RouteDetailsActivity extends DetailActivity implements Activity {
 
 	// Populate View with the BikeTrainRoute
 	view.setDisplayName(bikeTrainRoute.getDisplayName());
-
-	setNavHandlers(view);
-
-	panel.setWidget(view);
     }
 
     /**
