@@ -37,6 +37,7 @@ import com.jettmarks.routes.client.ui.EventView;
  * routes into something we can view.
  * 
  * @author jett
+ * @deprecated - functionality pulled up into EventActivity and subclasses.
  */
 public class MapActivity extends DetailActivity {
 

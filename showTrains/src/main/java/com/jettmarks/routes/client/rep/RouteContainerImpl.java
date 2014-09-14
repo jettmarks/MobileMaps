@@ -130,10 +130,6 @@ public class RouteContainerImpl implements RouteContainer {
 	for (EventActivity eventActivity : activityList) {
 	    eventActivity.add(route);
 	}
-	// TODO: Not sure if this is the way we want to go anymore
-	// for (EventView view : viewList) {
-	// view.add(route);
-	// }
     }
 
     /**
@@ -206,9 +202,7 @@ public class RouteContainerImpl implements RouteContainer {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.jettmarks.routes.client.ui.RouteContainer#getSelectedRoute()
      */
     @Override
@@ -290,10 +284,9 @@ public class RouteContainerImpl implements RouteContainer {
     }
 
     /**
-   * 
-   */
-    private void clearPreviousMap() {
-    }
+     * 
+     private void clearPreviousMap() { }
+     */
 
     /**
      * Defers the loading of the first element until after the current queue
