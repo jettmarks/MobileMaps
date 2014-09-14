@@ -8,11 +8,12 @@
 }
 
 .GCVPG1WDAO-navLink {
-	background: url("/bikeTrains/images/logoWithRays_470x246.png") no-repeat scroll 0 0 #d5dc50;
+	background: url("/bikeTrains/images/logoWithRays_965x517.png") no-repeat scroll 0 0 #f0efc1;
+	background-position: center -85px;
 }
 
 .logo-image {
-	margin-bottom : 240px;
+	margin-bottom : 300px;
 }
 
 .mgwt-ScrollPanel-message {
