@@ -25,7 +25,8 @@ import com.google.gwt.maps.client.overlays.Marker;
  * 
  * @author jett
  */
-public class BikeTrainRoute extends DisplayOnlyRoute {
+public class BikeTrainRoute extends DisplayOnlyRoute implements
+	Comparable<BikeTrainRoute> {
     private BikeTrainDTO bikeTrain = null;
 
     /**
@@ -129,6 +130,14 @@ public class BikeTrainRoute extends DisplayOnlyRoute {
 	super.setMap(mapWidget);
 	startMarker.setMap(mapWidget);
 	endMarker.setMap(mapWidget);
+    }
+
+    /**
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
+    @Override
+    public int compareTo(BikeTrainRoute arg0) {
+	return this.getDisplayName().compareTo(arg0.getDisplayName());
     }
 
 }

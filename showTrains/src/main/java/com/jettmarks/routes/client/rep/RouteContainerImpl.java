@@ -18,6 +18,7 @@
 package com.jettmarks.routes.client.rep;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.code.p.gwtchismes.client.GWTCProgress;
@@ -185,6 +186,7 @@ public class RouteContainerImpl implements RouteContainer {
 	}
 
 	if (!currentRouteRequest.hasNext()) {
+	    Collections.sort(routes);
 	    for (EventActivity eventActivity : activityList) {
 		eventActivity.resize(routes);
 	    }
