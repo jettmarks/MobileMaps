@@ -20,6 +20,7 @@ package com.jettmarks.routes.client.activities;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.place.shared.Place;
 import com.jettmarks.routes.client.ClientFactory;
+import com.jettmarks.routes.client.bean.Route;
 
 /**
  * Description.
@@ -35,6 +36,18 @@ public class EventMainActivity extends EventActivity implements Activity {
     public EventMainActivity(Place newPlace, ClientFactory clientFactory) {
 	super(clientFactory.getEventMapView());
 	super.setupInstance(newPlace, clientFactory);
+    }
+
+    /**
+     * @see com.jettmarks.routes.client.activities.EventActivity#setSelectedRoute(java.lang.Integer,
+     *      com.jettmarks.routes.client.bean.Route)
+     */
+    @Override
+    public void setSelectedRoute(Integer newIndex, Route selectedRoute) {
+	super.setSelectedRoute(newIndex, selectedRoute);
+	if (selectedRoute != null) {
+	    view.getHeader().setText("View " + selectedRoute.getDisplayName());
+	}
     }
 
 }

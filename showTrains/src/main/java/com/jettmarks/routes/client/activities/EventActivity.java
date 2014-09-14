@@ -195,14 +195,7 @@ public class EventActivity extends MGWTAbstractActivity {
      * @param selectedRoute
      */
     public void setSelectedRoute(Integer newIndex, Route selectedRoute) {
-
 	view.selectRoute(newIndex);
-	// TODO: we may want to change how we think of the header
-	if (selectedRoute != null) {
-	    view.getHeader().setText("View " + selectedRoute.getDisplayName());
-	} else {
-	    // view.getHeader().setText(getDescription());
-	}
     }
 
     /**
