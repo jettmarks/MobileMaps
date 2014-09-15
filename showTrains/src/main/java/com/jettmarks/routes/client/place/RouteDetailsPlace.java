@@ -18,6 +18,7 @@
 package com.jettmarks.routes.client.place;
 
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.place.shared.PlaceTokenizer;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 
 /**
@@ -27,58 +28,72 @@ import com.jettmarks.routes.client.bean.BikeTrainRoute;
  * 
  * @author jett
  */
-public class RouteDetailsPlace extends Place
-{
+public class RouteDetailsPlace extends Place {
+    private Integer displayElementId = null;
+    private String displayName = null;
 
-  // private Integer displayElementId = null;
-  private String displayName = null;
+    private BikeTrainRoute route = null;
 
-  private BikeTrainRoute route = null;
+    /**
+     * @param routeName
+     */
+    public RouteDetailsPlace(Integer displayElementId) {
+	this.displayElementId = displayElementId;
+    }
 
-  /**
-   * @param routeName
-   */
-  // public RouteDetailsPlace(Integer displayElementId)
-  // {
-  // this.displayElementId = displayElementId;
-  // }
+    /**
+     * @param routeName
+     */
+    public RouteDetailsPlace(String routeName) {
+	displayName = routeName;
+    }
 
-  /**
-   * @param routeName
-   */
-  public RouteDetailsPlace(String routeName)
-  {
-    displayName = routeName;
-  }
+    public RouteDetailsPlace(BikeTrainRoute route) {
+	this.route = route;
+    }
 
-  public RouteDetailsPlace(BikeTrainRoute route)
-  {
-    this.route = route;
-  }
+    /**
+     * @return the displayName
+     */
+    String getDisplayName() {
+	return displayName;
+    }
 
-  /**
-   * @return the displayName
-   */
-  String getDisplayName()
-  {
-    return displayName;
-  }
+    /**
+     * @param displayName
+     *            the displayName to set
+     */
+    void setDisplayName(String displayName) {
+	this.displayName = displayName;
+    }
 
-  /**
-   * @param displayName
-   *          the displayName to set
-   */
-  void setDisplayName(String displayName)
-  {
-    this.displayName = displayName;
-  }
+    /**
+     * @return
+     */
+    public BikeTrainRoute getRoute() {
+	return route;
+    }
 
-  /**
-   * @return
-   */
-  public BikeTrainRoute getRoute()
-  {
-    return route;
-  }
+    /**
+     * @return
+     */
+    public String getDisplayElementId() {
+	return route.getDisplayElementId() + "";
+    }
+
+    public static class Tokenizer implements PlaceTokenizer<RouteDetailsPlace> {
+
+	@Override
+	public RouteDetailsPlace getPlace(String token) {
+	    String displayGroupName = token;
+	    return new RouteDetailsPlace(displayGroupName);
+	}
+
+	@Override
+	public String getToken(RouteDetailsPlace place) {
+	    return place.getDisplayElementId();
+	}
+
+    }
 
 }

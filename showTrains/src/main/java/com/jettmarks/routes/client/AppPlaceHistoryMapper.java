@@ -26,6 +26,7 @@ import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.FindRoutePlace;
 import com.jettmarks.routes.client.place.GetInvolvedPlace;
 import com.jettmarks.routes.client.place.ResourcesPlace;
+import com.jettmarks.routes.client.place.RouteDetailsPlace;
 
 /**
  * @author Jett Marks
@@ -33,6 +34,6 @@ import com.jettmarks.routes.client.place.ResourcesPlace;
 @WithTokenizers({ EventPlace.Tokenizer.class, AboutPlace.Tokenizer.class,
 	FindRoutePlace.Tokenizer.class, ConductorPlace.Tokenizer.class,
 	GetInvolvedPlace.Tokenizer.class, ResourcesPlace.Tokenizer.class,
-	EventSelectionPlace.Tokenizer.class })
+	EventSelectionPlace.Tokenizer.class, RouteDetailsPlace.Tokenizer.class })
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
 }
