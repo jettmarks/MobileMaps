@@ -29,7 +29,7 @@ import com.jettmarks.routes.client.bean.BikeTrainRoute;
  * @author jett
  */
 public class RouteDetailsPlace extends Place {
-    private Integer displayElementId = null;
+    private Integer id = null;
     private String displayName = null;
 
     private BikeTrainRoute route = null;
@@ -37,8 +37,8 @@ public class RouteDetailsPlace extends Place {
     /**
      * @param routeName
      */
-    public RouteDetailsPlace(Integer displayElementId) {
-	this.displayElementId = displayElementId;
+    public RouteDetailsPlace(Integer id) {
+	this.id = id;
     }
 
     /**
@@ -49,6 +49,7 @@ public class RouteDetailsPlace extends Place {
     }
 
     public RouteDetailsPlace(BikeTrainRoute route) {
+	this.id = route.getBikeTrain().getId();
 	this.route = route;
     }
 
@@ -77,8 +78,8 @@ public class RouteDetailsPlace extends Place {
     /**
      * @return
      */
-    public String getDisplayElementId() {
-	return route.getDisplayElementId() + "";
+    public String getId() {
+	return id + "";
     }
 
     public static class Tokenizer implements PlaceTokenizer<RouteDetailsPlace> {
@@ -91,7 +92,7 @@ public class RouteDetailsPlace extends Place {
 
 	@Override
 	public String getToken(RouteDetailsPlace place) {
-	    return place.getDisplayElementId();
+	    return place.getId();
 	}
 
     }
