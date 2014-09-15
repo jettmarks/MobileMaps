@@ -30,35 +30,35 @@ import com.google.gwt.place.shared.Place;
  */
 public class PlaceClassifier {
     public enum PlaceType {
-	MAP, OTHER
+	NAV, EMPTY_MAP, EVENT, OTHER
     };
 
     public static PlaceType getPlaceType(Place place) {
 	if (place instanceof EventSelectionPlace)
-	    return PlaceType.MAP;
+	    return PlaceType.EMPTY_MAP;
 	// No longer so sure
 	if (place instanceof EventPlace)
-	    return PlaceType.MAP;
+	    return PlaceType.EVENT;
 	if (place instanceof RouteListPlace)
-	    return PlaceType.MAP;
+	    return PlaceType.EVENT;
 	if (place instanceof RouteDetailsPlace)
-	    return PlaceType.MAP;
+	    return PlaceType.EVENT;
 
 	// Recognized as non-Map
 	if (place instanceof HomePlace)
-	    return PlaceType.OTHER;
+	    return PlaceType.NAV;
 	if (place instanceof AboutPlace)
-	    return PlaceType.OTHER;
+	    return PlaceType.NAV;
 	if (place instanceof ConductorPlace)
-	    return PlaceType.OTHER;
+	    return PlaceType.NAV;
 	if (place instanceof ResourcesPlace)
-	    return PlaceType.OTHER;
+	    return PlaceType.NAV;
 	if (place instanceof GetInvolvedPlace)
-	    return PlaceType.OTHER;
+	    return PlaceType.NAV;
 	if (place instanceof FindRoutePlace)
-	    return PlaceType.OTHER;
+	    return PlaceType.NAV;
 
 	// We don't recognize the place
-	return null;
+	return PlaceType.OTHER;
     }
 }

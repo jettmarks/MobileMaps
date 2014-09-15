@@ -200,11 +200,12 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 	    Place currentPlace = pc.getWhere();
 	    // Window.alert("We are hitting this");
 	    switch (PlaceClassifier.getPlaceType(currentPlace)) {
-	    case MAP:
+	    case EMPTY_MAP:
 		Place place = new EventSelectionPlaceOrientationChange();
 		clientFactory.getPlaceController().goTo(place);
 		break;
-	    case OTHER:
+	    case EVENT:
+	    case NAV:
 		break;
 	    default:
 	    }

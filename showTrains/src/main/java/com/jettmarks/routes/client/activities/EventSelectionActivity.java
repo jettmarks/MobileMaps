@@ -42,96 +42,96 @@ import com.jettmarks.routes.client.ui.EventSelectionView;
  */
 public class EventSelectionActivity extends MGWTAbstractActivity {
 
-	private ClientFactory clientFactory;
+    private ClientFactory clientFactory;
 
-	private List<DisplayGroupDTO> displayGroupList;
+    private List<DisplayGroupDTO> displayGroupList;
 
-	private List<Topic> displayGroupTopics;
+    private List<Topic> displayGroupTopics;
 
-	private EventSelectionView view;
+    private EventSelectionView view;
 
-	/**
-	 * @param clientFactory
-	 */
-	public EventSelectionActivity(ClientFactory cf) {
-		this.clientFactory = cf;
+    /**
+     * @param clientFactory
+     */
+    public EventSelectionActivity(ClientFactory cf) {
+	this.clientFactory = cf;
 
-		GetTagsAsync tagService = GetTagsAsync.Util.getInstance();
-		tagService
-				.getBikeTrains(new GetDisplayGroupCallback<DisplayGroupDTO[]>());
-	}
+	GetTagsAsync tagService = GetTagsAsync.Util.getInstance();
+	tagService
+		.getBikeTrains(new GetDisplayGroupCallback<DisplayGroupDTO[]>());
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.gwt
+     * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+     */
+    @Override
+    public void start(AcceptsOneWidget panel, EventBus eventBus) {
+	super.start(panel, eventBus);
+	view = clientFactory.getEventSelectionView();
+	view.setTitle("Bike Train Events");
+
+	addHandlerRegistration(view.getCellSelectedHandler()
+		.addCellSelectedHandler(new CellSelectedHandler() {
+
+		    @Override
+		    public void onCellSelected(CellSelectedEvent event) {
+			int index = event.getIndex();
+			DisplayGroupDTO displayGroup = displayGroupList
+				.get(index);
+
+			EventPlace eventPlace = new EventPlace(displayGroup);
+			clientFactory.getPlaceController().goTo(eventPlace);
+			return;
+		    }
+		}));
+	panel.setWidget(view);
+    }
+
+    /**
+     * Responds to the service callback giving us the list of Display Groups.
+     * 
+     * @author jett
+     */
+    public class GetDisplayGroupCallback<T> implements
+	    AsyncCallback<DisplayGroupDTO[]> {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#start(com.google.gwt
-	 * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+	 * com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.
+	 * Throwable )
 	 */
-	@Override
-	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		super.start(panel, eventBus);
-		view = clientFactory.getEventSelectionView();
-		view.setTitle("Bike Train Events");
-
-		addHandlerRegistration(view.getCellSelectedHandler()
-				.addCellSelectedHandler(new CellSelectedHandler() {
-
-					@Override
-					public void onCellSelected(CellSelectedEvent event) {
-						int index = event.getIndex();
-						DisplayGroupDTO displayGroup = displayGroupList
-								.get(index);
-
-						EventPlace eventPlace = new EventPlace(displayGroup);
-						clientFactory.getPlaceController().goTo(eventPlace);
-						return;
-					}
-				}));
-		panel.setWidget(view);
+	public void onFailure(Throwable caught) {
+	    Window.alert("Failure in GetDisplayGroupCallback: " + caught);
 	}
 
 	/**
-	 * Responds to the service callback giving us the list of Display Groups.
+	 * Bring back the DisplayGroups and turn into a list of topics to
+	 * present.
 	 * 
-	 * @author jett
+	 * @see com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.Object)
 	 */
-	public class GetDisplayGroupCallback<T> implements
-			AsyncCallback<DisplayGroupDTO[]> {
+	@Override
+	public void onSuccess(DisplayGroupDTO[] result) {
+	    displayGroupTopics = new ArrayList<Topic>();
 
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.
-		 * Throwable )
-		 */
-		public void onFailure(Throwable caught) {
-			Window.alert("Failure in GetDisplayGroupCallback: " + caught);
-		}
-
-		/**
-		 * Bring back the DisplayGroups and turn into a list of topics to
-		 * present.
-		 * 
-		 * @see com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.Object)
-		 */
-		@Override
-		public void onSuccess(DisplayGroupDTO[] result) {
-			displayGroupTopics = new ArrayList<Topic>();
-
-			displayGroupList = new ArrayList<DisplayGroupDTO>();
-			for (DisplayGroupDTO dg : result) {
-				// For later use
-				displayGroupList.add(dg);
-				EventContainer.putEvent(dg.getDisplayName(), dg);
-				// For presenting in the view
-				Topic topic = new Topic((dg.getDescription()), 5);
-				displayGroupTopics.add(topic);
-			}
-			view.setTopics(displayGroupTopics);
-		}
-
+	    displayGroupList = new ArrayList<DisplayGroupDTO>();
+	    for (DisplayGroupDTO dg : result) {
+		// For later use
+		displayGroupList.add(dg);
+		EventContainer.putEvent(dg.getDisplayName(), dg);
+		// For presenting in the view
+		Topic topic = new Topic((dg.getDescription()), 5);
+		displayGroupTopics.add(topic);
+	    }
+	    view.setTopics(displayGroupTopics);
 	}
+
+    }
 
 }
