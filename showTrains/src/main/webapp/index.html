@@ -23,7 +23,9 @@
   if (bowser.name == 'Internet Explorer') {
 	  window.location.href = "ieDetected.html";
   } else {
-	  window.location.href = "appEntry.html";
+	  // alert(window.location.pathname);
+	  // alert(window.location.search);
+	  window.location = "appEntry.html"+window.location.search;
   }
   
 </script>
