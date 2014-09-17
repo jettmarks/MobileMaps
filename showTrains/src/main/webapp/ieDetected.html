@@ -13,22 +13,27 @@
 	}
     </style>
     
+   <script type="text/javascript">
+     btGroup = window.location.hash.replace('#EventPlace:', '');
+     loc = 'http://routes.cycling.jettmarks.com/?group='+btGroup;
+     function visitOld() {window.location = loc};
+   </script>
    
   </head>
 
   <body>
     <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1' style="position:absolute;width:0;height:0;border:0"></iframe>
     <h1>Rats!</h1>
-    We can't do IE for you yet.
+    We can't do Internet Explorer for you yet.
     <p>
 	For the best user experience, you may wish to use Chrome, Safari, or Firefox 
 	on the desktop or a mobile device.  Regretfully, this website doesn't support
 	Internet Explorer yet.  
 	<p>
-	OR, if you prefer to use IE,  
-    the previous version of the Bike Trains website remains available.  
-    Click <a href="">here</a> if you'd like to view the previous version of 
-    the website.
+	OR -- if you prefer to use IE --  
+    the previous version of the Bike Trains website supports IE.  
+    Click <a href="javascript:visitOld()">here</a> if you'd like to view  
+    the Bike Trains in Internet Explorer using the older site.
 	
   </body>
 </html>
