@@ -20,7 +20,7 @@ package com.jettmarks.routes.client.ui;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.CellList;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
 import com.jettmarks.routes.client.NavLink;
 
 /**
@@ -30,10 +30,10 @@ import com.jettmarks.routes.client.NavLink;
  */
 public interface NavLinkView extends IsWidget {
 
-    public HasText getHeader();
+	public HasText getHeader();
 
-    public CellList<NavLink> getNavList();
+	public CellList<NavLink> getNavList();
 
-    public HasTapHandlers getHomeButton();
+	public HasTapHandlers getHomeButton();
 
 }

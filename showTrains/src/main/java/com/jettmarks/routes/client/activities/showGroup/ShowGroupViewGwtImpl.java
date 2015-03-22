@@ -23,8 +23,8 @@ import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.user.client.ui.HasText;
-import com.googlecode.mgwt.ui.client.widget.HeaderButton;
-import com.googlecode.mgwt.ui.client.widget.MTextBox;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderButton;
+import com.googlecode.mgwt.ui.client.widget.input.MTextBox;
 import com.jettmarks.routes.client.DetailViewGwtImpl;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.util.ScreenSize;
@@ -45,6 +45,7 @@ public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements
 	 * @deprecated - Replaced by the EventSelectionView
 	 */
 	public ShowGroupViewGwtImpl() {
+		com.googlecode.mgwt.ui.client.widget.header.HeaderButton
 
 		// Take care of the header for navigation
 		viewDetailButton = new HeaderButton();

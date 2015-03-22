@@ -21,7 +21,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.googlecode.mgwt.ui.client.widget.celllist.Cell;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.Cell;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 
 /**
@@ -30,34 +30,34 @@ import com.jettmarks.routes.client.bean.BikeTrainRoute;
  * @author jett
  */
 public class RouteCell implements Cell<BikeTrainRoute> {
-    private static Template TEMPLATE = GWT.create(Template.class);
+	private static Template TEMPLATE = GWT.create(Template.class);
 
-    public interface Template extends SafeHtmlTemplates {
-	@SafeHtmlTemplates.Template("<div>{0}</div>")
-	SafeHtml content(String text);
-    }
+	public interface Template extends SafeHtmlTemplates {
+		@SafeHtmlTemplates.Template("<div>{0}</div>")
+		SafeHtml content(String text);
+	}
 
-    /**
-     * @see com.googlecode.mgwt.ui.client.widget.celllist.Cell#render(com.google.gwt
-     *      .safehtml.shared.SafeHtmlBuilder, java.lang.Object)
-     */
-    @Override
-    public void render(SafeHtmlBuilder safeHtmlBuilder, BikeTrainRoute model) {
-	if (model == null)
-	    return;
-	SafeHtml content = TEMPLATE
-		.content((model.getDisplayName() != null) ? model
-			.getDisplayName() : model.getName());
-	safeHtmlBuilder.append(content);
-    }
+	/**
+	 * @see com.googlecode.mgwt.ui.client.widget.celllist.Cell#render(com.google.gwt
+	 *      .safehtml.shared.SafeHtmlBuilder, java.lang.Object)
+	 */
+	@Override
+	public void render(SafeHtmlBuilder safeHtmlBuilder, BikeTrainRoute model) {
+		if (model == null)
+			return;
+		SafeHtml content = TEMPLATE
+				.content((model.getDisplayName() != null) ? model
+						.getDisplayName() : model.getName());
+		safeHtmlBuilder.append(content);
+	}
 
-    /**
-     * @see com.googlecode.mgwt.ui.client.widget.celllist.Cell#canBeSelected(java
-     *      .lang .Object)
-     */
-    @Override
-    public boolean canBeSelected(BikeTrainRoute model) {
-	return true;
-    }
+	/**
+	 * @see com.googlecode.mgwt.ui.client.widget.celllist.Cell#canBeSelected(java
+	 *      .lang .Object)
+	 */
+	@Override
+	public boolean canBeSelected(BikeTrainRoute model) {
+		return true;
+	}
 
 }

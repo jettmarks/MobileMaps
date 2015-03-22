@@ -19,12 +19,12 @@ package com.jettmarks.routes.client.ui;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.CellList;
-import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
+import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
 import com.jettmarks.routes.client.NavLink;
 
 /**
@@ -33,55 +33,55 @@ import com.jettmarks.routes.client.NavLink;
  * @author jett
  */
 public class NavLinkViewGwtImpl implements NavLinkView {
-    protected LayoutPanel main;
-    protected HTML title;
-    protected HeaderButtonBar headerPanel;
-    protected CellList<NavLink> linkCellList;
-    protected ScrollPanel scrollPanel;
-    protected VerticalPanel imagePanel;
+	protected LayoutPanel main;
+	protected HTML title;
+	protected HeaderButtonBar headerPanel;
+	protected CellList<NavLink> linkCellList;
+	protected ScrollPanel scrollPanel;
+	protected VerticalPanel imagePanel;
 
-    public NavLinkViewGwtImpl(CellList<NavLink> linkCellList) {
-	this.linkCellList = linkCellList;
-    }
+	public NavLinkViewGwtImpl(CellList<NavLink> linkCellList) {
+		this.linkCellList = linkCellList;
+	}
 
-    public NavLinkViewGwtImpl() {
-	main = new LayoutPanel();
-	main.addStyleDependentName("navLink");
-	title = new HTML();
-	headerPanel = new HeaderButtonBar();
-	headerPanel.addStyleDependentName("navLink");
-	headerPanel.setTitle(title);
-	imagePanel = new VerticalPanel();
-	imagePanel.addStyleName("logo-image");
-	scrollPanel = new ScrollPanel();
-	linkCellList = new CellList<NavLink>(new NavLinkCell());
-	main.add(headerPanel);
-	main.add(imagePanel);
-	main.add(scrollPanel);
-    }
+	public NavLinkViewGwtImpl() {
+		main = new LayoutPanel();
+		main.addStyleDependentName("navLink");
+		title = new HTML();
+		headerPanel = new HeaderButtonBar();
+		headerPanel.addStyleDependentName("navLink");
+		headerPanel.setTitle(title);
+		imagePanel = new VerticalPanel();
+		imagePanel.addStyleName("logo-image");
+		scrollPanel = new ScrollPanel();
+		linkCellList = new CellList<NavLink>(new NavLinkCell());
+		main.add(headerPanel);
+		main.add(imagePanel);
+		main.add(scrollPanel);
+	}
 
-    @Override
-    public HasText getHeader() {
-	return title;
-    }
+	@Override
+	public HasText getHeader() {
+		return title;
+	}
 
-    @Override
-    public Widget asWidget() {
-	return main;
-    }
+	@Override
+	public Widget asWidget() {
+		return main;
+	}
 
-    @Override
-    public CellList<NavLink> getNavList() {
-	return linkCellList;
-    }
+	@Override
+	public CellList<NavLink> getNavList() {
+		return linkCellList;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.jettmarks.routes.client.ui.NavLinkView#getHomeButton()
-     */
-    @Override
-    public HasTapHandlers getHomeButton() {
-	return headerPanel.getHomeButton();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jettmarks.routes.client.ui.NavLinkView#getHomeButton()
+	 */
+	@Override
+	public HasTapHandlers getHomeButton() {
+		return headerPanel.getHomeButton();
+	}
 }

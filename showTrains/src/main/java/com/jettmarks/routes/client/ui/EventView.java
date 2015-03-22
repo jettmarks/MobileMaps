@@ -21,7 +21,7 @@ import java.util.List;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.Route;
@@ -36,59 +36,59 @@ import com.jettmarks.routes.client.bean.Route;
  */
 public interface EventView extends DetailView {
 
-    public abstract void setDisplayGroupName(String displayGroupName);
+	public abstract void setDisplayGroupName(String displayGroupName);
 
-    public abstract String getDisplayGroupName();
+	public abstract String getDisplayGroupName();
 
-    public abstract void setDescription(String description);
+	public abstract void setDescription(String description);
 
-    public abstract String getDescription();
+	public abstract String getDescription();
 
-    public abstract void add(Route route);
+	public abstract void add(Route route);
 
-    /**
-     * @return
-     */
-    public abstract HasTapHandlers getForwardbutton();
+	/**
+	 * @return
+	 */
+	public abstract HasTapHandlers getForwardbutton();
 
-    public abstract void enableForwardButton(boolean isEnabled);
+	public abstract void enableForwardButton(boolean isEnabled);
 
-    public abstract void selectRoute(Route route);
+	public abstract void selectRoute(Route route);
 
-    /**
+	/**
    * 
    */
-    public abstract void clearMap();
+	public abstract void clearMap();
 
-    public abstract void showMapTab();
+	public abstract void showMapTab();
 
-    public abstract void showListTab();
+	public abstract void showListTab();
 
-    /**
-     * @param b
-     */
-    public abstract void enableBackButton(boolean b);
+	/**
+	 * @param b
+	 */
+	public abstract void enableBackButton(boolean b);
 
-    public abstract HTML getHeaderTapHandlers();
+	public abstract HTML getHeaderTapHandlers();
 
-    public abstract HasTapHandlers getHomeButton();
+	public abstract HasTapHandlers getHomeButton();
 
-    public abstract void setRouteSelectedHandler(
-	    CellSelectedHandler routeListCellSelectedHandler);
+	public abstract void setRouteSelectedHandler(
+			CellSelectedHandler routeListCellSelectedHandler);
 
-    /**
-     * @param routes
-     */
-    void resize(List<BikeTrainRoute> routes);
+	/**
+	 * @param routes
+	 */
+	void resize(List<BikeTrainRoute> routes);
 
-    /**
-     * @param newIndex
-     */
-    void selectRoute(Integer newIndex);
+	/**
+	 * @param newIndex
+	 */
+	void selectRoute(Integer newIndex);
 
-    /**
-     * @param b
-     */
-    public abstract void enableHomeButton(boolean b);
+	/**
+	 * @param b
+	 */
+	public abstract void enableHomeButton(boolean b);
 
 }

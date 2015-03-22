@@ -142,7 +142,7 @@
 		<dependency>
 			<groupId>com.googlecode.mgwt</groupId>
 			<artifactId>mgwt</artifactId>
-			<version>1.1.2</version>
+			<version>2.0.0</version>
 		</dependency>
 		<!-- gwtphonegap dependency -->
 		<dependency>
@@ -232,7 +232,7 @@
 	    <dependency>
 	    	<groupId>com.jettmarks</groupId>
 	    	<artifactId>hb</artifactId>
-	    	<version>3.0.0-SNAPSHOT</version>
+	    	<version>3.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
 	    	<groupId>com.jettmarks.gmaps</groupId>

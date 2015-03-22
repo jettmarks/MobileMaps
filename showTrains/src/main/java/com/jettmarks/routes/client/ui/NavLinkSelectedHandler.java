@@ -20,8 +20,8 @@ package com.jettmarks.routes.client.ui;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
-import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
-import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedEvent;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.NavLink;
 
@@ -32,33 +32,33 @@ import com.jettmarks.routes.client.NavLink;
  */
 public class NavLinkSelectedHandler implements CellSelectedHandler {
 
-    public List<NavLink> navLinkList;
-    private ClientFactory clientFactory;
+	public List<NavLink> navLinkList;
+	private ClientFactory clientFactory;
 
-    public NavLinkSelectedHandler(List<NavLink> links,
-	    ClientFactory clientFactory) {
-	this.clientFactory = clientFactory;
-	this.navLinkList = links;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler#
-     * onCellSelected
-     * (com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent)
-     */
-    @Override
-    public void onCellSelected(CellSelectedEvent event) {
-	NavLink link = navLinkList.get(event.getIndex());
-	if (link != null && link.getPlace() != null) {
-	    clientFactory.getPlaceController().goTo(link.getPlace());
+	public NavLinkSelectedHandler(List<NavLink> links,
+			ClientFactory clientFactory) {
+		this.clientFactory = clientFactory;
+		this.navLinkList = links;
 	}
 
-	if (link != null && link.getUrl() != null) {
-	    Window.Location.assign(link.getUrl());
-	}
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler#
+	 * onCellSelected
+	 * (com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent)
+	 */
+	@Override
+	public void onCellSelected(CellSelectedEvent event) {
+		NavLink link = navLinkList.get(event.getIndex());
+		if (link != null && link.getPlace() != null) {
+			clientFactory.getPlaceController().goTo(link.getPlace());
+		}
 
-    }
+		if (link != null && link.getUrl() != null) {
+			Window.Location.assign(link.getUrl());
+		}
+
+	}
 
 }

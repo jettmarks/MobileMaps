@@ -20,10 +20,10 @@ package com.jettmarks.routes.client.ui;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.CellList;
-import com.googlecode.mgwt.ui.client.widget.LayoutPanel;
-import com.googlecode.mgwt.ui.client.widget.ScrollPanel;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
+import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 
 /**
@@ -32,165 +32,165 @@ import com.jettmarks.routes.client.bean.BikeTrainRoute;
  * @author jett
  */
 public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
-	EventView {
+		EventView {
 
-    private String description;
+	private String description;
 
-    private String displayGroupName;
+	private String displayGroupName;
 
-    private ScrollPanel scrollPanel;
+	private ScrollPanel scrollPanel;
 
-    public EventViewListOnlyGwtImpl() {
-	main = new LayoutPanel();
-	main.setSize("100%", "100%");
+	public EventViewListOnlyGwtImpl() {
+		main = new LayoutPanel();
+		main.setSize("100%", "100%");
 
-	// Take care of the header for navigation
-	setupHeader();
-	setupListPanel(listWidget);
+		// Take care of the header for navigation
+		setupHeader();
+		setupListPanel(listWidget);
 
-	main.add(headerButtonBar);
-	main.add(scrollPanel);
-    }
-
-    /**
-     * @param listWidget
-     */
-    private void setupListPanel(CellList<BikeTrainRoute> listWidget) {
-	scrollPanel = new ScrollPanel();
-	scrollPanel.add(listWidget);
-	scrollPanel.setSize("100%", "100%");
-	// scrollPanel.setHeight(ScreenSize.getHeight() - 80 + "px");
-	scrollPanel.setScrollingEnabledX(true);
-    }
-
-    /**
-     * Called after last route has been loaded.
-     */
-    public void renderList(List<BikeTrainRoute> routes) {
-	listWidget.render(routes);
-	scrollPanel.refresh();
-    }
-
-    /**
-     * @return the dispGroupName
-     */
-    public String getDisplayGroupName() {
-	return displayGroupName;
-    }
-
-    /**
-     * @param dispGroupName
-     *            the dispGroupName to set
-     */
-    public void setDisplayGroupName(String dispGroupName) {
-	this.displayGroupName = dispGroupName;
-    }
-
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-	return description;
-    }
-
-    /**
-     * @param description
-     *            the description to set
-     */
-    public void setDescription(String description) {
-	this.description = description;
-	title.setText(description);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.jettmarks.routes.client.MapDetailViewGwtImpl#getBackbutton()
-     */
-    @Override
-    public HasTapHandlers getBackbutton() {
-	return headerButtonBar.getLeftButton();
-    }
-
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#getForwardbutton()
-     */
-    @Override
-    public HasTapHandlers getForwardbutton() {
-	return headerButtonBar.getRightButton();
-    }
-
-    public HTML getHeaderTapHandlers() {
-	return title;
-    }
-
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
-     */
-    @Override
-    public void enableBackButton(boolean isEnabled) {
-	headerButtonBar.setLeftButtonEnabled(isEnabled);
-    }
-
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#enableForwardButton()
-     */
-    @Override
-    public void enableForwardButton(boolean isEnabled) {
-	headerButtonBar.setRightButtonEnabled(isEnabled);
-    }
-
-    /**
-     * Responds to external activity telling us a route has been selected.
-     * 
-     * Null value for newIndex will turn off all selections.
-     * 
-     * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
-     */
-    @Override
-    public void selectRoute(Integer newIndex) {
-	if (currentIndex != null) {
-	    listWidget.setSelectedIndex(currentIndex, false);
+		main.add(headerButtonBar);
+		main.add(scrollPanel);
 	}
-	if (newIndex != null) {
-	    listWidget.setSelectedIndex(newIndex, true);
+
+	/**
+	 * @param listWidget
+	 */
+	private void setupListPanel(CellList<BikeTrainRoute> listWidget) {
+		scrollPanel = new ScrollPanel();
+		scrollPanel.add(listWidget);
+		scrollPanel.setSize("100%", "100%");
+		// scrollPanel.setHeight(ScreenSize.getHeight() - 80 + "px");
+		scrollPanel.setScrollingEnabledX(true);
 	}
-	currentIndex = newIndex;
-    }
 
-    /**
-     * Called when the async routes have all been added; the list specifically
-     * will render the List (generate HTML).
-     * 
-     * @see com.jettmarks.routes.client.ui.EventViewBaseImpl#resize()
-     */
-    @Override
-    public void resize(List<BikeTrainRoute> routes) {
-	super.resize(routes);
-	renderList(routes);
-    }
+	/**
+	 * Called after last route has been loaded.
+	 */
+	public void renderList(List<BikeTrainRoute> routes) {
+		listWidget.render(routes);
+		scrollPanel.refresh();
+	}
 
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#showMapTab()
-     */
-    @Override
-    public void showMapTab() {
-	tabPanel.setSelectedChild(0);
-    }
+	/**
+	 * @return the dispGroupName
+	 */
+	public String getDisplayGroupName() {
+		return displayGroupName;
+	}
 
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#showListTab()
-     */
-    @Override
-    public void showListTab() {
-	tabPanel.setSelectedChild(1);
-    }
+	/**
+	 * @param dispGroupName
+	 *            the dispGroupName to set
+	 */
+	public void setDisplayGroupName(String dispGroupName) {
+		this.displayGroupName = dispGroupName;
+	}
 
-    /**
-     * @see com.jettmarks.routes.client.ui.EventView#getHomeButton()
-     */
-    @Override
-    public HasTapHandlers getHomeButton() {
-	return headerButtonBar.getHomeButton();
-    }
+	/**
+	 * @return the description
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * @param description
+	 *            the description to set
+	 */
+	public void setDescription(String description) {
+		this.description = description;
+		title.setText(description);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jettmarks.routes.client.MapDetailViewGwtImpl#getBackbutton()
+	 */
+	@Override
+	public HasTapHandlers getBackbutton() {
+		return headerButtonBar.getLeftButton();
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.ui.EventView#getForwardbutton()
+	 */
+	@Override
+	public HasTapHandlers getForwardbutton() {
+		return headerButtonBar.getRightButton();
+	}
+
+	public HTML getHeaderTapHandlers() {
+		return title;
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.ui.EventView#enableBackButton(boolean)
+	 */
+	@Override
+	public void enableBackButton(boolean isEnabled) {
+		headerButtonBar.setLeftButtonEnabled(isEnabled);
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.ui.EventView#enableForwardButton()
+	 */
+	@Override
+	public void enableForwardButton(boolean isEnabled) {
+		headerButtonBar.setRightButtonEnabled(isEnabled);
+	}
+
+	/**
+	 * Responds to external activity telling us a route has been selected.
+	 * 
+	 * Null value for newIndex will turn off all selections.
+	 * 
+	 * @see com.jettmarks.routes.client.ui.EventView#selectRoute(com.jettmarks.routes.client.bean.Route)
+	 */
+	@Override
+	public void selectRoute(Integer newIndex) {
+		if (currentIndex != null) {
+			listWidget.setSelectedIndex(currentIndex, false);
+		}
+		if (newIndex != null) {
+			listWidget.setSelectedIndex(newIndex, true);
+		}
+		currentIndex = newIndex;
+	}
+
+	/**
+	 * Called when the async routes have all been added; the list specifically
+	 * will render the List (generate HTML).
+	 * 
+	 * @see com.jettmarks.routes.client.ui.EventViewBaseImpl#resize()
+	 */
+	@Override
+	public void resize(List<BikeTrainRoute> routes) {
+		super.resize(routes);
+		renderList(routes);
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.ui.EventView#showMapTab()
+	 */
+	@Override
+	public void showMapTab() {
+		tabPanel.setSelectedChild(0);
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.ui.EventView#showListTab()
+	 */
+	@Override
+	public void showListTab() {
+		tabPanel.setSelectedChild(1);
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.ui.EventView#getHomeButton()
+	 */
+	@Override
+	public HasTapHandlers getHomeButton() {
+		return headerButtonBar.getHomeButton();
+	}
 }

@@ -15,27 +15,26 @@
  */
 package com.jettmarks.routes.client.activities.showGroup;
 
-import com.googlecode.mgwt.ui.client.widget.HeaderButton;
 import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.Route;
 
 public interface ShowGroupView extends DetailView {
 
-  public abstract void setDisplayGroupName(String displayGroupName);
+	public abstract void setDisplayGroupName(String displayGroupName);
 
-  public abstract String getDisplayGroupName();
+	public abstract String getDisplayGroupName();
 
-  public abstract void setDescription(String description);
+	public abstract void setDescription(String description);
 
-  public abstract String getDescription();
-  
-  public abstract void add(Route route);
+	public abstract String getDescription();
 
-  public abstract HeaderButton getViewDetailButton();
+	public abstract void add(Route route);
 
-  /**
+	public abstract com.googlecode.mgwt.ui.client.widget.header.HeaderButton getViewDetailButton();
+
+	/**
    * 
    */
-  public abstract void resize();
+	public abstract void resize();
 
 }

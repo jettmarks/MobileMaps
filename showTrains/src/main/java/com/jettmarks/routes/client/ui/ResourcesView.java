@@ -19,7 +19,7 @@ package com.jettmarks.routes.client.ui;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
-import com.googlecode.mgwt.ui.client.widget.CellList;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
 import com.jettmarks.routes.client.NavLink;
 
 /**
@@ -29,9 +29,9 @@ import com.jettmarks.routes.client.NavLink;
  */
 public interface ResourcesView extends NavLinkView {
 
-    public CellList<NavLink> getNavList();
+	public CellList<NavLink> getNavList();
 
-    public Widget asWidget();
+	public Widget asWidget();
 
-    public HasText getHeader();
+	public HasText getHeader();
 }

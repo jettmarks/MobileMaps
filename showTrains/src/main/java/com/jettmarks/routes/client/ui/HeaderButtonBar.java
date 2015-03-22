@@ -26,10 +26,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.ui.client.MGWT;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ArrowLeftButton;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarSpacer;
-import com.googlecode.mgwt.ui.client.widget.buttonbar.InfoButton;
 import com.jettmarks.routes.client.css.AppBundle;
 import com.jettmarks.routes.client.ui.widget.HomeButton;
 
@@ -43,235 +39,235 @@ import com.jettmarks.routes.client.ui.widget.HomeButton;
  */
 public class HeaderButtonBar extends Composite implements HasWidgets {
 
-    private FlowPanel main;
-    protected final HeaderButtonBarCss css;
+	private FlowPanel main;
+	protected final HeaderButtonBarCss css;
 
-    // private ButtonBarButtonBase leftButton = new HomeButton();
-    private ButtonBarButtonBase leftButton = new ArrowLeftButton();
-    private ButtonBarButtonBase rightButton = new InfoButton();
-    // private ButtonBarButtonBase rightButton = new ArrowRightButton();
-    private HTML title;
-    private Widget leftPlaceholder = new ButtonBarButtonBase(null);
-    private Widget titlePlaceholder = new HTML("   ");
-    private Widget rightPlaceholder = new ButtonBarButtonBase(null);
+	// private ButtonBarButtonBase leftButton = new HomeButton();
+	private ButtonBarButtonBase leftButton = new ArrowLeftButton();
+	private ButtonBarButtonBase rightButton = new InfoButton();
+	// private ButtonBarButtonBase rightButton = new ArrowRightButton();
+	private HTML title;
+	private Widget leftPlaceholder = new ButtonBarButtonBase(null);
+	private Widget titlePlaceholder = new HTML("   ");
+	private Widget rightPlaceholder = new ButtonBarButtonBase(null);
 
-    private boolean leftButtonEnabled = false;
-    private boolean rightButtonEnabled = false;
-    private ButtonBarButtonBase homeButton = new HomeButton();
-    private boolean homeButtonEnabled = true;
+	private boolean leftButtonEnabled = false;
+	private boolean rightButtonEnabled = false;
+	private ButtonBarButtonBase homeButton = new HomeButton();
+	private boolean homeButtonEnabled = true;
 
-    /**
-     * Constructor for HeaderButtonBar.
-     */
-    public HeaderButtonBar() {
-	this(AppBundle.INSTANCE.headerButtonBarCss());
-    }
-
-    /**
-     * <p>
-     * Constructor for ButtonBar.
-     * </p>
-     * 
-     * @param css
-     *            a
-     *            {@link com.googlecode.mgwt.ui.client.theme.base.ButtonBarCss}
-     *            object.
-     */
-    public HeaderButtonBar(HeaderButtonBarCss css) {
-	this.css = css;
-	css.ensureInjected();
-	main = new FlowPanel();
-	initWidget(main);
-	setStylePrimaryName("mgwt-ButtonBar");
-	refresh();
-    }
-
-    /**
-     * Adds the defined elements in order with placeholders for disabled
-     * elements.
-     */
-    private void refresh() {
-	main.clear();
-	if (homeButtonEnabled) {
-	    add(homeButton);
-	}
-	if (leftButton != null && leftButtonEnabled) {
-	    add(leftButton);
-	} else {
-	    add(leftPlaceholder);
+	/**
+	 * Constructor for HeaderButtonBar.
+	 */
+	public HeaderButtonBar() {
+		this(AppBundle.INSTANCE.headerButtonBarCss());
 	}
 
-	add(new ButtonBarSpacer());
-
-	if (title != null) {
-	    if (MGWT.getOsDetection().isTablet()) {
-		title.setStylePrimaryName(this.css.titleDesktop());
-	    } else {
-		title.setStylePrimaryName(this.css.title());
-	    }
-	    add(title);
-	} else {
-	    add(titlePlaceholder);
+	/**
+	 * <p>
+	 * Constructor for ButtonBar.
+	 * </p>
+	 * 
+	 * @param css
+	 *            a
+	 *            {@link com.googlecode.mgwt.ui.client.theme.base.ButtonBarCss}
+	 *            object.
+	 */
+	public HeaderButtonBar(HeaderButtonBarCss css) {
+		this.css = css;
+		css.ensureInjected();
+		main = new FlowPanel();
+		initWidget(main);
+		setStylePrimaryName("mgwt-ButtonBar");
+		refresh();
 	}
 
-	add(new ButtonBarSpacer());
+	/**
+	 * Adds the defined elements in order with placeholders for disabled
+	 * elements.
+	 */
+	private void refresh() {
+		main.clear();
+		if (homeButtonEnabled) {
+			add(homeButton);
+		}
+		if (leftButton != null && leftButtonEnabled) {
+			add(leftButton);
+		} else {
+			add(leftPlaceholder);
+		}
 
-	if (rightButton != null && rightButtonEnabled) {
-	    add(rightButton);
-	} else {
-	    add(rightPlaceholder);
+		add(new ButtonBarSpacer());
+
+		if (title != null) {
+			if (MGWT.getOsDetection().isTablet()) {
+				title.setStylePrimaryName(this.css.titleDesktop());
+			} else {
+				title.setStylePrimaryName(this.css.title());
+			}
+			add(title);
+		} else {
+			add(titlePlaceholder);
+		}
+
+		add(new ButtonBarSpacer());
+
+		if (rightButton != null && rightButtonEnabled) {
+			add(rightButton);
+		} else {
+			add(rightPlaceholder);
+		}
 	}
-    }
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasWidgets#clear()
-     */
-    @Override
-    public void clear() {
-	main.clear();
-    }
+	/**
+	 * @see com.google.gwt.user.client.ui.HasWidgets#clear()
+	 */
+	@Override
+	public void clear() {
+		main.clear();
+	}
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasWidgets#iterator()
-     */
-    @Override
-    public Iterator<Widget> iterator() {
-	return main.iterator();
-    }
+	/**
+	 * @see com.google.gwt.user.client.ui.HasWidgets#iterator()
+	 */
+	@Override
+	public Iterator<Widget> iterator() {
+		return main.iterator();
+	}
 
-    /**
-     * @see com.google.gwt.user.client.ui.HasWidgets#remove(com.google.gwt.user.client.ui.Widget)
-     */
-    @Override
-    public boolean remove(Widget w) {
-	return main.remove(w);
-    }
+	/**
+	 * @see com.google.gwt.user.client.ui.HasWidgets#remove(com.google.gwt.user.client.ui.Widget)
+	 */
+	@Override
+	public boolean remove(Widget w) {
+		return main.remove(w);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.google.gwt.user.client.ui.HasWidgets#add(com.google.gwt.user.client
-     * .ui.Widget)
-     */
-    @Override
-    public void add(Widget w) {
-	main.add(w);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.google.gwt.user.client.ui.HasWidgets#add(com.google.gwt.user.client
+	 * .ui.Widget)
+	 */
+	@Override
+	public void add(Widget w) {
+		main.add(w);
+	}
 
-    /**
-     * @return the main
-     */
-    public FlowPanel getMain() {
-	return main;
-    }
+	/**
+	 * @return the main
+	 */
+	public FlowPanel getMain() {
+		return main;
+	}
 
-    /**
-     * @param main
-     *            the main to set
-     */
-    public void setMain(FlowPanel main) {
-	this.main = main;
-    }
+	/**
+	 * @param main
+	 *            the main to set
+	 */
+	public void setMain(FlowPanel main) {
+		this.main = main;
+	}
 
-    /**
-     * @return the leftButton
-     */
-    public ButtonBarButtonBase getLeftButton() {
-	return leftButton;
-    }
+	/**
+	 * @return the leftButton
+	 */
+	public ButtonBarButtonBase getLeftButton() {
+		return leftButton;
+	}
 
-    /**
-     * @param leftButton
-     *            the leftButton to set
-     */
-    public void setLeftButton(ButtonBarButtonBase leftButton) {
-	this.leftButton = leftButton;
-    }
+	/**
+	 * @param leftButton
+	 *            the leftButton to set
+	 */
+	public void setLeftButton(ButtonBarButtonBase leftButton) {
+		this.leftButton = leftButton;
+	}
 
-    /**
-     * @return the rightButton
-     */
-    public ButtonBarButtonBase getRightButton() {
-	return rightButton;
-    }
+	/**
+	 * @return the rightButton
+	 */
+	public ButtonBarButtonBase getRightButton() {
+		return rightButton;
+	}
 
-    /**
-     * @param rightButton
-     *            the rightButton to set
-     */
-    public void setRightButton(ButtonBarButtonBase rightButton) {
-	this.rightButton = rightButton;
-    }
+	/**
+	 * @param rightButton
+	 *            the rightButton to set
+	 */
+	public void setRightButton(ButtonBarButtonBase rightButton) {
+		this.rightButton = rightButton;
+	}
 
-    /**
-     * @return the title
-     */
-    public HasHandlers getHeaderTitle() {
-	return title;
-    }
+	/**
+	 * @return the title
+	 */
+	public HasHandlers getHeaderTitle() {
+		return title;
+	}
 
-    /**
-     * @param title
-     *            the title to set
-     */
-    public void setTitle(HTML title) {
-	this.title = title;
-	refresh();
-    }
+	/**
+	 * @param title
+	 *            the title to set
+	 */
+	public void setTitle(HTML title) {
+		this.title = title;
+		refresh();
+	}
 
-    /**
-     * @return the leftButtonEnabled
-     */
-    public boolean isLeftButtonEnabled() {
-	return leftButtonEnabled;
-    }
+	/**
+	 * @return the leftButtonEnabled
+	 */
+	public boolean isLeftButtonEnabled() {
+		return leftButtonEnabled;
+	}
 
-    /**
-     * @param leftButtonEnabled
-     *            the leftButtonEnabled to set
-     */
-    public void setLeftButtonEnabled(boolean leftButtonEnabled) {
-	this.leftButtonEnabled = leftButtonEnabled;
-	refresh();
-    }
+	/**
+	 * @param leftButtonEnabled
+	 *            the leftButtonEnabled to set
+	 */
+	public void setLeftButtonEnabled(boolean leftButtonEnabled) {
+		this.leftButtonEnabled = leftButtonEnabled;
+		refresh();
+	}
 
-    /**
-     * @return the rightButtonEnabled
-     */
-    public boolean isRightButtonEnabled() {
-	return rightButtonEnabled;
-    }
+	/**
+	 * @return the rightButtonEnabled
+	 */
+	public boolean isRightButtonEnabled() {
+		return rightButtonEnabled;
+	}
 
-    /**
-     * @param rightButtonEnabled
-     *            the rightButtonEnabled to set
-     */
-    public void setRightButtonEnabled(boolean rightButtonEnabled) {
-	this.rightButtonEnabled = rightButtonEnabled;
-	refresh();
-    }
+	/**
+	 * @param rightButtonEnabled
+	 *            the rightButtonEnabled to set
+	 */
+	public void setRightButtonEnabled(boolean rightButtonEnabled) {
+		this.rightButtonEnabled = rightButtonEnabled;
+		refresh();
+	}
 
-    /**
-     * @return the homeButtonEnabled
-     */
-    public boolean isHomeButtonEnabled() {
-	return homeButtonEnabled;
-    }
+	/**
+	 * @return the homeButtonEnabled
+	 */
+	public boolean isHomeButtonEnabled() {
+		return homeButtonEnabled;
+	}
 
-    /**
-     * @param homeButtonEnabled
-     *            the homeButtonEnabled to set
-     */
-    public void setHomeButtonEnabled(boolean homeButtonEnabled) {
-	this.homeButtonEnabled = homeButtonEnabled;
-	refresh();
-    }
+	/**
+	 * @param homeButtonEnabled
+	 *            the homeButtonEnabled to set
+	 */
+	public void setHomeButtonEnabled(boolean homeButtonEnabled) {
+		this.homeButtonEnabled = homeButtonEnabled;
+		refresh();
+	}
 
-    /**
-     * @return the homeButton
-     */
-    public ButtonBarButtonBase getHomeButton() {
-	return homeButton;
-    }
+	/**
+	 * @return the homeButton
+	 */
+	public ButtonBarButtonBase getHomeButton() {
+		return homeButton;
+	}
 }

@@ -21,7 +21,7 @@ import com.google.gwt.core.shared.GWT;
 import com.google.gwt.safehtml.client.SafeHtmlTemplates;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.googlecode.mgwt.ui.client.widget.celllist.Cell;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.Cell;
 import com.jettmarks.routes.client.NavLink;
 
 /**
@@ -31,39 +31,39 @@ import com.jettmarks.routes.client.NavLink;
  */
 public class NavLinkCell implements Cell<NavLink> {
 
-    private static Template TEMPLATE = GWT.create(Template.class);
+	private static Template TEMPLATE = GWT.create(Template.class);
 
-    public interface Template extends SafeHtmlTemplates {
-	@SafeHtmlTemplates.Template("<div>{0}</div>")
-	SafeHtml content(String text);
-    }
+	public interface Template extends SafeHtmlTemplates {
+		@SafeHtmlTemplates.Template("<div>{0}</div>")
+		SafeHtml content(String text);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.googlecode.mgwt.ui.client.widget.celllist.Cell#render(com.google.
-     * gwt.safehtml.shared.SafeHtmlBuilder, java.lang.Object)
-     */
-    @Override
-    public void render(SafeHtmlBuilder safeHtmlBuilder, NavLink model) {
-	if (model == null)
-	    return;
-	SafeHtml content = TEMPLATE.content(model.getDisplayName());
-	safeHtmlBuilder.append(content);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.googlecode.mgwt.ui.client.widget.celllist.Cell#render(com.google.
+	 * gwt.safehtml.shared.SafeHtmlBuilder, java.lang.Object)
+	 */
+	@Override
+	public void render(SafeHtmlBuilder safeHtmlBuilder, NavLink model) {
+		if (model == null)
+			return;
+		SafeHtml content = TEMPLATE.content(model.getDisplayName());
+		safeHtmlBuilder.append(content);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.googlecode.mgwt.ui.client.widget.celllist.Cell#canBeSelected(java
-     * .lang.Object)
-     */
-    @Override
-    public boolean canBeSelected(NavLink model) {
-	// TODO Auto-generated method stub
-	return false;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.googlecode.mgwt.ui.client.widget.celllist.Cell#canBeSelected(java
+	 * .lang.Object)
+	 */
+	@Override
+	public boolean canBeSelected(NavLink model) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
