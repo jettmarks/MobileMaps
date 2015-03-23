@@ -21,17 +21,17 @@ public class DetailActivity extends MGWTAbstractActivity {
 
 	@Override
 	public void start(AcceptsOneWidget panel, final EventBus eventBus) {
-		if (detailView.getMainButton() != null) {
-			addHandlerRegistration(detailView.getMainButton().addTapHandler(
-					new TapHandler() {
-
-						@Override
-						public void onTap(TapEvent event) {
-							eventBus.fireEvent(new ShowMasterEvent(eventId));
-
-						}
-					}));
-		}
+		// if (detailView.getMainButton() != null) {
+		// addHandlerRegistration(detailView.getMainButton().addTapHandler(
+		// new TapHandler() {
+		//
+		// @Override
+		// public void onTap(TapEvent event) {
+		// eventBus.fireEvent(new ShowMasterEvent(eventId));
+		//
+		// }
+		// }));
+		// }
 
 		if (detailView.getBackbutton() != null) {
 			addHandlerRegistration(detailView.getBackbutton().addTapHandler(

@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.MGWT;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.NextitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.HasCellSelectedHandler;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
@@ -43,7 +43,8 @@ import com.jettmarks.routes.client.Topic;
 public class EventSelectionViewGwtImpl implements EventSelectionView {
 	private LayoutPanel main;
 
-	private HeaderButton forwardButton;
+	// private HeaderButton forwardButton;
+	private NextitemImageButton forwardButton;
 
 	private HeaderPanel headerPanel;
 
@@ -61,8 +62,8 @@ public class EventSelectionViewGwtImpl implements EventSelectionView {
 
 		headerPanel = new HeaderPanel();
 
-		forwardButton = new HeaderButton();
-		forwardButton.setForwardButton(true);
+		forwardButton = new NextitemImageButton();
+		// forwardButton.setForwardButton(true);
 		// headerPanel.setRightWidget(forwardButton);
 		main.add(headerPanel);
 

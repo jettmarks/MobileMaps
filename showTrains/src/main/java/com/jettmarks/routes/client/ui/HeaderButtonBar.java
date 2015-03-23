@@ -26,8 +26,11 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.ui.client.MGWT;
+import com.googlecode.mgwt.ui.client.widget.button.ButtonBase;
+import com.googlecode.mgwt.ui.client.widget.button.image.HelpImageButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.PreviousImageButton;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.FlexSpacer;
 import com.jettmarks.routes.client.css.AppBundle;
-import com.jettmarks.routes.client.ui.widget.HomeButton;
 
 /**
  * Replacement for ButtonBar where I can better manage the width of the central
@@ -43,17 +46,18 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	protected final HeaderButtonBarCss css;
 
 	// private ButtonBarButtonBase leftButton = new HomeButton();
-	private ButtonBarButtonBase leftButton = new ArrowLeftButton();
-	private ButtonBarButtonBase rightButton = new InfoButton();
+	private ButtonBase leftButton = new PreviousImageButton();
+	private ButtonBase rightButton = new HelpImageButton();
 	// private ButtonBarButtonBase rightButton = new ArrowRightButton();
 	private HTML title;
-	private Widget leftPlaceholder = new ButtonBarButtonBase(null);
+	private Widget leftPlaceholder = new FlexSpacer();
 	private Widget titlePlaceholder = new HTML("   ");
-	private Widget rightPlaceholder = new ButtonBarButtonBase(null);
+	private Widget rightPlaceholder = new FlexSpacer();
 
 	private boolean leftButtonEnabled = false;
 	private boolean rightButtonEnabled = false;
-	private ButtonBarButtonBase homeButton = new HomeButton();
+	// private ButtonBase homeButton = new HomeImageButton();
+	private ButtonBase homeButton = new HelpImageButton();
 	private boolean homeButtonEnabled = true;
 
 	/**
@@ -97,7 +101,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 			add(leftPlaceholder);
 		}
 
-		add(new ButtonBarSpacer());
+		add(new FlexSpacer());
 
 		if (title != null) {
 			if (MGWT.getOsDetection().isTablet()) {
@@ -110,7 +114,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 			add(titlePlaceholder);
 		}
 
-		add(new ButtonBarSpacer());
+		add(new FlexSpacer());
 
 		if (rightButton != null && rightButtonEnabled) {
 			add(rightButton);
@@ -173,7 +177,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	/**
 	 * @return the leftButton
 	 */
-	public ButtonBarButtonBase getLeftButton() {
+	public ButtonBase getLeftButton() {
 		return leftButton;
 	}
 
@@ -181,14 +185,14 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	 * @param leftButton
 	 *            the leftButton to set
 	 */
-	public void setLeftButton(ButtonBarButtonBase leftButton) {
+	public void setLeftButton(ButtonBase leftButton) {
 		this.leftButton = leftButton;
 	}
 
 	/**
 	 * @return the rightButton
 	 */
-	public ButtonBarButtonBase getRightButton() {
+	public ButtonBase getRightButton() {
 		return rightButton;
 	}
 
@@ -196,7 +200,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	 * @param rightButton
 	 *            the rightButton to set
 	 */
-	public void setRightButton(ButtonBarButtonBase rightButton) {
+	public void setRightButton(ButtonBase rightButton) {
 		this.rightButton = rightButton;
 	}
 
@@ -267,7 +271,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	/**
 	 * @return the homeButton
 	 */
-	public ButtonBarButtonBase getHomeButton() {
+	public ButtonBase getHomeButton() {
 		return homeButton;
 	}
 }

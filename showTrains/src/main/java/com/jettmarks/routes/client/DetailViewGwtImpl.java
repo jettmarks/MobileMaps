@@ -7,8 +7,8 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.MGWT;
-import com.googlecode.mgwt.ui.client.MGWTStyle;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.NextitemImageButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.PreviousitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
 
 public abstract class DetailViewGwtImpl implements DetailView {
@@ -17,8 +17,9 @@ public abstract class DetailViewGwtImpl implements DetailView {
 	// protected ScrollPanel scrollPanel;
 	protected AbsolutePanel mapPanel;
 	protected HeaderPanel headerPanel;
-	protected HeaderButton headerBackButton;
-	protected HeaderButton headerMainButton;
+	protected PreviousitemImageButton headerBackButton;
+	protected NextitemImageButton headerMainButton;
+	// protected HeaderButton headerMainButton;
 	protected HTML title;
 
 	public DetailViewGwtImpl() {
@@ -29,20 +30,25 @@ public abstract class DetailViewGwtImpl implements DetailView {
 
 		headerPanel = new HeaderPanel();
 		title = new HTML();
-		headerPanel.setCenterWidget(title);
-		headerBackButton = new HeaderButton();
-		headerBackButton.setBackButton(true);
+		// headerPanel.setCenterWidget(title);
+		headerPanel.add(title);
+		headerBackButton = new PreviousitemImageButton();
+		// headerBackButton = new HeaderButton();
+		// headerBackButton.setBackButton(true);
 		headerBackButton.setVisible(!MGWT.getOsDetection().isAndroid());
 
-		headerMainButton = new HeaderButton();
-		headerMainButton.setRoundButton(true);
+		// headerMainButton = new HeaderButton();
+		headerMainButton = new NextitemImageButton();
+		// headerMainButton.setRoundButton(true);
 
 		if (!MGWT.getOsDetection().isPhone()) {
-			headerPanel.setLeftWidget(headerMainButton);
-			headerMainButton.addStyleName(MGWTStyle.getTheme()
-					.getMGWTClientBundle().getUtilCss().portraitonly());
+			// headerPanel.setLeftWidget(headerMainButton);
+			headerPanel.add(headerMainButton);
+			// headerMainButton.addStyleName(MGWTStyle.getTheme()
+			// .getMGWTClientBundle().getUtilCss().portraitonly());
 		} else {
-			headerPanel.setLeftWidget(headerBackButton);
+			// headerPanel.setLeftWidget(headerBackButton);
+			headerPanel.add(headerBackButton);
 		}
 
 		main.add(headerPanel);

@@ -105,12 +105,13 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 		navContainer.getElement().addClassName("landscapeonly");
 		AnimatableDisplay navDisplay = GWT.create(AnimatableDisplay.class);
 
-		final TabletPortraitOverlay tabletPortraitOverlay = new TabletPortraitOverlay();
-
-		new OrientationRegionHandler(navContainer, tabletPortraitOverlay,
-				navDisplay);
-		new MasterRegionHandler(clientFactory.getEventBus(), "nav",
-				tabletPortraitOverlay);
+		// final TabletPortraitOverlay tabletPortraitOverlay = new
+		// TabletPortraitOverlay();
+		//
+		// new OrientationRegionHandler(navContainer, tabletPortraitOverlay,
+		// navDisplay);
+		// new MasterRegionHandler(clientFactory.getEventBus(), "nav",
+		// tabletPortraitOverlay);
 
 		// Nav Container
 		ActivityMapper navActivityMapper = new TabletNavActivityMapper(

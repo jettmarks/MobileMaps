@@ -17,17 +17,16 @@
  */
 package com.jettmarks.routes.client.ui.widget;
 
-import com.googlecode.mgwt.ui.client.widget.buttonbar.ButtonBarButtonBase;
-import com.jettmarks.routes.client.css.AppBundle;
+import com.googlecode.mgwt.ui.client.widget.button.ButtonBase;
 
 /**
  * Description.
  * 
  * @author jett
  */
-public class HomeButton extends ButtonBarButtonBase {
-    public HomeButton() {
-	super(AppBundle.INSTANCE.getButtonBarHomeImage());
-    }
+public class HomeButton extends ButtonBase {
+	public HomeButton() {
+		// super(AppBundle.INSTANCE.getButtonBarHomeImage());
+	}
 
 }

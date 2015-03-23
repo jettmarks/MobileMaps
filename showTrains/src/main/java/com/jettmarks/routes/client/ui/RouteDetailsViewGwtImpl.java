@@ -23,7 +23,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.NextitemImageButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.PreviousitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.input.MEmailTextBox;
 import com.googlecode.mgwt.ui.client.widget.input.MPhoneNumberTextBox;
@@ -41,11 +42,13 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 
 	protected ScrollPanel scrollPanel;
 
-	protected HeaderButton headerMainButton;
+	// protected HeaderButton headerMainButton;
 
-	protected HeaderButton headerBackButton;
+	// protected HeaderButton headerBackButton;
+	protected PreviousitemImageButton headerBackButton;
 
-	protected HeaderButton headerForwardButton;
+	// protected HeaderButton headerForwardButton;
+	protected NextitemImageButton headerForwardButton;
 
 	protected HTML title;
 
@@ -178,7 +181,8 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 	 */
 	@Override
 	public HasTapHandlers getBackbutton() {
-		return headerButtonBar.getLeftButton();
+		return headerBackButton;
+		// return headerButtonBar.getLeftButton();
 	}
 
 	/**
@@ -194,7 +198,8 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 	 */
 	@Override
 	public HasTapHandlers getMainButton() {
-		return headerMainButton;
+		// return headerMainButton;
+		return null;
 	}
 
 	/**
