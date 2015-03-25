@@ -17,7 +17,6 @@ package com.jettmarks.routes.client.activities;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.HasCellSelectedHandler;
@@ -38,7 +37,5 @@ public interface DisplayGroupListView extends IsWidget {
 	public HasCellSelectedHandler getCellSelectedHandler();
 
 	public void setTopics(List<Topic> createTopicsList);
-
-	public HasText getFirstHeader();
 
 }

@@ -18,15 +18,23 @@
 package com.jettmarks.routes.client.ui.widget;
 
 import com.googlecode.mgwt.ui.client.widget.button.ButtonBase;
+import com.googlecode.mgwt.ui.client.widget.button.ButtonBaseAppearance;
 
 /**
  * Description.
  * 
  * @author jett
+ * @deprecated - may no longer be needed.
  */
 public class HomeButton extends ButtonBase {
-	public HomeButton() {
-		// super(AppBundle.INSTANCE.getButtonBarHomeImage());
+
+	public HomeButton(ButtonBaseAppearance appearance) {
+		super(appearance);
+		// TODO Auto-generated constructor stub
 	}
+
+	// public HomeButton() {
+	// // super(AppBundle.INSTANCE.getButtonBarHomeImage());
+	// }
 
 }

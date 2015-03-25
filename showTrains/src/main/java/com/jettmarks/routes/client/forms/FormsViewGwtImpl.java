@@ -20,8 +20,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.MGWT;
-import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.widget.button.Button;
+import com.googlecode.mgwt.ui.client.widget.form.FormEntry;
 import com.googlecode.mgwt.ui.client.widget.input.MTextBox;
 import com.googlecode.mgwt.ui.client.widget.list.widgetlist.WidgetList;
 import com.jettmarks.routes.client.DetailViewGwtImpl;
@@ -38,8 +38,8 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView {
 		FlowPanel container = new FlowPanel();
 
 		HTML header = new HTML("Display Group Details");
-		header.addStyleName(MGWTStyle.getTheme().getMGWTClientBundle()
-				.getListCss().listHeader());
+		// header.addStyleName(MGWTStyle.getTheme().getMGWTClientBundle()
+		// .getListCss().listHeader());
 
 		container.add(header);
 
@@ -48,14 +48,14 @@ public class FormsViewGwtImpl extends DetailViewGwtImpl implements FormsView {
 
 		// lets put in some widgets
 		if (MGWT.getOsDetection().isPhone()) {
-			widgetList.add(new FormListEntry("Description", mtbDescription));
-			widgetList.add(new FormListEntry("Display Group Name",
+			widgetList.add(new FormEntry("Description", mtbDescription));
+			widgetList.add(new FormEntry("Display Group Name",
 					mtbDisplayGroupName));
 		} else {
-			widgetList.add(new FormListEntry(
+			widgetList.add(new FormEntry(
 					"Description of Display Group (spaces allowed)",
 					mtbDescription));
-			widgetList.add(new FormListEntry(
+			widgetList.add(new FormEntry(
 					"Display Group Name (used in URL; no spaces)",
 					mtbDisplayGroupName));
 		}

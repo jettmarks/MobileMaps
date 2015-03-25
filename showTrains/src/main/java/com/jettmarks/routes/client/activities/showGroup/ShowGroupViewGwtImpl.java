@@ -51,7 +51,7 @@ public class ShowGroupViewGwtImpl extends DetailViewGwtImpl implements
 		viewDetailButton = new HeaderButton();
 		viewDetailButton.setForwardButton(true);
 		viewDetailButton.setText("Details");
-		headerPanel.setRightWidget(viewDetailButton);
+		// headerPanel.setRightWidget(viewDetailButton);
 
 		LatLng atlanta = LatLng.newInstance(33.757787d, -84.359741d);
 		MapOptions opts = MapOptions.newInstance();

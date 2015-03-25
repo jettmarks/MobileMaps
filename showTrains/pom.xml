@@ -3,14 +3,15 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<artifactId>showTrains</artifactId>
-	<description>Mobile Version of Show Routes specifically geared for Bike Trains.</description><modelVersion>4.0.0</modelVersion>
+	<description>Mobile Version of Show Routes specifically geared for Bike Trains.</description>
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.jettmarks.routes</groupId>
 	<version>1.9.2-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Show Trains - MGWT</name>
 
 	<properties>
-		<gwtversion>2.5.0</gwtversion>
+		<gwtversion>2.7.0</gwtversion>
 	</properties>
 
 	<build>
@@ -78,7 +79,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>gwt-maven-plugin</artifactId>
-				<version>2.5.0</version>
+				<version>2.7.0</version>
 				<executions>
 
 					<execution>

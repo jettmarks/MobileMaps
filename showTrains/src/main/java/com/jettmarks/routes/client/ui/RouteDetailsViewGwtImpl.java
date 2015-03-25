@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.button.image.NextitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.button.image.PreviousitemImageButton;
+import com.googlecode.mgwt.ui.client.widget.form.FormEntry;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.input.MEmailTextBox;
 import com.googlecode.mgwt.ui.client.widget.input.MPhoneNumberTextBox;
@@ -127,11 +128,11 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 		// tbNotes = new MTextArea();
 		// tbNotes.setHeight("100px");
 
-		widgetList.add(new FormListEntry("Leader Name", tbLeaderName));
-		widgetList.add(new FormListEntry("Leader Email", tbLeaderEmail));
-		widgetList.add(new FormListEntry("Leader Phone", tbPhone));
-		widgetList.add(new FormListEntry("Departure", tbDeparture));
-		widgetList.add(new FormListEntry("Arrival", tbArrival));
+		widgetList.add(new FormEntry("Leader Name", tbLeaderName));
+		widgetList.add(new FormEntry("Leader Email", tbLeaderEmail));
+		widgetList.add(new FormEntry("Leader Phone", tbPhone));
+		widgetList.add(new FormEntry("Departure", tbDeparture));
+		widgetList.add(new FormEntry("Arrival", tbArrival));
 		widgetList.add(new Label("Notes"));
 		// widgetList.add(tbNotes);
 		return widgetList;

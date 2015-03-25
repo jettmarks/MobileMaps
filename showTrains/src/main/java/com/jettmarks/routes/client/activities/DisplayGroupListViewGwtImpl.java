@@ -19,13 +19,14 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.MGWT;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.NextitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
+import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.HasCellSelectedHandler;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.progress.ProgressBar;
@@ -41,11 +42,12 @@ public class DisplayGroupListViewGwtImpl implements DisplayGroupListView {
 
 	private LayoutPanel main;
 
-	private HeaderButton forwardButton;
+	private NextitemImageButton forwardButton;
 
 	private HeaderPanel headerPanel;
+	private HeaderTitle headerPanelTitle = new HeaderTitle();
 
-	private CellListWithHeader<Topic> cellList;
+	private CellList<Topic> cellList;
 
 	private ProgressIndicator progressIndicator = null;
 
@@ -59,12 +61,12 @@ public class DisplayGroupListViewGwtImpl implements DisplayGroupListView {
 
 		headerPanel = new HeaderPanel();
 
-		forwardButton = new HeaderButton();
-		forwardButton.setForwardButton(true);
+		forwardButton = new NextitemImageButton();
+		// forwardButton.setForwardButton(true);
 		// headerPanel.setRightWidget(forwardButton);
 		main.add(headerPanel);
 
-		cellList = new CellListWithHeader<Topic>(new BasicCell<Topic>() {
+		cellList = new CellList<Topic>(new BasicCell<Topic>() {
 
 			@Override
 			public String getDisplayString(Topic model) {
@@ -77,7 +79,7 @@ public class DisplayGroupListViewGwtImpl implements DisplayGroupListView {
 			}
 		});
 
-		cellList.getCellList().setRound(true);
+		// cellList.getCellList().setRound(true);
 
 		// Setup the Progress Bar/Indicator based on phone or tablet
 		if ((MGWT.getOsDetection().isTablet())) {
@@ -106,7 +108,8 @@ public class DisplayGroupListViewGwtImpl implements DisplayGroupListView {
 
 	@Override
 	public void setTitle(String text) {
-		headerPanel.setCenter(text);
+
+		headerPanelTitle.setText(text);
 	}
 
 	@Override
@@ -121,23 +124,18 @@ public class DisplayGroupListViewGwtImpl implements DisplayGroupListView {
 
 	@Override
 	public HasCellSelectedHandler getCellSelectedHandler() {
-		return cellList.getCellList();
+		return cellList;
 	}
 
 	@Override
 	public void setTopics(List<Topic> createTopicsList) {
-		cellList.getCellList().render(createTopicsList);
+		cellList.render(createTopicsList);
 		if ((MGWT.getOsDetection().isTablet())) {
 			progressBarPanel.removeFromParent();
 		} else {
 			progressIndicator.removeFromParent();
 		}
 		scrollPanel.refresh();
-	}
-
-	@Override
-	public HasText getFirstHeader() {
-		return cellList.getHeader();
 	}
 
 }

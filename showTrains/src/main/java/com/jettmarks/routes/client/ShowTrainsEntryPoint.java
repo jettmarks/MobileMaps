@@ -24,19 +24,20 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
-import com.google.gwt.place.shared.PlaceHistoryHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
 import com.googlecode.mgwt.mvp.client.AnimatingActivityManager;
 import com.googlecode.mgwt.mvp.client.AnimationMapper;
+import com.googlecode.mgwt.mvp.client.history.MGWTPlaceHistoryHandler;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTStyle;
-import com.googlecode.mgwt.ui.client.widget.animation.AnimatableDisplay;
+import com.googlecode.mgwt.ui.client.util.SuperDevModeUtil;
+import com.googlecode.mgwt.ui.client.widget.animation.AnimationWidget;
+import com.googlecode.mgwt.ui.client.widget.menu.overlay.OverlayMenu;
 import com.jettmarks.routes.client.css.AppBundle;
 import com.jettmarks.routes.client.place.AboutPlace;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
@@ -52,6 +53,7 @@ import com.jettmarks.routes.client.place.PlaceClassifier;
 public class ShowTrainsEntryPoint implements EntryPoint {
 
 	private void start() {
+		SuperDevModeUtil.showDevMode();
 
 		// set viewport and other settings for mobile
 		MGWT.applySettings(MGWTSettings.getAppSetting());
@@ -61,11 +63,8 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 		// Start PlaceHistoryHandler with our PlaceHistoryMapper
 		AppPlaceHistoryMapper historyMapper = GWT
 				.create(AppPlaceHistoryMapper.class);
-		final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(
-				historyMapper);
 
-		historyHandler.register(clientFactory.getPlaceController(),
-				clientFactory.getEventBus(), new HomePlace());
+		MGWTStyle.injectStyleSheet("bikeTrains/css/adjustment.css");
 
 		if ((MGWT.getOsDetection().isTablet())) {
 			// very nasty workaround because GWT does not correctly support
@@ -76,13 +75,18 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 			createPhoneDisplay(clientFactory);
 		}
 
-		MGWTStyle.injectStyleSheet("bikeTrains/css/adjustment.css");
+		AppHistoryObserver historyObserver = new AppHistoryObserver();
+		MGWTPlaceHistoryHandler historyHandler = new MGWTPlaceHistoryHandler(
+				historyMapper, historyObserver);
+
+		historyHandler.register(clientFactory.getPlaceController(),
+				clientFactory.getEventBus(), new HomePlace());
 
 		historyHandler.handleCurrentHistory();
 	}
 
 	private void createPhoneDisplay(ClientFactory clientFactory) {
-		AnimatableDisplay display = GWT.create(AnimatableDisplay.class);
+		AnimationWidget display = new AnimationWidget();
 
 		PhoneActivityMapper appActivityMapper = new PhoneActivityMapper(
 				clientFactory);
@@ -100,10 +104,23 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 	}
 
 	private void createTabletDisplay(ClientFactory clientFactory) {
-		SimplePanel navContainer = new SimplePanel();
-		navContainer.getElement().setId("nav");
-		navContainer.getElement().addClassName("landscapeonly");
-		AnimatableDisplay navDisplay = GWT.create(AnimatableDisplay.class);
+		OverlayMenu overlayMenu = new OverlayMenu();
+		// Nav Container
+		AnimationWidget navDisplay = new AnimationWidget();
+		ActivityMapper navActivityMapper = new TabletNavActivityMapper(
+				clientFactory);
+		AnimationMapper navAnimationMapper = new TabletNavAnimationMapper();
+
+		AnimatingActivityManager navActivityManager = new AnimatingActivityManager(
+				navActivityMapper, navAnimationMapper,
+				clientFactory.getEventBus());
+		navActivityManager.setDisplay(navDisplay);
+
+		overlayMenu.setMaster(navDisplay);
+
+		// SimplePanel navContainer = new SimplePanel();
+		// navContainer.getElement().setId("nav");
+		// navContainer.getElement().addClassName("landscapeonly");
 
 		// final TabletPortraitOverlay tabletPortraitOverlay = new
 		// TabletPortraitOverlay();
@@ -113,24 +130,12 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 		// new MasterRegionHandler(clientFactory.getEventBus(), "nav",
 		// tabletPortraitOverlay);
 
-		// Nav Container
-		ActivityMapper navActivityMapper = new TabletNavActivityMapper(
-				clientFactory);
-
-		AnimationMapper navAnimationMapper = new TabletNavAnimationMapper();
-
-		AnimatingActivityManager navActivityManager = new AnimatingActivityManager(
-				navActivityMapper, navAnimationMapper,
-				clientFactory.getEventBus());
-
-		navActivityManager.setDisplay(navDisplay);
-
-		RootPanel.get().add(navContainer);
+		// RootPanel.get().add(navContainer);
 
 		// Main Container
-		SimplePanel mainContainer = new SimplePanel();
-		mainContainer.getElement().setId("main");
-		AnimatableDisplay mainDisplay = GWT.create(AnimatableDisplay.class);
+		// SimplePanel mainContainer = new SimplePanel();
+		// mainContainer.getElement().setId("main");
+		AnimationWidget mainDisplay = new AnimationWidget();
 
 		TabletMainActivityMapper tabletMainActivityMapper = new TabletMainActivityMapper(
 				clientFactory);
@@ -142,9 +147,11 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 				clientFactory.getEventBus());
 
 		mainActivityManager.setDisplay(mainDisplay);
-		mainContainer.setWidget(mainDisplay);
+		// mainContainer.setWidget(mainDisplay);
 
-		RootPanel.get().add(mainContainer);
+		overlayMenu.setDetail(mainDisplay);
+		// RootPanel.get().add(mainContainer);
+		RootPanel.get().add(overlayMenu);
 
 		MGWT.addOrientationChangeHandler(new MyOrientationChangeHandler(
 				clientFactory));
