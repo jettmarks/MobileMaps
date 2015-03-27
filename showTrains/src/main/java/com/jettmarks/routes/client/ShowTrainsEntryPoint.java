@@ -21,7 +21,6 @@ import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.gwt.user.client.Timer;
@@ -38,7 +37,6 @@ import com.googlecode.mgwt.ui.client.MGWTStyle;
 import com.googlecode.mgwt.ui.client.util.SuperDevModeUtil;
 import com.googlecode.mgwt.ui.client.widget.animation.AnimationWidget;
 import com.googlecode.mgwt.ui.client.widget.menu.overlay.OverlayMenu;
-import com.jettmarks.routes.client.css.AppBundle;
 import com.jettmarks.routes.client.place.AboutPlace;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
 import com.jettmarks.routes.client.place.HomePlace;
@@ -66,15 +64,17 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 
 		MGWTStyle.injectStyleSheet("bikeTrains/css/adjustment.css");
 
-		if ((MGWT.getOsDetection().isTablet())) {
-			// very nasty workaround because GWT does not correctly support
-			// @media
-			StyleInjector.inject(AppBundle.INSTANCE.css().getText());
+		if ((MGWT.getOsDetection().isTablet())
+				|| MGWT.getOsDetection().isDesktop()) {
 			createTabletDisplay(clientFactory);
 		} else {
 			createPhoneDisplay(clientFactory);
 		}
 
+		// PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(
+		// historyMapper);
+
+		// From the ShowCase; not clear if I can take advantage of this yet
 		AppHistoryObserver historyObserver = new AppHistoryObserver();
 		MGWTPlaceHistoryHandler historyHandler = new MGWTPlaceHistoryHandler(
 				historyMapper, historyObserver);

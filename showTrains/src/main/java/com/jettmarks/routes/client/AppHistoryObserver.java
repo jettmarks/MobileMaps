@@ -7,6 +7,7 @@ import com.googlecode.mgwt.dom.client.event.mouse.HandlerRegistrationCollection;
 import com.googlecode.mgwt.mvp.client.history.HistoryHandler;
 import com.googlecode.mgwt.mvp.client.history.HistoryObserver;
 import com.googlecode.mgwt.ui.client.MGWT;
+import com.jettmarks.routes.client.place.HomePlace;
 
 public class AppHistoryObserver implements HistoryObserver {
 
@@ -263,7 +264,7 @@ public class AppHistoryObserver implements HistoryObserver {
 		// || place instanceof AnimationSlideUpPlace
 		// || place instanceof AnimationSwapPlace) {
 		//
-		// historyHandler.replaceCurrentPlace(new HomePlace());
+		historyHandler.replaceCurrentPlace(new HomePlace());
 		//
 		// } else {
 		// if (place instanceof AboutPlace) {

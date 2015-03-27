@@ -168,11 +168,13 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>${gwtversion}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
 			<version>${gwtversion}</version>
+			<scope>provided</scope>
 		</dependency>
 	    <dependency>
 	    	<groupId>com.google.gwt</groupId>
@@ -213,8 +215,7 @@
 	    	<groupId>org.slf4j</groupId>
 	    	<artifactId>slf4j-log4j12</artifactId>
 	    	<version>1.6.1</version>
-	    	<type>jar</type>
-	    	<scope>runtime</scope>
+	    	<scope>provided</scope>
 	    </dependency>
 	    <dependency>
 	    	<groupId>org.slf4j</groupId>
