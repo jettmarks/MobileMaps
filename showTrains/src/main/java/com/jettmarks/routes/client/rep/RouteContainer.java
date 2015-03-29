@@ -3,6 +3,8 @@
  */
 package com.jettmarks.routes.client.rep;
 
+import com.jettmarks.routes.client.ClientFactory;
+import com.jettmarks.routes.client.activities.showGroup.ShowGroupActivity;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.bean.RouteRequest;
@@ -49,5 +51,9 @@ public interface RouteContainer
    * @return
    */
   public boolean displayGroupHasChanged();
+
+public abstract ShowGroupActivity getActivity();
+
+public abstract void setActivity(ShowGroupActivity activity);
 
 }

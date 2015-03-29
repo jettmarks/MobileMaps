@@ -30,129 +30,130 @@ import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.EventViewTabbedGwtImpl;
 import com.jettmarks.routes.client.ui.RouteDetailsView;
 import com.jettmarks.routes.client.ui.RouteDetailsViewGwtImpl;
+import com.jettmarks.routes.client.ui.RouteSelectedView;
+import com.jettmarks.routes.client.ui.RouteSelectedViewGwtImpl;
 
 /**
  * @author Daniel Kurka
  * 
  */
-public class ClientFactoryImpl implements ClientFactory
-{
+public class ClientFactoryImpl implements ClientFactory {
 
-  private EventBus eventBus;
+	private EventBus eventBus;
 
-  private PlaceController placeController;
+	private PlaceController placeController;
 
-  private FormsView formsView;
+	private FormsView formsView;
 
-  private DisplayGroupListView displayGroupListView;
+	private DisplayGroupListView displayGroupListView;
 
-  private ShowGroupView showGroupView;
+	private ShowGroupView showGroupView;
 
-  private EventView eventView;
+	private EventView eventView;
 
-  private RouteDetailsView routeDetailsView;
+	private RouteDetailsView routeDetailsView;
 
-  private EventSelectionView eventSelectionView;
+	private EventSelectionView eventSelectionView;
 
-  public ClientFactoryImpl()
-  {
-    eventBus = new SimpleEventBus();
+	private RouteSelectedView routeSelectedView;
 
-    placeController = new PlaceController(eventBus);
+	public ClientFactoryImpl() {
+		eventBus = new SimpleEventBus();
 
-  }
+		placeController = new PlaceController(eventBus);
 
-  @Override
-  public EventBus getEventBus()
-  {
-    return eventBus;
-  }
+	}
 
-  @Override
-  public PlaceController getPlaceController()
-  {
-    return placeController;
-  }
+	@Override
+	public EventBus getEventBus() {
+		return eventBus;
+	}
 
-  @Override
-  public FormsView getFormsView()
-  {
-    if (formsView == null)
-    {
-      formsView = new FormsViewGwtImpl();
-    }
-    return formsView;
-  }
+	@Override
+	public PlaceController getPlaceController() {
+		return placeController;
+	}
 
-  /**
-   * @see com.jettmarks.routes.client.ClientFactory#getDisplayGroupListView()
-   */
-  @Override
-  public DisplayGroupListView getDisplayGroupListView()
-  {
-    if (displayGroupListView == null)
-    {
-      displayGroupListView = new DisplayGroupListViewGwtImpl();
-    }
-    return displayGroupListView;
-  }
+	@Override
+	public FormsView getFormsView() {
+		if (formsView == null) {
+			formsView = new FormsViewGwtImpl();
+		}
+		return formsView;
+	}
 
-  /**
-   * @see com.jettmarks.routes.client.ClientFactory#getShowGroupView()
-   */
-  @Override
-  public ShowGroupView getShowGroupView()
-  {
-    if (showGroupView == null)
-    {
-      showGroupView = new ShowGroupViewGwtImpl();
-    }
-    return showGroupView;
-  }
+	/**
+	 * @see com.jettmarks.routes.client.ClientFactory#getDisplayGroupListView()
+	 */
+	@Override
+	public DisplayGroupListView getDisplayGroupListView() {
+		if (displayGroupListView == null) {
+			displayGroupListView = new DisplayGroupListViewGwtImpl();
+		}
+		return displayGroupListView;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.jettmarks.routes.client.ClientFactory#getEventView()
-   */
-  @Override
-  public EventView getEventView()
-  {
-    if (eventView == null)
-    {
-      eventView = new EventViewTabbedGwtImpl();
-    }
-    return eventView;
-  }
+	/**
+	 * @see com.jettmarks.routes.client.ClientFactory#getShowGroupView()
+	 */
+	@Override
+	public ShowGroupView getShowGroupView() {
+		if (showGroupView == null) {
+			showGroupView = new ShowGroupViewGwtImpl();
+		}
+		return showGroupView;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.jettmarks.routes.client.ClientFactory#getRouteDetailsView()
-   */
-  @Override
-  public RouteDetailsView getRouteDetailsView()
-  {
-    if (routeDetailsView == null)
-    {
-      routeDetailsView = new RouteDetailsViewGwtImpl();
-    }
-    return routeDetailsView;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jettmarks.routes.client.ClientFactory#getEventView()
+	 */
+	@Override
+	public EventView getEventView() {
+		if (eventView == null) {
+			eventView = new EventViewTabbedGwtImpl();
+		}
+		return eventView;
+	}
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.jettmarks.routes.client.ClientFactory#getEventSelectionView()
-   */
-  @Override
-  public EventSelectionView getEventSelectionView()
-  {
-    if (eventSelectionView == null)
-    {
-      eventSelectionView = new EventSelectionViewGwtImpl();
-    }
-    return eventSelectionView;
-  }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jettmarks.routes.client.ClientFactory#getRouteDetailsView()
+	 */
+	@Override
+	public RouteDetailsView getRouteDetailsView() {
+		if (routeDetailsView == null) {
+			routeDetailsView = new RouteDetailsViewGwtImpl();
+		}
+		return routeDetailsView;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jettmarks.routes.client.ClientFactory#getEventSelectionView()
+	 */
+	@Override
+	public EventSelectionView getEventSelectionView() {
+		if (eventSelectionView == null) {
+			eventSelectionView = new EventSelectionViewGwtImpl();
+		}
+		return eventSelectionView;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.jettmarks.routes.client.ClientFactory#getRouteSelectedView()
+	 */
+	@Override
+	public RouteSelectedView getRouteSelectedView() {
+		if (routeSelectedView == null) {
+			routeSelectedView = new RouteSelectedViewGwtImpl();
+		}
+		return routeSelectedView;
+	}
 
 }

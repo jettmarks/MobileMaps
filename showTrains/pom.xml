@@ -10,7 +10,7 @@
 	<name>Show Trains - MGWT</name>
 
 	<properties>
-		<gwtversion>2.5.0</gwtversion>
+		<gwtversion>2.5.1</gwtversion>
 	</properties>
 
 	<build>
@@ -166,16 +166,19 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>${gwtversion}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
 			<version>${gwtversion}</version>
+			<scope>provided</scope>
 		</dependency>
 	    <dependency>
 	    	<groupId>com.google.gwt</groupId>
 	    	<artifactId>gwt-servlet</artifactId>
 	    	<version>${gwtversion}</version>
+	    	<scope>provided</scope>
 	    </dependency>
         <dependency>
             <groupId>com.github.branflake2267</groupId>

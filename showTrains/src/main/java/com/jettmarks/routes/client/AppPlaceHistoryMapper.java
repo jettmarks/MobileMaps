@@ -18,11 +18,13 @@ package com.jettmarks.routes.client;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.WithTokenizers;
 import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.place.RouteSelectedPlace;
 
 /**
  * @author Daniel Kurka
  * 
  */
-@WithTokenizers({ EventPlace.Tokenizer.class })
+@WithTokenizers({ EventPlace.Tokenizer.class,
+		RouteSelectedPlace.Tokenizer.class })
 public interface AppPlaceHistoryMapper extends PlaceHistoryMapper {
 }

@@ -33,6 +33,9 @@ import com.jettmarks.routes.client.ui.EventView;
  * Handles Activities of the Map including progress and turning each of the
  * routes into something we can view.
  * 
+ * The only handlers defined are for the forward and back button -- not map
+ * specific.
+ * 
  * @author jett
  */
 public class MapActivity extends DetailActivity {
@@ -54,16 +57,6 @@ public class MapActivity extends DetailActivity {
 		if (view instanceof EventView) {
 			final EventView eventView = (EventView) view;
 			mapView = eventView;
-			// Moved into the ShowGroupActivity
-			// DisplayGroupDTO dispGroup = new DisplayGroupDTO();
-			// dispGroup.setDisplayName(eventView.getDisplayGroupName());
-			//
-			// // Kicks off reading the routes in the DisplayGroup under control
-			// // of the RouteContainer
-			// RouteContainerImpl rcImpl = (RouteContainerImpl)
-			// RouteContainerFactory.getRouteContainer();
-			// ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
-			// serviceWrapper.showRoutes(dispGroup);
 		}
 	}
 
