@@ -199,7 +199,6 @@
             <groupId>com.github.branflake2267</groupId>
             <artifactId>gwt-maps-api</artifactId>
             <version>3.10.0-alpha-7</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.google.gwt.google-apis</groupId>

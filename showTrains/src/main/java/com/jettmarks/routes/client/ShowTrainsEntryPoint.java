@@ -46,133 +46,125 @@ import com.jettmarks.routes.client.place.EventSelectionPlace;
  * 
  * @author Jett Marks
  */
-public class ShowTrainsEntryPoint implements EntryPoint
-{
+public class ShowTrainsEntryPoint implements EntryPoint {
 
-  private void start()
-  {
+	private void start() {
 
-    // set viewport and other settings for mobile
-    MGWT.applySettings(MGWTSettings.getAppSetting());
+		// set viewport and other settings for mobile
+		MGWT.applySettings(MGWTSettings.getAppSetting());
 
-    final ClientFactory clientFactory = new ClientFactoryImpl();
+		final ClientFactory clientFactory = new ClientFactoryImpl();
 
-    // Start PlaceHistoryHandler with our PlaceHistoryMapper
-    AppPlaceHistoryMapper historyMapper = GWT.create(AppPlaceHistoryMapper.class);
-    final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(historyMapper);
+		// Start PlaceHistoryHandler with our PlaceHistoryMapper
+		AppPlaceHistoryMapper historyMapper = GWT
+				.create(AppPlaceHistoryMapper.class);
+		final PlaceHistoryHandler historyHandler = new PlaceHistoryHandler(
+				historyMapper);
 
-    historyHandler.register(clientFactory.getPlaceController(),
-        clientFactory.getEventBus(), new EventSelectionPlace());
+		historyHandler.register(clientFactory.getPlaceController(),
+				clientFactory.getEventBus(), new EventSelectionPlace());
 
-    if ((MGWT.getOsDetection().isTablet()))
-    {
-      // very nasty workaround because GWT does not correctly support @media
-      StyleInjector.inject(AppBundle.INSTANCE.css().getText());
-      createTabletDisplay(clientFactory);
-    }
-    else
-    {
-      createPhoneDisplay(clientFactory);
-    }
+		if ((MGWT.getOsDetection().isTablet())) {
+			// very nasty workaround because GWT does not correctly support
+			// @media
+			StyleInjector.inject(AppBundle.INSTANCE.css().getText());
+			createTabletDisplay(clientFactory);
+		} else {
+			createPhoneDisplay(clientFactory);
+		}
 
-    historyHandler.handleCurrentHistory();
-  }
+		historyHandler.handleCurrentHistory();
+	}
 
-  private void createPhoneDisplay(ClientFactory clientFactory)
-  {
-    AnimatableDisplay display = GWT.create(AnimatableDisplay.class);
+	private void createPhoneDisplay(ClientFactory clientFactory) {
+		AnimatableDisplay display = GWT.create(AnimatableDisplay.class);
 
-    PhoneActivityMapper appActivityMapper = new PhoneActivityMapper(clientFactory);
+		PhoneActivityMapper appActivityMapper = new PhoneActivityMapper(
+				clientFactory);
 
-    PhoneAnimationMapper appAnimationMapper = new PhoneAnimationMapper();
+		PhoneAnimationMapper appAnimationMapper = new PhoneAnimationMapper();
 
-    AnimatingActivityManager activityManager = new AnimatingActivityManager(appActivityMapper,
-                                                                            appAnimationMapper,
-                                                                            clientFactory.getEventBus());
+		AnimatingActivityManager activityManager = new AnimatingActivityManager(
+				appActivityMapper, appAnimationMapper,
+				clientFactory.getEventBus());
 
-    activityManager.setDisplay(display);
+		activityManager.setDisplay(display);
 
-    RootPanel.get().add(display);
+		RootPanel.get().add(display);
 
-  }
+	}
 
-  private void createTabletDisplay(ClientFactory clientFactory)
-  {
-    SimplePanel navContainer = new SimplePanel();
-    navContainer.getElement().setId("nav");
-    navContainer.getElement().addClassName("landscapeonly");
-    AnimatableDisplay navDisplay = GWT.create(AnimatableDisplay.class);
+	private void createTabletDisplay(ClientFactory clientFactory) {
+		SimplePanel navContainer = new SimplePanel();
+		navContainer.getElement().setId("nav");
+		navContainer.getElement().addClassName("landscapeonly");
+		AnimatableDisplay navDisplay = GWT.create(AnimatableDisplay.class);
 
-    final TabletPortraitOverlay tabletPortraitOverlay = new TabletPortraitOverlay();
+		final TabletPortraitOverlay tabletPortraitOverlay = new TabletPortraitOverlay();
 
-    new OrientationRegionHandler(navContainer,
-                                 tabletPortraitOverlay,
-                                 navDisplay);
-    new MasterRegionHandler(clientFactory.getEventBus(),
-                            "nav",
-                            tabletPortraitOverlay);
+		new OrientationRegionHandler(navContainer, tabletPortraitOverlay,
+				navDisplay);
+		new MasterRegionHandler(clientFactory.getEventBus(), "nav",
+				tabletPortraitOverlay);
 
-    ActivityMapper navActivityMapper = new TabletNavActivityMapper(clientFactory);
+		ActivityMapper navActivityMapper = new TabletNavActivityMapper(
+				clientFactory);
 
-    AnimationMapper navAnimationMapper = new TabletNavAnimationMapper();
+		AnimationMapper navAnimationMapper = new TabletNavAnimationMapper();
 
-    AnimatingActivityManager navActivityManager = new AnimatingActivityManager(navActivityMapper,
-                                                                               navAnimationMapper,
-                                                                               clientFactory.getEventBus());
+		AnimatingActivityManager navActivityManager = new AnimatingActivityManager(
+				navActivityMapper, navAnimationMapper,
+				clientFactory.getEventBus());
 
-    navActivityManager.setDisplay(navDisplay);
+		navActivityManager.setDisplay(navDisplay);
 
-    RootPanel.get().add(navContainer);
+		RootPanel.get().add(navContainer);
 
-    SimplePanel mainContainer = new SimplePanel();
-    mainContainer.getElement().setId("main");
-    AnimatableDisplay mainDisplay = GWT.create(AnimatableDisplay.class);
+		SimplePanel mainContainer = new SimplePanel();
+		mainContainer.getElement().setId("main");
+		AnimatableDisplay mainDisplay = GWT.create(AnimatableDisplay.class);
 
-    TabletMainActivityMapper tabletMainActivityMapper = new TabletMainActivityMapper(clientFactory);
+		TabletMainActivityMapper tabletMainActivityMapper = new TabletMainActivityMapper(
+				clientFactory);
 
-    AnimationMapper tabletMainAnimationMapper = new TabletMainAnimationMapper();
+		AnimationMapper tabletMainAnimationMapper = new TabletMainAnimationMapper();
 
-    AnimatingActivityManager mainActivityManager = new AnimatingActivityManager(tabletMainActivityMapper,
-                                                                                tabletMainAnimationMapper,
-                                                                                clientFactory.getEventBus());
+		AnimatingActivityManager mainActivityManager = new AnimatingActivityManager(
+				tabletMainActivityMapper, tabletMainAnimationMapper,
+				clientFactory.getEventBus());
 
-    LayoutPanel layoutPanel = new LayoutPanel();
-    layoutPanel.add(new Label("Here it is"));
+		LayoutPanel layoutPanel = new LayoutPanel();
+		layoutPanel.add(new Label("Here it is"));
 
-    mainActivityManager.setDisplay(mainDisplay);
-    mainContainer.setWidget(mainDisplay);
+		mainActivityManager.setDisplay(mainDisplay);
+		mainContainer.setWidget(mainDisplay);
 
-    RootPanel.get().add(mainContainer);
+		RootPanel.get().add(mainContainer);
 
-  }
+	}
 
-  @Override
-  public void onModuleLoad()
-  {
+	@Override
+	public void onModuleLoad() {
 
-    GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler()
-    {
+		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
-      @Override
-      public void onUncaughtException(Throwable e)
-      {
-        // TODO put in your own meaninigful handler
-        Window.alert("uncaught: " + e.getMessage());
-        e.printStackTrace();
+			@Override
+			public void onUncaughtException(Throwable e) {
+				// TODO put in your own meaningful handler
+				Window.alert("uncaught: " + e.getMessage());
+				e.printStackTrace();
 
-      }
-    });
+			}
+		});
 
-    new Timer()
-    {
-      @Override
-      public void run()
-      {
-        start();
+		new Timer() {
+			@Override
+			public void run() {
+				start();
 
-      }
-    }.schedule(1);
+			}
+		}.schedule(1);
 
-  }
+	}
 
 }
