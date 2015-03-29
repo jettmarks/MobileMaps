@@ -23,27 +23,32 @@ import com.jettmarks.routes.client.forms.FormsView;
 import com.jettmarks.routes.client.ui.EventSelectionView;
 import com.jettmarks.routes.client.ui.EventView;
 import com.jettmarks.routes.client.ui.RouteDetailsView;
+import com.jettmarks.routes.client.ui.RouteSelectedView;
 
-public interface ClientFactory
-{
+public interface ClientFactory {
 
-  public EventBus getEventBus();
+	public EventBus getEventBus();
 
-  public PlaceController getPlaceController();
+	public PlaceController getPlaceController();
 
-  public FormsView getFormsView();
+	public FormsView getFormsView();
 
-  public DisplayGroupListView getDisplayGroupListView();
+	public DisplayGroupListView getDisplayGroupListView();
 
-  public ShowGroupView getShowGroupView();
+	public ShowGroupView getShowGroupView();
 
-  public EventView getEventView();
+	public EventView getEventView();
 
-  public RouteDetailsView getRouteDetailsView();
+	public RouteDetailsView getRouteDetailsView();
 
-  /**
-   * @return
-   */
-  public EventSelectionView getEventSelectionView();
+	/**
+	 * @return
+	 */
+	public EventSelectionView getEventSelectionView();
+
+	/**
+	 * @return
+	 */
+	public RouteSelectedView getRouteSelectedView();
 
 }

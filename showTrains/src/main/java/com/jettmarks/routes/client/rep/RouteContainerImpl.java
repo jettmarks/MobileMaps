@@ -23,6 +23,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.googlecode.mgwt.ui.client.dialog.AlertDialog;
+import com.jettmarks.routes.client.activities.showGroup.ShowGroupActivity;
 import com.jettmarks.routes.client.bean.DisplayElementDTO;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.Route;
@@ -54,6 +55,8 @@ public class RouteContainerImpl implements RouteContainer {
 	private DisplayGroupDTO displayGroup = null;
 
 	private boolean displayGroupHasChanged;
+
+	private ShowGroupActivity activity;
 
 	/*
 	 * (non-Javadoc)
@@ -197,7 +200,10 @@ public class RouteContainerImpl implements RouteContainer {
 		// {
 		// mapView.enableForwardButton(selectedRoute != null);
 		// }
+
 		mapView.selectRoute(selectedRoute);
+		// Tell the user they've got a new route selected
+		activity.onRouteSelected(selectedRoute);
 	}
 
 	/*
@@ -240,6 +246,23 @@ public class RouteContainerImpl implements RouteContainer {
    */
 	private void clearPreviousMap() {
 		mapView.clearMap();
+	}
+
+	/**
+	 * @return the activity
+	 */
+	@Override
+	public ShowGroupActivity getActivity() {
+		return activity;
+	}
+
+	/**
+	 * @param activity
+	 *            the activity to set
+	 */
+	@Override
+	public void setActivity(ShowGroupActivity activity) {
+		this.activity = activity;
 	}
 
 	/**

@@ -5,12 +5,12 @@
 	<artifactId>showTrains</artifactId>
 	<description>Mobile Version of Show Routes specifically geared for Bike Trains.</description><modelVersion>4.0.0</modelVersion>
 	<groupId>com.jettmarks.routes</groupId>
-	<version>1.9.1c</version>
+	<version>1.9.2-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<name>Show Trains - MGWT</name>
 
 	<properties>
-		<gwtversion>2.5.0</gwtversion>
+		<gwtversion>2.5.1</gwtversion>
 	</properties>
 
 	<build>
@@ -18,8 +18,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<!-- <version>2.5.1</version> -->
-				<version>2.3.2</version>
+				<version>2.5.1</version>
 				<configuration>
 					<source>1.6</source>
 					<target>1.6</target>
@@ -64,10 +63,25 @@
 			</plugin>
 			
 			     
+     <!-- Earlier version of plugin appropriate for older tomcat -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>tomcat-maven-plugin</artifactId>
         <version>1.1</version>
+        <configuration>
+          <url>${tomcat.manager.url}</url>
+          <server>${tomcat.server}</server>
+          <path>/${project.artifactId}-${project.version}</path>
+        </configuration>
+      </plugin>
+      
+            <!-- Provides for maven-controlled deployment; config should match 
+           server setup in settings.xml -->
+       <!-- Supports Tomcat 7 -->
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.2</version>
         <configuration>
           <url>${tomcat.manager.url}</url>
           <server>${tomcat.server}</server>
@@ -167,16 +181,19 @@
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-user</artifactId>
 			<version>${gwtversion}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gwt</groupId>
 			<artifactId>gwt-dev</artifactId>
 			<version>${gwtversion}</version>
+			<scope>provided</scope>
 		</dependency>
 	    <dependency>
 	    	<groupId>com.google.gwt</groupId>
 	    	<artifactId>gwt-servlet</artifactId>
 	    	<version>${gwtversion}</version>
+	    	<scope>provided</scope>
 	    </dependency>
         <dependency>
             <groupId>com.github.branflake2267</groupId>

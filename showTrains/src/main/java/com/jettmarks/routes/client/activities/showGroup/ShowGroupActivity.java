@@ -18,17 +18,24 @@
 package com.jettmarks.routes.client.activities.showGroup;
 
 import com.google.gwt.event.shared.EventBus;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.ui.client.MGWT;
+import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedEvent;
+import com.googlecode.mgwt.ui.client.widget.celllist.CellSelectedHandler;
+import com.googlecode.mgwt.ui.client.widget.celllist.HasCellSelectedHandler;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.activities.MapActivity;
+import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.bean.DisplayGroupDTO;
+import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.place.EventPlace;
 import com.jettmarks.routes.client.place.HomePlace;
+import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.rep.RouteContainerImpl;
@@ -37,121 +44,157 @@ import com.jettmarks.routes.client.ui.EventView;
 
 public class ShowGroupActivity extends DetailActivity {
 
-    private final ClientFactory clientFactory;
+	private final ClientFactory clientFactory;
 
-    private EventView view;
+	private EventView view;
 
-    private RouteContainer routeContainer;
+	private RouteContainer routeContainer;
 
-    // Yes, unconventional that I'm using a second Activity
-    private static MapActivity mapActivity = null;
+	// Yes, unconventional that I'm using a second Activity
+	private static MapActivity mapActivity = null;
 
-    public ShowGroupActivity(Place newPlace, ClientFactory clientFactory) {
-	super(clientFactory.getShowGroupView(), "nav");
-	// if (newPlace instanceof ShowGroupPlace) {
-	// ShowGroupPlace place = (ShowGroupPlace)newPlace;
-	// String description = place.getDescription();
-	// String displayGroupName = place.getDisplayGroupName();
-	// ShowGroupView view = clientFactory.getShowGroupView();
-	// view.setDisplayGroupName(displayGroupName);
-	// view.setDescription(description);
-	// } else if (newPlace instanceof EventPlace){
-	if (newPlace instanceof EventPlace) {
-	    EventPlace place = (EventPlace) newPlace;
-	    String description = place.getDescription();
-	    String displayGroupName = place.getDisplayGroupName();
-	    view = clientFactory.getEventView();
-	    view.setDisplayGroupName(displayGroupName);
-	    view.setDescription(description);
-	    DisplayGroupDTO displayGroup = new DisplayGroupDTO();
-	    displayGroup.setDisplayName(displayGroupName);
-	    displayGroup.setDescription(description);
-	    displayGroup.setEventDate(place.getEventDate());
-	    routeContainer = RouteContainerFactory.getRouteContainer();
-	    routeContainer.setView(view);
-	    routeContainer.setCurrentDisplayGroup(displayGroup);
+	public ShowGroupActivity(Place newPlace, ClientFactory clientFactory) {
+		super(clientFactory.getShowGroupView(), "nav");
+		if (newPlace instanceof EventPlace) {
+			EventPlace place = (EventPlace) newPlace;
+			String description = place.getDescription();
+			String displayGroupName = place.getDisplayGroupName();
+
+			// Instantiated here so we can pass to the Route Container
+			view = clientFactory.getEventView();
+			view.setDisplayGroupName(displayGroupName);
+			view.setDescription(description);
+
+			DisplayGroupDTO displayGroup = new DisplayGroupDTO();
+			displayGroup.setDisplayName(displayGroupName);
+			displayGroup.setDescription(description);
+			routeContainer = RouteContainerFactory.getRouteContainer();
+			routeContainer.setView(view);
+			routeContainer.setCurrentDisplayGroup(displayGroup);
+			routeContainer.setActivity(this);
+		}
+		this.clientFactory = clientFactory;
 	}
-	this.clientFactory = clientFactory;
-    }
 
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-	super.start(panel, eventBus);
-	// view.getMainButtonText().setText("Nav");
-	view.getBackbuttonText().setText("<");
-	view.getForwardbuttonText().setText(">");
+	@Override
+	public void start(AcceptsOneWidget panel, EventBus eventBus) {
+		super.start(panel, eventBus);
+		// view.getMainButtonText().setText("Nav");
+		view.getBackbuttonText().setText("<");
+		view.getForwardbuttonText().setText(">");
 
-	view.enableBackButton(!MGWT.getOsDetection().isTablet());
-	view.enableForwardButton(true);
+		view.enableBackButton(!MGWT.getOsDetection().isTablet());
+		view.enableForwardButton(true);
 
-	if (routeContainer.displayGroupHasChanged()) {
-	    // We'll be loading new records, so start the progress bar
-	    RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory
-		    .getRouteContainer();
-	    rcImpl.openProgressBar(null); // Will be re-opened later with the
-	    // proper
-	    // counts
+		// Cell handlers for the list view
+		HasCellSelectedHandler cellList = view.getRouteList();
+		HandlerRegistration reg;
+		reg = cellList.addCellSelectedHandler(new CellSelectedHandler() {
 
-	    view.showMapTab();
-	    mapActivity = new MapActivity(view, clientFactory);
+			@Override
+			public void onCellSelected(CellSelectedEvent event) {
+				RouteContainer rc = RouteContainerFactory.getRouteContainer();
+				// Turn off any highlighted route
+				BikeTrainRoute previouslySelectedRoute = (BikeTrainRoute) rc
+						.getSelectedRoute();
+				if (previouslySelectedRoute != null) {
+					previouslySelectedRoute.toggleHighlight();
+				}
 
-	    // Kicks off reading the routes in the DisplayGroup under control
-	    // of the RouteContainer
-	    DisplayGroupDTO dispGroup = new DisplayGroupDTO();
-	    dispGroup.setDisplayName(view.getDisplayGroupName());
-	    ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
-	    serviceWrapper.showRoutes(dispGroup);
+				// Ask the view for the route that is selected
+				Route route = view.getSelectedRoute(event.getIndex());
+				BikeTrainRoute bikeTrainRoute = (BikeTrainRoute) route;
+
+				// Turn on the selected route
+				bikeTrainRoute.toggleHighlight();
+
+				// Make the announcement (which might be able to handle
+				// the other tasks too)
+				rc.setSelectedRoute(route);
+			}
+		});
+
+		if (routeContainer.displayGroupHasChanged()) {
+			// We'll be loading new records, so start the progress bar
+			RouteContainerImpl rcImpl = (RouteContainerImpl) RouteContainerFactory
+					.getRouteContainer();
+			rcImpl.openProgressBar(null); // gets proper counts later
+
+			view.showMapTab();
+			mapActivity = new MapActivity(view, clientFactory);
+
+			// Kicks off reading the routes in the DisplayGroup under control
+			// of the RouteContainer
+			DisplayGroupDTO dispGroup = new DisplayGroupDTO();
+			dispGroup.setDisplayName(view.getDisplayGroupName());
+			ServiceWrapper serviceWrapper = new ServiceWrapper(rcImpl);
+			serviceWrapper.showRoutes(dispGroup);
+		}
+		addHandlerRegistration(reg);
+		mapActivity.addRegistration(view);
+		panel.setWidget(view);
 	}
-	mapActivity.addRegistration(view);
-	panel.setWidget(view);
-    }
 
-    /**
-     * Callback response for saving a Display Group.
-     * 
-     * After saving, we go to the Home Place.
-     * 
-     * @author jett
-     */
-    public class SaveDisplayGroupCallback<T> implements AsyncCallback<Integer> {
+	public void onRouteSelected(Route selectedRoute) {
+		view.selectRoute(selectedRoute);
+		if (selectedRoute != null) {
+			goTo(new RouteDetailsPlace((BikeTrainRoute) selectedRoute));
+		}
+	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * @param routeDetailsPlace
+	 */
+	protected void goTo(Place newPlace) {
+		clientFactory.getPlaceController().goTo(newPlace);
+	}
+
+	/**
+	 * Callback response for saving a Display Group.
 	 * 
-	 * @see
-	 * com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.
-	 * Throwable )
+	 * After saving, we go to the Home Place.
+	 * 
+	 * @author jett
+	 */
+	public class SaveDisplayGroupCallback<T> implements AsyncCallback<Integer> {
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * com.google.gwt.user.client.rpc.AsyncCallback#onFailure(java.lang.
+		 * Throwable )
+		 */
+		@Override
+		public void onFailure(Throwable caught) {
+			// Not sure what to do here
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.
+		 * Object)
+		 */
+		@Override
+		public void onSuccess(Integer result) {
+			Window.alert("Saved Display Group as ID: " + result);
+			clientFactory.getPlaceController().goTo(new HomePlace());
+		}
+
+	}
+
+	/**
+	 * Responsible for removing the Handler Registrations.
+	 * 
+	 * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
 	 */
 	@Override
-	public void onFailure(Throwable caught) {
-	    // Not sure what to do here
+	public void onStop() {
+		super.onStop();
+		cancelAllHandlerRegistrations();
+		mapActivity.onStop();
 	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.google.gwt.user.client.rpc.AsyncCallback#onSuccess(java.lang.
-	 * Object)
-	 */
-	@Override
-	public void onSuccess(Integer result) {
-	    Window.alert("Saved Display Group as ID: " + result);
-	    clientFactory.getPlaceController().goTo(new HomePlace());
-	}
-
-    }
-
-    /**
-     * Responsible for removing the Handler Registrations.
-     * 
-     * @see com.googlecode.mgwt.mvp.client.MGWTAbstractActivity#onStop()
-     */
-    @Override
-    public void onStop() {
-	super.onStop();
-	cancelAllHandlerRegistrations();
-	mapActivity.onStop();
-    }
 
 }
