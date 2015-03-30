@@ -193,7 +193,6 @@
 	    	<groupId>com.google.gwt</groupId>
 	    	<artifactId>gwt-servlet</artifactId>
 	    	<version>${gwtversion}</version>
-	    	<scope>provided</scope>
 	    </dependency>
         <dependency>
             <groupId>com.github.branflake2267</groupId>
