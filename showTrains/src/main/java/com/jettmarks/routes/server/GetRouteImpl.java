@@ -39,107 +39,111 @@ import com.jettmarks.routes.util.BikeTrain2010;
  *
  * @author jett
  */
-public class GetRouteImpl extends RemoteServiceServletSeparatePaths implements GetRoute
-{
-  /**
-   * Logger for this class
-   */
-  private static final Logger logger = Logger.getLogger(GetRouteImpl.class);
+public class GetRouteImpl extends RemoteServiceServletSeparatePaths implements
+		GetRoute {
+	/**
+	 * Logger for this class
+	 */
+	private static final Logger logger = Logger.getLogger(GetRouteImpl.class);
 
-  /** *  */
-  private static final long serialVersionUID = 4512829620636985694L;
-  private static ParseGPX parser = new ParseGPX();
-  
-  /** If a Save Tag is not given, use this. */
-  private static final String DEFAULT_SHOW_TAG = "master";
-  
-  /** The default tag for showing/presenting routes from LocalDrive. */
-  private static String showTag = 
-    System.getProperty("show.tag", DEFAULT_SHOW_TAG);
-  private String tags[] = new String[1];
+	/** * */
+	private static final long serialVersionUID = 4512829620636985694L;
+	private static ParseGPX parser = new ParseGPX();
 
-  /* (non-Javadoc)
-   * @see com.jettmarks.gmaps.client.service.GetRoute#getEncodedTrack(java.lang.String, java.lang.String)
-   */
-  public EncodedTrack getEncodedTrack(String routeName, String routeSourceName)
-  {
-    showTag = System.getProperty("show.tag", DEFAULT_SHOW_TAG);
-    tags[0] = showTag;
-    return getEncodedTrack(routeName, routeSourceName, tags );
-  }
+	/** If a Save Tag is not given, use this. */
+	private static final String DEFAULT_SHOW_TAG = "master";
 
-  /* (non-Javadoc)
-   * @see com.jettmarks.gmaps.client.service.GetRoute#getEncodedTrack(java.lang.String, java.lang.String, java.lang.String[])
-   */
-  public EncodedTrack getEncodedTrack(String routeName,
-                                      String routeSourceName,
-                                      String[] tagList)
-  {
-    if (logger.isDebugEnabled())
-    {
-      logger.debug("getEncodedTrack("+routeName+", "+routeSourceName+", "
-          +tagList+") - start");
-    }
+	/** The default tag for showing/presenting routes from LocalDrive. */
+	private static String showTag = System.getProperty("show.tag",
+			DEFAULT_SHOW_TAG);
+	private String tags[] = new String[1];
 
-    RSSProxyImpl rssProxyImpl = new RSSProxyImpl();
-    String rawTrack = rssProxyImpl.getRoute(routeName, routeSourceName, tagList);
-    if (rawTrack == null)
-    {
-      logger.error("Unable to find route "+routeName+" at "+routeSourceName);
-      return null;
-    }
-    Track track = parser.getTrackFromGPX(rawTrack);
-    PolylineEncoder encoder = new PolylineEncoder();
-    HashMap<String, String> hash = encoder.dpEncode(track);
-    
-    EncodedTrack encodedTrack = new EncodedTrack();
-    int pointsCount = track.getTrackpoints().size();
-    double[] lats = new double[pointsCount];
-    double[] lons = new double[pointsCount];
-    int i = 0;
-    for (Trackpoint tp : track.getTrackpoints()) {
-      lats[i] = tp.getLatDouble();
-      lons[i++] = tp.getLonDouble();
-    }
-    encodedTrack.setLats(lats);
-    encodedTrack.setLons(lons);
-    encodedTrack.setRouteName(routeName);
-    encodedTrack.setEncodedLevels((String) hash.get("encodedLevels"));
-    encodedTrack.setEncodedPoints((String) hash.get("encodedPoints"));
-    encodedTrack.setBounds(encoder.getBounds());
-    encodedTrack.setSourceUrl(track.getSourceUrl());
-    encodedTrack.setDisplayName(track.getDisplayName());
- 
-    // Setup the first and last point of the route
-    ArrayList<Trackpoint> trackPoints = track.getTrackpoints();
-    Trackpoint firstPoint = trackPoints.get(0);
-    Trackpoint lastPoint = trackPoints.get(trackPoints.size()-1);
-    encodedTrack.setStartLat(firstPoint.getLatDouble());
-    encodedTrack.setStartLon(firstPoint.getLonDouble());
-    encodedTrack.setEndLat(lastPoint.getLatDouble());
-    encodedTrack.setEndLon(lastPoint.getLonDouble());
-    
-    // Specific settings based on the type of route
-    encodedTrack.setHillCategory(Hill.getCategory(routeName));
-    encodedTrack.setMaxSlope(Hill.getMaxSlope(routeName));
-    encodedTrack.setDistance(Double.parseDouble((String) hash.get("TotalDistance")));
-    encodedTrack.setFacilityType(Facility.getFacilityType(routeName));
-    encodedTrack.setBikeTrain(BikeTrainWrapper.getBikeTrainDTO(
-    		BikeTrain2010.getInstance(routeName)));
-    
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jettmarks.gmaps.client.service.GetRoute#getEncodedTrack(java.lang
+	 * .String, java.lang.String)
+	 */
+	public EncodedTrack getEncodedTrack(String routeName, String routeSourceName) {
+		showTag = System.getProperty("show.tag", DEFAULT_SHOW_TAG);
+		tags[0] = showTag;
+		return getEncodedTrack(routeName, routeSourceName, tags);
+	}
 
-    // Later, when we read from the KML, we'll be able to use the actual
-    // routeSourceName, but for now we fake it out.  If it has any FacilityType,
-    // we say that it is KML.
-    if (encodedTrack.getFacilityType() != FacilityType.UNKNOWN)
-    {
-      encodedTrack.setRouteSourceName("KML");
-    }
-       
-    if (logger.isDebugEnabled())
-    {
-      logger.debug("getEncodedTrack(String, String, String[]) - end");
-    }
-    return encodedTrack;
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.jettmarks.gmaps.client.service.GetRoute#getEncodedTrack(java.lang
+	 * .String, java.lang.String, java.lang.String[])
+	 */
+	public EncodedTrack getEncodedTrack(String routeName,
+			String routeSourceName, String[] tagList) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("getEncodedTrack(" + routeName + ", "
+					+ routeSourceName + ", " + tagList + ") - start");
+		}
+
+		RSSProxyImpl rssProxyImpl = new RSSProxyImpl();
+		String rawTrack = rssProxyImpl.getRoute(routeName, routeSourceName,
+				tagList);
+		if (rawTrack == null) {
+			logger.error("Unable to find route " + routeName + " at "
+					+ routeSourceName);
+			return null;
+		}
+		Track track = parser.getTrackFromGPX(rawTrack);
+		PolylineEncoder encoder = new PolylineEncoder();
+		HashMap<String, String> hash = encoder.dpEncode(track);
+
+		EncodedTrack encodedTrack = new EncodedTrack();
+		int pointsCount = track.getTrackpoints().size();
+		double[] lats = new double[pointsCount];
+		double[] lons = new double[pointsCount];
+		int i = 0;
+		for (Trackpoint tp : track.getTrackpoints()) {
+			lats[i] = tp.getLatDouble();
+			lons[i++] = tp.getLonDouble();
+		}
+		encodedTrack.setLats(lats);
+		encodedTrack.setLons(lons);
+		encodedTrack.setRouteName(routeName);
+		encodedTrack.setEncodedLevels((String) hash.get("encodedLevels"));
+		encodedTrack.setEncodedPoints((String) hash.get("encodedPoints"));
+		encodedTrack.setBounds(encoder.getBounds());
+		encodedTrack.setSourceUrl(track.getSourceUrl());
+		encodedTrack.setDisplayName(track.getDisplayName());
+
+		// Setup the first and last point of the route
+		ArrayList<Trackpoint> trackPoints = track.getTrackpoints();
+		Trackpoint firstPoint = trackPoints.get(0);
+		Trackpoint lastPoint = trackPoints.get(trackPoints.size() - 1);
+		encodedTrack.setStartLat(firstPoint.getLatDouble());
+		encodedTrack.setStartLon(firstPoint.getLonDouble());
+		encodedTrack.setEndLat(lastPoint.getLatDouble());
+		encodedTrack.setEndLon(lastPoint.getLonDouble());
+
+		// Specific settings based on the type of route
+		encodedTrack.setHillCategory(Hill.getCategory(routeName));
+		encodedTrack.setMaxSlope(Hill.getMaxSlope(routeName));
+		encodedTrack.setDistance(Double.parseDouble((String) hash
+				.get("TotalDistance")));
+		encodedTrack.setFacilityType(Facility.getFacilityType(routeName));
+		encodedTrack.setBikeTrain(BikeTrainWrapper
+				.getBikeTrainDTO(BikeTrain2010.getInstance(routeName)));
+
+		// Later, when we read from the KML, we'll be able to use the actual
+		// routeSourceName, but for now we fake it out. If it has any
+		// FacilityType,
+		// we say that it is KML.
+		if (encodedTrack.getFacilityType() != FacilityType.UNKNOWN) {
+			encodedTrack.setRouteSourceName("KML");
+		}
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("getEncodedTrack(String, String, String[]) - end");
+		}
+		return encodedTrack;
 	}
 }

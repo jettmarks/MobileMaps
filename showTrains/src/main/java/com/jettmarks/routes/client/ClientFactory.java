@@ -28,69 +28,75 @@ import com.jettmarks.routes.client.ui.GetInvolvedView;
 import com.jettmarks.routes.client.ui.HomeView;
 import com.jettmarks.routes.client.ui.ResourcesView;
 import com.jettmarks.routes.client.ui.RouteDetailsView;
+import com.jettmarks.routes.client.ui.TestView;
 
 public interface ClientFactory {
 
-    public EventBus getEventBus();
+	public EventBus getEventBus();
 
-    public PlaceController getPlaceController();
+	public PlaceController getPlaceController();
 
-    public FormsView getFormsView();
+	public FormsView getFormsView();
 
-    public DisplayGroupListView getDisplayGroupListView();
+	public DisplayGroupListView getDisplayGroupListView();
 
-    public EventView getEventView();
+	public EventView getEventView();
 
-    public RouteDetailsView getRouteDetailsView();
+	public RouteDetailsView getRouteDetailsView();
 
-    /**
-     * @return
-     */
-    public EventSelectionView getEventSelectionView();
+	/**
+	 * @return
+	 */
+	public EventSelectionView getEventSelectionView();
 
-    /**
-     * @return
-     */
-    public HomeView getHomeView();
+	/**
+	 * @return
+	 */
+	public HomeView getHomeView();
 
-    /**
-     * @return
-     */
-    public AboutView getAboutView();
+	/**
+	 * @return
+	 */
+	public AboutView getAboutView();
 
-    /**
-     * @return
-     */
-    public GetInvolvedView getGetInvolvedView();
+	/**
+	 * @return
+	 */
+	public GetInvolvedView getGetInvolvedView();
 
-    /**
-     * @return
-     */
-    public FindRouteView getFindRouteView();
+	/**
+	 * @return
+	 */
+	public FindRouteView getFindRouteView();
 
-    /**
-     * @return
-     */
-    public ConductorView getConductorView();
+	/**
+	 * @return
+	 */
+	public ConductorView getConductorView();
 
-    /**
-     * @return
-     */
-    public ResourcesView getResourcesView();
+	/**
+	 * @return
+	 */
+	public ResourcesView getResourcesView();
 
-    /**
-     * @return
-     */
-    public EventView getEventListView();
+	/**
+	 * @return
+	 */
+	public EventView getEventListView();
 
-    /**
-     * @return
-     */
-    public EventView getEventMapView();
+	/**
+	 * @return
+	 */
+	public EventView getEventMapView();
 
-    /**
-     * @return
-     */
-    public EventView getEventTabbedView();
+	/**
+	 * @return
+	 */
+	public EventView getEventTabbedView();
+
+	/**
+	 * @return
+	 */
+	public TestView getTestView();
 
 }

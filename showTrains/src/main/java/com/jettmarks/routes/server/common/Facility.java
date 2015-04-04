@@ -26,42 +26,37 @@ import com.jettmarks.routes.client.common.FacilityType;
  * 
  * @author jett
  */
-public class Facility
-{
-  private static HashMap<String, Integer> facilityTypes =
-    new HashMap<String, Integer>();
-  
-  /** Hard coded for now; DB later. */
-  static
-  {
-    facilityTypes.put("HardSurface_MultiusePath", FacilityType.SEGREGATED);
-    facilityTypes.put("HardSurface_MultiUsePath", FacilityType.SEGREGATED);
-    facilityTypes.put("Bike_Lane_And_Signed_Route", FacilityType.BIKE_ROUTE);
-    facilityTypes.put("Bike_Lane", FacilityType.BIKE_LANE);
-    facilityTypes.put("Bike_Shoulder", FacilityType.BIKE_FRIENDLY);
-  }
-  
-  /**
-   * Give this a route name and it figures out the FacilityType.
-   * 
-   * At this time, the characters prior to the '-' are used for a lookup
-   * in a HashMap.  Later, we expect this to be recorded in a database.
-   * 
-   * @param name a String representation of the route's name.
-   * @return the FacilityType or UNKNOWN if not found.
-   */
-  public static Integer getFacilityType(String name)
-  {
-    String[] values = name.split("-");
-    String key = values[0];
-    if (facilityTypes.containsKey(key))
-    {
-      return (facilityTypes.get(key));
-    }
-    else
-    {
-      return FacilityType.UNKNOWN;
-    }
-  }
-  
+public class Facility {
+	private static HashMap<String, Integer> facilityTypes = new HashMap<String, Integer>();
+
+	/** Hard coded for now; DB later. */
+	static {
+		facilityTypes.put("HardSurface_MultiusePath", FacilityType.SEGREGATED);
+		facilityTypes.put("HardSurface_MultiUsePath", FacilityType.SEGREGATED);
+		facilityTypes
+				.put("Bike_Lane_And_Signed_Route", FacilityType.BIKE_ROUTE);
+		facilityTypes.put("Bike_Lane", FacilityType.BIKE_LANE);
+		facilityTypes.put("Bike_Shoulder", FacilityType.BIKE_FRIENDLY);
+	}
+
+	/**
+	 * Give this a route name and it figures out the FacilityType.
+	 * 
+	 * At this time, the characters prior to the '-' are used for a lookup in a
+	 * HashMap. Later, we expect this to be recorded in a database.
+	 * 
+	 * @param name
+	 *            a String representation of the route's name.
+	 * @return the FacilityType or UNKNOWN if not found.
+	 */
+	public static Integer getFacilityType(String name) {
+		String[] values = name.split("-");
+		String key = values[0];
+		if (facilityTypes.containsKey(key)) {
+			return (facilityTypes.get(key));
+		} else {
+			return FacilityType.UNKNOWN;
+		}
+	}
+
 }

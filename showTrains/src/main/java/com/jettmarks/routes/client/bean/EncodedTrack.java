@@ -22,7 +22,6 @@ import java.util.HashMap;
 import com.google.gwt.user.client.rpc.IsSerializable;
 import com.jettmarks.routes.client.common.FacilityType;
 
-
 /**
  * This is the response to an AJAX request for an Encoded Track.
  * 
@@ -30,368 +29,340 @@ import com.jettmarks.routes.client.common.FacilityType;
  * 
  * @author jett
  */
-public class EncodedTrack implements IsSerializable
-{
-  private String encodedPoints;
-  private String encodedLevels;
-  private String routeName;
-  private double distance = 0.0;
-  
-  // Concession to the v3 Google API which no longer supports encoding
-  private double[] lons;
-  private double[] lats;
-  
-  private Double maxLat, minLat, maxLon, minLon;
-  
-  private Double startLat, startLon;
-  private Double endLat, endLon;
-  
-  /** Holds URL of external site that published this, if that was the source. */
-  private String sourceUrl = null;
-  
-  /** Name by which this track is presented to the user. */
-  private String displayName = null;
-  
-  /** Indicator of the source of the EncodedTrack. */
-  private String routeSourceName = null;
-  
-  /** Hill Category as ranked by Hillarious Ride; zero is unranked. */
-  private int hillCategory = 0;
-  private Number maxSlope = 0.0;
-  
-  /** Facility Type as defined on wiki. */
-  private int facilityType = FacilityType.UNKNOWN;
+public class EncodedTrack implements IsSerializable {
+	private String encodedPoints;
+	private String encodedLevels;
+	private String routeName;
+	private double distance = 0.0;
 
-  /** BikeTrainRoute as defined on wiki. */
-  private BikeTrainDTO bikeTrain;
-  
-  /** Suitability Rating; null means n/a and UNRATED means just that. */
-  private SuitabilityRating rating = null;
+	// Concession to the v3 Google API which no longer supports encoding
+	private double[] lons;
+	private double[] lats;
 
-  public void setBounds(HashMap<String, Double> bounds)
-  {
-    maxLat = bounds.get("maxlat");
-    minLat = bounds.get("minlat");
-    maxLon = bounds.get("maxlon");
-    minLon = bounds.get("minlon");
-  }
+	private Double maxLat, minLat, maxLon, minLon;
 
-  /**
-   * @return the routeSrc
-   */
-  public String getRouteSourceName()
-  {
-    return routeSourceName;
-  }
+	private Double startLat, startLon;
+	private Double endLat, endLon;
 
-  /**
-   * @param routeSrc the routeSrc to set
-   */
-  public void setRouteSourceName(String routeSourceName)
-  {
-    this.routeSourceName = routeSourceName;
-  }
+	/** Holds URL of external site that published this, if that was the source. */
+	private String sourceUrl = null;
 
-  public Double getMaxLat()
-  {
-    return maxLat;
-  }
+	/** Name by which this track is presented to the user. */
+	private String displayName = null;
 
-  public Double getMinLat()
-  {
-    return minLat;
-  }
+	/** Indicator of the source of the EncodedTrack. */
+	private String routeSourceName = null;
 
-  public Double getMaxLon()
-  {
-    return maxLon;
-  }
+	/** Hill Category as ranked by Hillarious Ride; zero is unranked. */
+	private int hillCategory = 0;
+	private Number maxSlope = 0.0;
 
-  public Double getMinLon()
-  {
-    return minLon;
-  }
+	/** Facility Type as defined on wiki. */
+	private int facilityType = FacilityType.UNKNOWN;
 
-  public String getEncodedPoints()
-  {
-    return encodedPoints;
-  }
+	/** BikeTrainRoute as defined on wiki. */
+	private BikeTrainDTO bikeTrain;
 
-  public void setEncodedPoints(String encodedPoints)
-  {
-    this.encodedPoints = encodedPoints;
-  }
+	/** Suitability Rating; null means n/a and UNRATED means just that. */
+	private SuitabilityRating rating = null;
 
-  public String getEncodedLevels()
-  { 
-    return encodedLevels;
-  }
+	public void setBounds(HashMap<String, Double> bounds) {
+		maxLat = bounds.get("maxlat");
+		minLat = bounds.get("minlat");
+		maxLon = bounds.get("maxlon");
+		minLon = bounds.get("minlon");
+	}
 
-  public void setEncodedLevels(String encodedLevels)
-  {
-    this.encodedLevels = encodedLevels;
-  }
+	/**
+	 * @return the routeSrc
+	 */
+	public String getRouteSourceName() {
+		return routeSourceName;
+	}
 
-  /**
-   * @param routeName the routeName to set
-   */
-  public void setRouteName(String routeName)
-  {
-    this.routeName = routeName;
-  }
+	/**
+	 * @param routeSrc
+	 *            the routeSrc to set
+	 */
+	public void setRouteSourceName(String routeSourceName) {
+		this.routeSourceName = routeSourceName;
+	}
 
-  /**
-   * @return the routeName
-   */
-  public String getRouteName()
-  {
-    return routeName;
-  }
+	public Double getMaxLat() {
+		return maxLat;
+	}
 
-  /**
-   * Constructs a <code>String</code> with all attributes
-   * in name = value format.
-   *
-   * @return a <code>String</code> representation 
-   * of this object.
-   */
-  public String toString()
-  {
-      final String TAB = "\n  ";
-      
-      StringBuffer retValue = new StringBuffer();
-      
-      retValue.append("EncodedTrack ( ")
-          .append("routeName = ").append(this.routeName).append(TAB)
-          .append("encodedPoints = ").append(this.encodedPoints).append(TAB)
-          .append("encodedLevels = ").append(this.encodedLevels).append(TAB)
-          .append(" )");
-      
-      return retValue.toString();
-  }
+	public Double getMinLat() {
+		return minLat;
+	}
 
-  /**
-   * @param distance the distance to set
-   */
-  public void setDistance(double distance)
-  {
-    this.distance = distance;
-  }
+	public Double getMaxLon() {
+		return maxLon;
+	}
 
-  /**
-   * @return the distance
-   */
-  public double getDistance()
-  {
-    return distance;
-  }
+	public Double getMinLon() {
+		return minLon;
+	}
 
-  /**
-   * @param hillCategory the hillCategory to set
-   */
-  public void setHillCategory(int hillCategory)
-  {
-    this.hillCategory = hillCategory;
-  }
+	public String getEncodedPoints() {
+		return encodedPoints;
+	}
 
-  /**
-   * @return the hillCategory
-   */
-  public int getHillCategory()
-  {
-    return hillCategory;
-  }
+	public void setEncodedPoints(String encodedPoints) {
+		this.encodedPoints = encodedPoints;
+	}
 
-  /**
-   * @param facilityType the facilityType to set
-   */
-  public void setFacilityType(int facilityType)
-  {
-    this.facilityType = facilityType;
-  }
+	public String getEncodedLevels() {
+		return encodedLevels;
+	}
 
-  /**
-   * @return the facilityType
-   */
-  public int getFacilityType()
-  {
-    return facilityType;
-  }
+	public void setEncodedLevels(String encodedLevels) {
+		this.encodedLevels = encodedLevels;
+	}
 
-  /**
-   * @param maxSlope the maxSlope to set
-   */
-  public void setMaxSlope(Number maxSlope)
-  {
-    this.maxSlope = maxSlope;
-  }
+	/**
+	 * @param routeName
+	 *            the routeName to set
+	 */
+	public void setRouteName(String routeName) {
+		this.routeName = routeName;
+	}
 
-  /**
-   * @return the maxSlope
-   */
-  public Number getMaxSlope()
-  {
-    return maxSlope;
-  }
+	/**
+	 * @return the routeName
+	 */
+	public String getRouteName() {
+		return routeName;
+	}
 
-  /**
-   * @return
-   */
-  public BikeTrainDTO getBikeTrain()
-  {
-    return bikeTrain;
-  }
+	/**
+	 * Constructs a <code>String</code> with all attributes in name = value
+	 * format.
+	 *
+	 * @return a <code>String</code> representation of this object.
+	 */
+	public String toString() {
+		final String TAB = "\n  ";
 
-  /**
-   * @param bikeTrain the bikeTrain to set
-   */
-  public void setBikeTrain(BikeTrainDTO bikeTrain)
-  {
-    this.bikeTrain = bikeTrain;
-  }
+		StringBuffer retValue = new StringBuffer();
 
-  /**
-   * @return the startLat
-   */
-  public Double getStartLat()
-  {
-    return startLat;
-  }
+		retValue.append("EncodedTrack ( ").append("routeName = ")
+				.append(this.routeName).append(TAB).append("encodedPoints = ")
+				.append(this.encodedPoints).append(TAB)
+				.append("encodedLevels = ").append(this.encodedLevels)
+				.append(TAB).append(" )");
 
-  /**
-   * @param startLat the startLat to set
-   */
-  public void setStartLat(Double startLat)
-  {
-    this.startLat = startLat;
-  }
+		return retValue.toString();
+	}
 
-  /**
-   * @return the startLon
-   */
-  public Double getStartLon()
-  {
-    return startLon;
-  }
+	/**
+	 * @param distance
+	 *            the distance to set
+	 */
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
 
-  /**
-   * @param startLon the startLon to set
-   */
-  public void setStartLon(Double startLon)
-  {
-    this.startLon = startLon;
-  }
+	/**
+	 * @return the distance
+	 */
+	public double getDistance() {
+		return distance;
+	}
 
-  /**
-   * @return the endLat
-   */
-  public Double getEndLat()
-  {
-    return endLat;
-  }
+	/**
+	 * @param hillCategory
+	 *            the hillCategory to set
+	 */
+	public void setHillCategory(int hillCategory) {
+		this.hillCategory = hillCategory;
+	}
 
-  /**
-   * @param endLat the endLat to set
-   */
-  public void setEndLat(Double endLat)
-  {
-    this.endLat = endLat;
-  }
+	/**
+	 * @return the hillCategory
+	 */
+	public int getHillCategory() {
+		return hillCategory;
+	}
 
-  /**
-   * @return the endLon
-   */
-  public Double getEndLon()
-  {
-    return endLon;
-  }
+	/**
+	 * @param facilityType
+	 *            the facilityType to set
+	 */
+	public void setFacilityType(int facilityType) {
+		this.facilityType = facilityType;
+	}
 
-  /**
-   * @param endLon the endLon to set
-   */
-  public void setEndLon(Double endLon)
-  {
-    this.endLon = endLon;
-  }
+	/**
+	 * @return the facilityType
+	 */
+	public int getFacilityType() {
+		return facilityType;
+	}
 
-  /**
-   * @return the rating
-   */
-  public SuitabilityRating getRating()
-  {
-    return rating;
-  }
+	/**
+	 * @param maxSlope
+	 *            the maxSlope to set
+	 */
+	public void setMaxSlope(Number maxSlope) {
+		this.maxSlope = maxSlope;
+	}
 
-  /**
-   * @param rating the rating to set
-   */
-  public void setRating(SuitabilityRating rating)
-  {
-    this.rating = rating;
-  }
+	/**
+	 * @return the maxSlope
+	 */
+	public Number getMaxSlope() {
+		return maxSlope;
+	}
 
-  /**
-   * @return the sourceUrl
-   */
-  public String getSourceUrl()
-  {
-    return sourceUrl;
-  }
+	/**
+	 * @return
+	 */
+	public BikeTrainDTO getBikeTrain() {
+		return bikeTrain;
+	}
 
-  /**
-   * @param sourceUrl the sourceUrl to set
-   */
-  public void setSourceUrl(String sourceUrl)
-  {
-    this.sourceUrl = sourceUrl;
-  }
+	/**
+	 * @param bikeTrain
+	 *            the bikeTrain to set
+	 */
+	public void setBikeTrain(BikeTrainDTO bikeTrain) {
+		this.bikeTrain = bikeTrain;
+	}
 
-  /**
-   * @return the displayName
-   */
-  public String getDisplayName()
-  {
-    return displayName;
-  }
+	/**
+	 * @return the startLat
+	 */
+	public Double getStartLat() {
+		return startLat;
+	}
 
-  /**
-   * @param displayName the displayName to set
-   */
-  public void setDisplayName(String displayName)
-  {
-    this.displayName = displayName;
-  }
+	/**
+	 * @param startLat
+	 *            the startLat to set
+	 */
+	public void setStartLat(Double startLat) {
+		this.startLat = startLat;
+	}
 
-  /**
-   * @return the lons
-   */
-  public double[] getLons()
-  {
-    return lons;
-  }
+	/**
+	 * @return the startLon
+	 */
+	public Double getStartLon() {
+		return startLon;
+	}
 
-  /**
-   * @param lons the lons to set
-   */
-  public void setLons(double[] lons)
-  {
-    this.lons = lons;
-  }
+	/**
+	 * @param startLon
+	 *            the startLon to set
+	 */
+	public void setStartLon(Double startLon) {
+		this.startLon = startLon;
+	}
 
-  /**
-   * @return the lats
-   */
-  public double[] getLats()
-  {
-    return lats;
-  }
+	/**
+	 * @return the endLat
+	 */
+	public Double getEndLat() {
+		return endLat;
+	}
 
-  /**
-   * @param lats the lats to set
-   */
-  public void setLats(double[] lats)
-  {
-    this.lats = lats;
-  }
+	/**
+	 * @param endLat
+	 *            the endLat to set
+	 */
+	public void setEndLat(Double endLat) {
+		this.endLat = endLat;
+	}
+
+	/**
+	 * @return the endLon
+	 */
+	public Double getEndLon() {
+		return endLon;
+	}
+
+	/**
+	 * @param endLon
+	 *            the endLon to set
+	 */
+	public void setEndLon(Double endLon) {
+		this.endLon = endLon;
+	}
+
+	/**
+	 * @return the rating
+	 */
+	public SuitabilityRating getRating() {
+		return rating;
+	}
+
+	/**
+	 * @param rating
+	 *            the rating to set
+	 */
+	public void setRating(SuitabilityRating rating) {
+		this.rating = rating;
+	}
+
+	/**
+	 * @return the sourceUrl
+	 */
+	public String getSourceUrl() {
+		return sourceUrl;
+	}
+
+	/**
+	 * @param sourceUrl
+	 *            the sourceUrl to set
+	 */
+	public void setSourceUrl(String sourceUrl) {
+		this.sourceUrl = sourceUrl;
+	}
+
+	/**
+	 * @return the displayName
+	 */
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	/**
+	 * @param displayName
+	 *            the displayName to set
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	/**
+	 * @return the lons
+	 */
+	public double[] getLons() {
+		return lons;
+	}
+
+	/**
+	 * @param lons
+	 *            the lons to set
+	 */
+	public void setLons(double[] lons) {
+		this.lons = lons;
+	}
+
+	/**
+	 * @return the lats
+	 */
+	public double[] getLats() {
+		return lats;
+	}
+
+	/**
+	 * @param lats
+	 *            the lats to set
+	 */
+	public void setLats(double[] lats) {
+		this.lats = lats;
+	}
 
 }

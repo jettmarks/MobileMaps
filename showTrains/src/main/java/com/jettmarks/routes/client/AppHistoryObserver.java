@@ -1,12 +1,15 @@
 package com.jettmarks.routes.client;
 
 import com.google.gwt.place.shared.Place;
+import com.google.gwt.user.client.History;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.HandlerRegistration;
 import com.googlecode.mgwt.dom.client.event.mouse.HandlerRegistrationCollection;
 import com.googlecode.mgwt.mvp.client.history.HistoryHandler;
 import com.googlecode.mgwt.mvp.client.history.HistoryObserver;
 import com.googlecode.mgwt.ui.client.MGWT;
+import com.jettmarks.routes.client.event.ActionEvent;
+import com.jettmarks.routes.client.event.ActionNames;
 import com.jettmarks.routes.client.place.HomePlace;
 
 public class AppHistoryObserver implements HistoryObserver {
@@ -167,34 +170,34 @@ public class AppHistoryObserver implements HistoryObserver {
 		// }
 		// });
 		//
-		// HandlerRegistration register2 = ActionEvent.register(eventBus,
-		// ActionNames.BACK, new ActionEvent.Handler() {
-		//
-		// @Override
-		// public void onAction(ActionEvent event) {
-		//
-		// History.back();
-		//
-		// }
-		// });
-		//
-		// HandlerRegistration register = ActionEvent.register(eventBus,
-		// ActionNames.ANIMATION_END, new ActionEvent.Handler() {
-		//
-		// @Override
-		// public void onAction(ActionEvent event) {
-		// if (MGWT.getFormFactor().isPhone()) {
-		// History.back();
-		// } else {
-		// historyHandler.goTo(new AnimationPlace(), true);
-		// }
-		//
-		// }
-		// });
+		HandlerRegistration register2 = ActionEvent.register(eventBus,
+				ActionNames.BACK, new ActionEvent.Handler() {
+
+					@Override
+					public void onAction(ActionEvent event) {
+
+						History.back();
+
+					}
+				});
+
+		HandlerRegistration register = ActionEvent.register(eventBus,
+				ActionNames.ANIMATION_END, new ActionEvent.Handler() {
+
+					@Override
+					public void onAction(ActionEvent event) {
+						if (MGWT.getFormFactor().isPhone()) {
+							History.back();
+						} else {
+							historyHandler.goTo(new HomePlace(), true);
+						}
+
+					}
+				});
 
 		HandlerRegistrationCollection col = new HandlerRegistrationCollection();
-		// col.addHandlerRegistration(register);
-		// col.addHandlerRegistration(register2);
+		col.addHandlerRegistration(register);
+		col.addHandlerRegistration(register2);
 		// col.addHandlerRegistration(register3);
 		// col.addHandlerRegistration(addHandler);
 		return col;

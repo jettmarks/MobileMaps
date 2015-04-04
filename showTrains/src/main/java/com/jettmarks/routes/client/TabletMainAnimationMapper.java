@@ -52,6 +52,6 @@ public class TabletMainAnimationMapper implements AnimationMapper {
 				&& newPlace instanceof ResourcesPlace) {
 			return Animations.SLIDE_REVERSE;
 		}
-		return Animations.SLIDE;
+		return Animations.FADE;
 	}
 }
