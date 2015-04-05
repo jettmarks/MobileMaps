@@ -19,11 +19,11 @@ package com.jettmarks.routes.client;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderButton;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabPanel;
 
 /**
@@ -33,7 +33,7 @@ import com.googlecode.mgwt.ui.client.widget.tabbar.TabPanel;
  */
 public abstract class MapDetailViewGwtImpl implements DetailView {
 
-	protected LayoutPanel main;
+	protected RootFlexPanel main;
 
 	protected HeaderButton headerMainButton;
 

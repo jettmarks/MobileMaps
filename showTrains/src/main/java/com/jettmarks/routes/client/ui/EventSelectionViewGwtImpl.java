@@ -21,7 +21,6 @@ import java.util.List;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.MGWT;
@@ -30,6 +29,7 @@ import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.HasCellSelectedHandler;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
 import com.googlecode.mgwt.ui.client.widget.progress.ProgressBar;
 import com.googlecode.mgwt.ui.client.widget.progress.ProgressIndicator;
@@ -42,7 +42,7 @@ import com.jettmarks.routes.client.Topic;
  * @author jett
  */
 public class EventSelectionViewGwtImpl implements EventSelectionView {
-	private LayoutPanel main;
+	private RootFlexPanel main;
 
 	// private HeaderButton forwardButton;
 	private NextitemImageButton forwardButton;
@@ -60,7 +60,7 @@ public class EventSelectionViewGwtImpl implements EventSelectionView {
 	private FlowPanel progressBarPanel;
 
 	public EventSelectionViewGwtImpl() {
-		main = new LayoutPanel();
+		main = new RootFlexPanel();
 
 		headerPanel = new HeaderPanel();
 

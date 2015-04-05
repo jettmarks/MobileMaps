@@ -31,6 +31,7 @@ import com.googlecode.mgwt.ui.client.widget.input.MEmailTextBox;
 import com.googlecode.mgwt.ui.client.widget.input.MPhoneNumberTextBox;
 import com.googlecode.mgwt.ui.client.widget.input.MTextBox;
 import com.googlecode.mgwt.ui.client.widget.list.widgetlist.WidgetList;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
 
 /**
@@ -39,7 +40,7 @@ import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
  * @author jett
  */
 public class RouteDetailsViewGwtImpl implements RouteDetailsView {
-	protected LayoutPanel main;
+	protected RootFlexPanel main;
 
 	protected ScrollPanel scrollPanel;
 
@@ -79,7 +80,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 	 */
 	public RouteDetailsViewGwtImpl() {
 		super();
-		main = new LayoutPanel();
+		main = new RootFlexPanel();
 		scrollPanel = new ScrollPanel();
 
 		main.setSize("100%", "100%");

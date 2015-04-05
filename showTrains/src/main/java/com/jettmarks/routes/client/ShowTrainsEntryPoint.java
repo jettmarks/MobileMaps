@@ -63,6 +63,7 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 				.create(AppPlaceHistoryMapper.class);
 
 		MGWTStyle.injectStyleSheet("bikeTrains/css/adjustment.css");
+		MGWTStyle.injectStyleSheet("bikeTrains/css/workaround.css");
 
 		if ((MGWT.getOsDetection().isTablet())
 				|| MGWT.getOsDetection().isDesktop()) {

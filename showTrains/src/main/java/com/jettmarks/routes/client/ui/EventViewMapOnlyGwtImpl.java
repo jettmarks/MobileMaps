@@ -24,8 +24,8 @@ import com.google.gwt.maps.client.MapTypeId;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
 import com.jettmarks.routes.client.util.ScreenSize;
 
@@ -40,7 +40,7 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	private static int currentZoomLevel = 13;
 
 	public EventViewMapOnlyGwtImpl() {
-		main = new LayoutPanel();
+		main = new RootFlexPanel();
 		main.setSize("100%", "100%");
 
 		// Take care of the header for navigation

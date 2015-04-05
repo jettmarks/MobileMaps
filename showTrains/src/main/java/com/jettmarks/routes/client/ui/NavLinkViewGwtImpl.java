@@ -19,11 +19,11 @@ package com.jettmarks.routes.client.ui;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
 import com.jettmarks.routes.client.NavLink;
 
@@ -33,7 +33,7 @@ import com.jettmarks.routes.client.NavLink;
  * @author jett
  */
 public class NavLinkViewGwtImpl implements NavLinkView {
-	protected LayoutPanel main;
+	protected RootFlexPanel main;
 	protected HTML title;
 	protected HeaderButtonBar headerPanel;
 	protected CellList<NavLink> linkCellList;
@@ -45,7 +45,7 @@ public class NavLinkViewGwtImpl implements NavLinkView {
 	}
 
 	public NavLinkViewGwtImpl() {
-		main = new LayoutPanel();
+		main = new RootFlexPanel();
 		main.addStyleDependentName("navLink");
 		title = new HTML();
 		headerPanel = new HeaderButtonBar();

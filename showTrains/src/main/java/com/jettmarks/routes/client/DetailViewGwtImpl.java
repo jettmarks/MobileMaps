@@ -3,17 +3,17 @@ package com.jettmarks.routes.client;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.widget.button.image.NextitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.button.image.PreviousitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 
 public abstract class DetailViewGwtImpl implements DetailView {
 
-	protected LayoutPanel main;
+	protected RootFlexPanel main;
 	// protected ScrollPanel scrollPanel;
 	protected AbsolutePanel mapPanel;
 	protected HeaderPanel headerPanel;
@@ -23,7 +23,7 @@ public abstract class DetailViewGwtImpl implements DetailView {
 	protected HTML title;
 
 	public DetailViewGwtImpl() {
-		main = new LayoutPanel();
+		main = new RootFlexPanel();
 		mapPanel = new AbsolutePanel();
 
 		// scrollPanel = new ScrollPanel();

@@ -19,8 +19,8 @@ package com.jettmarks.routes.client.ui;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 
 /**
  * Description.
@@ -30,10 +30,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class TestViewGwtImpl implements TestView {
 	protected HTML title;
-	protected LayoutPanel main;
+	protected RootFlexPanel main;
 
 	public TestViewGwtImpl() {
-		main = new LayoutPanel();
+		main = new RootFlexPanel();
 		title = new HTML();
 		main.add(title);
 	}
