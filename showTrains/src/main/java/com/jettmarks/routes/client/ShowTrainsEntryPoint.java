@@ -39,8 +39,8 @@ import com.googlecode.mgwt.ui.client.widget.animation.AnimationWidget;
 import com.googlecode.mgwt.ui.client.widget.menu.overlay.OverlayMenu;
 import com.jettmarks.routes.client.place.AboutPlace;
 import com.jettmarks.routes.client.place.EventSelectionPlace;
+import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.place.PlaceClassifier;
-import com.jettmarks.routes.client.place.TestPlace;
 
 /**
  * Upon detection of tablet/desktop or phone, present either a PhoneDisplay or a
@@ -81,7 +81,7 @@ public class ShowTrainsEntryPoint implements EntryPoint {
 				historyMapper, historyObserver);
 
 		historyHandler.register(clientFactory.getPlaceController(),
-				clientFactory.getEventBus(), new TestPlace());
+				clientFactory.getEventBus(), new HomePlace());
 
 		historyHandler.handleCurrentHistory();
 	}
