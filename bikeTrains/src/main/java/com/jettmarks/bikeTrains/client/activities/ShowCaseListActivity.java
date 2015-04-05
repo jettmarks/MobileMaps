@@ -42,7 +42,9 @@ public class ShowCaseListActivity extends MGWTAbstractActivity {
 
 	@Override
 	public void start(AcceptsOneWidget panel, EventBus eventBus) {
-		ShowCaseListView view = clientFactory.getHomeView();
+		// Moving away from Show Case implementation to Bike Train impl
+		// ShowCaseListView view = clientFactory.getHomeView();
+		ShowCaseListView view = new ShowCaseListViewGwtImpl();
 
 		view.setTitle("mgwt");
 

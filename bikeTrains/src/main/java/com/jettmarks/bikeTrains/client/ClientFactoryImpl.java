@@ -20,8 +20,6 @@ import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 import com.jettmarks.bikeTrains.client.activities.AboutView;
 import com.jettmarks.bikeTrains.client.activities.AboutViewGwtImpl;
-import com.jettmarks.bikeTrains.client.activities.ShowCaseListView;
-import com.jettmarks.bikeTrains.client.activities.ShowCaseListViewGwtImpl;
 import com.jettmarks.bikeTrains.client.activities.UIView;
 import com.jettmarks.bikeTrains.client.activities.UIViewImpl;
 import com.jettmarks.bikeTrains.client.activities.animation.AnimationView;
@@ -56,6 +54,8 @@ import com.jettmarks.bikeTrains.client.activities.slider.SliderView;
 import com.jettmarks.bikeTrains.client.activities.slider.SliderViewGwtImpl;
 import com.jettmarks.bikeTrains.client.activities.tabbar.TabBarView;
 import com.jettmarks.bikeTrains.client.activities.tabbar.TabBarViewGwtImpl;
+import com.jettmarks.bikeTrains.client.ui.HomeView;
+import com.jettmarks.bikeTrains.client.ui.HomeViewGwtImpl;
 import com.jettmarks.bikeTrains.client.ui.RouteDetailsView;
 import com.jettmarks.bikeTrains.client.ui.RouteDetailsViewGwtImpl;
 
@@ -67,7 +67,7 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	private EventBus eventBus;
 	private PlaceController placeController;
-	private ShowCaseListView homeViewImpl;
+	private HomeView homeViewImpl;
 	private UIView uiView;
 	private AboutView aboutView;
 	private AnimationView animationView;
@@ -94,13 +94,13 @@ public class ClientFactoryImpl implements ClientFactory {
 
 		placeController = new PlaceController(eventBus);
 
-		homeViewImpl = new ShowCaseListViewGwtImpl();
+		homeViewImpl = new HomeViewGwtImpl();
 	}
 
 	@Override
-	public ShowCaseListView getHomeView() {
+	public HomeView getHomeView() {
 		if (homeViewImpl == null) {
-			homeViewImpl = new ShowCaseListViewGwtImpl();
+			homeViewImpl = new HomeViewGwtImpl();
 		}
 		return homeViewImpl;
 	}

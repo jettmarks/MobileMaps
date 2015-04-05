@@ -18,7 +18,6 @@ package com.jettmarks.bikeTrains.client;
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
 import com.jettmarks.bikeTrains.client.activities.AboutView;
-import com.jettmarks.bikeTrains.client.activities.ShowCaseListView;
 import com.jettmarks.bikeTrains.client.activities.UIView;
 import com.jettmarks.bikeTrains.client.activities.animation.AnimationView;
 import com.jettmarks.bikeTrains.client.activities.animationdone.AnimationDoneView;
@@ -36,6 +35,7 @@ import com.jettmarks.bikeTrains.client.activities.scrollwidget.ScrollWidgetView;
 import com.jettmarks.bikeTrains.client.activities.searchbox.SearchBoxView;
 import com.jettmarks.bikeTrains.client.activities.slider.SliderView;
 import com.jettmarks.bikeTrains.client.activities.tabbar.TabBarView;
+import com.jettmarks.bikeTrains.client.ui.HomeView;
 import com.jettmarks.bikeTrains.client.ui.RouteDetailsView;
 
 /**
@@ -43,7 +43,7 @@ import com.jettmarks.bikeTrains.client.ui.RouteDetailsView;
  * 
  */
 public interface ClientFactory {
-	public ShowCaseListView getHomeView();
+	public HomeView getHomeView();
 
 	public EventBus getEventBus();
 

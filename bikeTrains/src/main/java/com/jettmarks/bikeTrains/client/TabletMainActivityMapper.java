@@ -5,6 +5,7 @@ import com.google.gwt.activity.shared.ActivityMapper;
 import com.google.gwt.place.shared.Place;
 import com.jettmarks.bikeTrains.client.activities.AboutActivity;
 import com.jettmarks.bikeTrains.client.activities.AboutPlace;
+import com.jettmarks.bikeTrains.client.activities.HomeActivity;
 import com.jettmarks.bikeTrains.client.activities.UIPlace;
 import com.jettmarks.bikeTrains.client.activities.animation.AnimationPlace;
 import com.jettmarks.bikeTrains.client.activities.animationdone.AnimationCubePlace;
@@ -75,9 +76,18 @@ public class TabletMainActivityMapper implements ActivityMapper {
 		return aboutActivity;
 	}
 
+	private HomeActivity homeActivity;
+
+	private HomeActivity getHomeActivity() {
+		if (homeActivity == null) {
+			homeActivity = new HomeActivity(clientFactory);
+		}
+		return homeActivity;
+	}
+
 	private Activity getActivity(Place lastPlace, Place newPlace) {
 		if (newPlace instanceof HomePlace) {
-			return getAboutActivity();
+			return getHomeActivity();
 		}
 
 		if (newPlace instanceof AboutPlace) {

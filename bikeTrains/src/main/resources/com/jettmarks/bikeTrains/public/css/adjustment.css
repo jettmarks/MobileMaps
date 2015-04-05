@@ -1,0 +1,22 @@
+
+
+/* Override of Button Bar */
+.mgwt-ButtonBar {
+	height : 40px;
+	border-bottom: 1px solid #797F90;
+	border-top: none;
+}
+
+.GCVPG1WDAO-navLink {
+	background: url("/bikeTrains/images/logoWithRays_965x517.png") no-repeat scroll 0 0 #f0efc1;
+	background-position: center -85px;
+}
+
+.logo-image {
+	margin-bottom : 300px;
+}
+
+.mgwt-ScrollPanel-message {
+	margin : 28px;
+	color : #1B5767;
+}
