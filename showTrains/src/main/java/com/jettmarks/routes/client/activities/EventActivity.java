@@ -19,8 +19,6 @@ package com.jettmarks.routes.client.activities;
 
 import java.util.List;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.maps.client.events.click.ClickMapEvent;
 import com.google.gwt.maps.client.events.click.ClickMapHandler;
@@ -29,11 +27,8 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent.ORIENTATION;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.googlecode.mgwt.ui.client.MGWT;
-import com.googlecode.mgwt.ui.client.widget.dialog.AlertDialog;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedEvent;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.ClientFactory;
@@ -42,9 +37,6 @@ import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.DisplayOnlyRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.place.EventPlace;
-import com.jettmarks.routes.client.place.EventSelectionPlace;
-import com.jettmarks.routes.client.place.HomePlace;
-import com.jettmarks.routes.client.place.RouteDetailsPlace;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.rep.RouteContainerImpl;
@@ -215,69 +207,76 @@ public class EventActivity extends MGWTAbstractActivity {
 	 *      com.google.gwt.event.shared.EventBus)
 	 */
 	public void addRegistration(EventView eventView) {
-		addHandlerRegistration(eventView.getHomeButton().addTapHandler(
-				new TapHandler() {
+		// Home Button
+		// addHandlerRegistration(eventView.getHomeButton().addTapHandler(
+		// new TapHandler() {
+		//
+		// @Override
+		// public void onTap(TapEvent event) {
+		// RouteContainerFactory.getRouteContainer()
+		// .setSelectedRoute((Integer) null);
+		// view.clearMap();
+		// clientFactory.getPlaceController()
+		// .goTo(new HomePlace());
+		// }
+		//
+		// }));
 
-					@Override
-					public void onTap(TapEvent event) {
-						RouteContainerFactory.getRouteContainer()
-								.setSelectedRoute((Integer) null);
-						view.clearMap();
-						clientFactory.getPlaceController()
-								.goTo(new HomePlace());
-					}
+		// May not be able to implement the Title Tap at this time
+		// addHandlerRegistration(eventView.getHeaderTapHandlers()
+		// .addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// BikeTrainRoute selectedRoute = (BikeTrainRoute) RouteContainerFactory
+		// .getRouteContainer().getSelectedRoute();
+		// if (selectedRoute != null) {
+		// clientFactory.getPlaceController().goTo(
+		// new RouteDetailsPlace(selectedRoute));
+		// } else {
+		// com.googlecode.mgwt.ui.client.widget.dialog.AlertDialog
+		// noRouteSelectedAlert = new AlertDialog(
+		// "No Train Selected",
+		// "Choose a Bike Train to view");
+		// noRouteSelectedAlert.show();
+		// }
+		// }
+		// }));
 
-				}));
-		addHandlerRegistration(eventView.getHeaderTapHandlers()
-				.addClickHandler(new ClickHandler() {
+		// Back Button
+		// addHandlerRegistration(eventView.getBackbutton().addTapHandler(
+		// new TapHandler() {
+		//
+		// @Override
+		// public void onTap(TapEvent event) {
+		// view.clearMap();
+		// RouteContainerFactory.getRouteContainer()
+		// .setSelectedRoute((Integer) null);
+		// clientFactory.getPlaceController().goTo(
+		// new EventSelectionPlace());
+		// }
+		//
+		// }));
 
-					@Override
-					public void onClick(ClickEvent event) {
-						BikeTrainRoute selectedRoute = (BikeTrainRoute) RouteContainerFactory
-								.getRouteContainer().getSelectedRoute();
-						if (selectedRoute != null) {
-							clientFactory.getPlaceController().goTo(
-									new RouteDetailsPlace(selectedRoute));
-						} else {
-							com.googlecode.mgwt.ui.client.widget.dialog.AlertDialog noRouteSelectedAlert = new AlertDialog(
-									"No Train Selected",
-									"Choose a Bike Train to view");
-							noRouteSelectedAlert.show();
-						}
-					}
-				}));
+		// Forward Button
+		// addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
+		// new TapHandler() {
+		// @Override
+		// public void onTap(TapEvent event) {
+		// BikeTrainRoute selectedRoute = (BikeTrainRoute) RouteContainerFactory
+		// .getRouteContainer().getSelectedRoute();
+		// if (selectedRoute != null) {
+		// clientFactory.getPlaceController().goTo(
+		// new RouteDetailsPlace(selectedRoute));
+		// } else {
+		// AlertDialog noRouteSelectedAlert = new AlertDialog(
+		// "No Train Selected",
+		// "Choose a Bike Train to view");
+		// noRouteSelectedAlert.show();
+		// }
+		// }
+		// }));
 
-		addHandlerRegistration(eventView.getBackbutton().addTapHandler(
-				new TapHandler() {
-
-					@Override
-					public void onTap(TapEvent event) {
-						view.clearMap();
-						RouteContainerFactory.getRouteContainer()
-								.setSelectedRoute((Integer) null);
-						clientFactory.getPlaceController().goTo(
-								new EventSelectionPlace());
-					}
-
-				}));
-
-		addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
-				new TapHandler() {
-					@Override
-					public void onTap(TapEvent event) {
-						BikeTrainRoute selectedRoute = (BikeTrainRoute) RouteContainerFactory
-								.getRouteContainer().getSelectedRoute();
-						if (selectedRoute != null) {
-							clientFactory.getPlaceController().goTo(
-									new RouteDetailsPlace(selectedRoute));
-						} else {
-							AlertDialog noRouteSelectedAlert = new AlertDialog(
-									"No Train Selected",
-									"Choose a Bike Train to view");
-							noRouteSelectedAlert.show();
-						}
-					}
-				}));
 	}
 
 	/**

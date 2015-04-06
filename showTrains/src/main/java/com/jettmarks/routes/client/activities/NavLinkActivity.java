@@ -20,11 +20,8 @@ package com.jettmarks.routes.client.activities;
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.jettmarks.routes.client.ClientFactory;
-import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.ui.NavLinkView;
 
 /**
@@ -34,75 +31,75 @@ import com.jettmarks.routes.client.ui.NavLinkView;
  */
 public class NavLinkActivity extends MGWTAbstractActivity implements Activity {
 
-    protected final ClientFactory clientFactory;
+	protected final ClientFactory clientFactory;
 
-    /**
-     * @param cf
-     */
-    public NavLinkActivity(ClientFactory cf) {
-	this.clientFactory = cf;
-    }
+	/**
+	 * @param cf
+	 */
+	public NavLinkActivity(ClientFactory cf) {
+		this.clientFactory = cf;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.google.gwt.activity.shared.Activity#mayStop()
-     */
-    @Override
-    public String mayStop() {
-	// TODO Auto-generated method stub
-	return null;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.google.gwt.activity.shared.Activity#mayStop()
+	 */
+	@Override
+	public String mayStop() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.google.gwt.activity.shared.Activity#onCancel()
-     */
-    @Override
-    public void onCancel() {
-	// TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.google.gwt.activity.shared.Activity#onCancel()
+	 */
+	@Override
+	public void onCancel() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.google.gwt.activity.shared.Activity#onStop()
-     */
-    @Override
-    public void onStop() {
-	// TODO Auto-generated method stub
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.google.gwt.activity.shared.Activity#onStop()
+	 */
+	@Override
+	public void onStop() {
+		// TODO Auto-generated method stub
 
-    }
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
-     * .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
-     */
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-	super.start(panel, eventBus);
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
+	 * .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+	 */
+	@Override
+	public void start(AcceptsOneWidget panel, EventBus eventBus) {
+		super.start(panel, eventBus);
+	}
 
-    /**
-     * @param view
-     */
-    protected void setNavHandlers(NavLinkView view) {
-	addHandlerRegistration(view.getHomeButton().addTapHandler(
-		new TapHandler() {
+	/**
+	 * @param view
+	 */
+	protected void setNavHandlers(NavLinkView view) {
+		// addHandlerRegistration(view.getHomeButton().addTapHandler(
+		// new TapHandler() {
+		//
+		// @Override
+		// public void onTap(TapEvent event) {
+		// clientFactory.getPlaceController()
+		// .goTo(new HomePlace());
+		// }
+		//
+		// }));
 
-		    @Override
-		    public void onTap(TapEvent event) {
-			clientFactory.getPlaceController()
-				.goTo(new HomePlace());
-		    }
-
-		}));
-
-    }
+	}
 
 }

@@ -17,19 +17,10 @@
  */
 package com.jettmarks.routes.client.activities;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
-import com.googlecode.mgwt.ui.client.widget.dialog.AlertDialog;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
 import com.jettmarks.routes.client.DetailView;
 import com.jettmarks.routes.client.bean.BikeTrainRoute;
-import com.jettmarks.routes.client.place.EventSelectionPlace;
-import com.jettmarks.routes.client.place.HomePlace;
-import com.jettmarks.routes.client.place.RouteDetailsPlace;
-import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.ui.EventView;
 
 /**
@@ -80,68 +71,72 @@ public class MapActivity extends DetailActivity {
 	 * .user.client.ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
 	 */
 	public void addRegistration(EventView eventView) {
-		addHandlerRegistration(eventView.getHomeButton().addTapHandler(
-				new TapHandler() {
+		// Home Button
+		// addHandlerRegistration(eventView.getHomeButton().addTapHandler(
+		// new TapHandler() {
+		//
+		// @Override
+		// public void onTap(TapEvent event) {
+		// mapView.clearMap();
+		// RouteContainerFactory.getRouteContainer()
+		// .setSelectedRoute((Integer) null);
+		// clientFactory.getPlaceController()
+		// .goTo(new HomePlace());
+		// }
+		//
+		// }));
 
-					@Override
-					public void onTap(TapEvent event) {
-						mapView.clearMap();
-						RouteContainerFactory.getRouteContainer()
-								.setSelectedRoute((Integer) null);
-						clientFactory.getPlaceController()
-								.goTo(new HomePlace());
-					}
+		// addHandlerRegistration(eventView.getHeaderTapHandlers()
+		// .addClickHandler(new ClickHandler() {
+		//
+		// @Override
+		// public void onClick(ClickEvent event) {
+		// selectedRoute = (BikeTrainRoute) RouteContainerFactory
+		// .getRouteContainer().getSelectedRoute();
+		// if (selectedRoute != null) {
+		// clientFactory.getPlaceController().goTo(
+		// new RouteDetailsPlace(selectedRoute));
+		// } else {
+		// AlertDialog noRouteSelectedAlert = new AlertDialog(
+		// "No Train Selected",
+		// "Choose a Bike Train to view");
+		// noRouteSelectedAlert.show();
+		// }
+		// }
+		// }));
 
-				}));
-		addHandlerRegistration(eventView.getHeaderTapHandlers()
-				.addClickHandler(new ClickHandler() {
+		// Back Button
+		// addHandlerRegistration(eventView.getBackbutton().addTapHandler(
+		// new TapHandler() {
+		//
+		// @Override
+		// public void onTap(TapEvent event) {
+		// mapView.clearMap();
+		// RouteContainerFactory.getRouteContainer()
+		// .setSelectedRoute((Integer) null);
+		// clientFactory.getPlaceController().goTo(
+		// new EventSelectionPlace());
+		// }
+		//
+		// }));
 
-					@Override
-					public void onClick(ClickEvent event) {
-						selectedRoute = (BikeTrainRoute) RouteContainerFactory
-								.getRouteContainer().getSelectedRoute();
-						if (selectedRoute != null) {
-							clientFactory.getPlaceController().goTo(
-									new RouteDetailsPlace(selectedRoute));
-						} else {
-							AlertDialog noRouteSelectedAlert = new AlertDialog(
-									"No Train Selected",
-									"Choose a Bike Train to view");
-							noRouteSelectedAlert.show();
-						}
-					}
-				}));
-
-		addHandlerRegistration(eventView.getBackbutton().addTapHandler(
-				new TapHandler() {
-
-					@Override
-					public void onTap(TapEvent event) {
-						mapView.clearMap();
-						RouteContainerFactory.getRouteContainer()
-								.setSelectedRoute((Integer) null);
-						clientFactory.getPlaceController().goTo(
-								new EventSelectionPlace());
-					}
-
-				}));
-
-		addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
-				new TapHandler() {
-					@Override
-					public void onTap(TapEvent event) {
-						selectedRoute = (BikeTrainRoute) RouteContainerFactory
-								.getRouteContainer().getSelectedRoute();
-						if (selectedRoute != null) {
-							clientFactory.getPlaceController().goTo(
-									new RouteDetailsPlace(selectedRoute));
-						} else {
-							AlertDialog noRouteSelectedAlert = new AlertDialog(
-									"No Train Selected",
-									"Choose a Bike Train to view");
-							noRouteSelectedAlert.show();
-						}
-					}
-				}));
+		// Forward Button
+		// addHandlerRegistration(eventView.getForwardbutton().addTapHandler(
+		// new TapHandler() {
+		// @Override
+		// public void onTap(TapEvent event) {
+		// selectedRoute = (BikeTrainRoute) RouteContainerFactory
+		// .getRouteContainer().getSelectedRoute();
+		// if (selectedRoute != null) {
+		// clientFactory.getPlaceController().goTo(
+		// new RouteDetailsPlace(selectedRoute));
+		// } else {
+		// AlertDialog noRouteSelectedAlert = new AlertDialog(
+		// "No Train Selected",
+		// "Choose a Bike Train to view");
+		// noRouteSelectedAlert.show();
+		// }
+		// }
+		// }));
 	}
 }

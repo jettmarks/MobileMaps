@@ -2,12 +2,15 @@ package com.jettmarks.routes.client.ui;
 
 import java.util.List;
 
+import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.maps.client.MapWidget;
 import com.google.gwt.maps.client.base.LatLng;
 import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HasText;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedHandler;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
@@ -29,7 +32,7 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	protected String description;
 	protected String displayGroupName;
 	protected ScrollPanel scrollPanel;
-	protected HeaderButtonBar headerButtonBar;
+	protected HeaderPanel headerButtonBar;
 	protected Integer currentIndex;
 
 	public EventViewBaseImpl() {
@@ -39,9 +42,9 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
     * 
     */
 	protected void setupHeader() {
-		headerButtonBar = new HeaderButtonBar();
-		title = new HTML();
-		headerButtonBar.setTitle(title);
+		headerButtonBar = new HeaderPanel();
+		title = new HeaderTitle();
+		headerButtonBar.add(title);
 	}
 
 	/**
@@ -102,7 +105,8 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 
 	@Override
 	public HasTapHandlers getBackbutton() {
-		return headerButtonBar.getLeftButton();
+		// return headerButtonBar.getLeftButton();
+		return null;
 	}
 
 	/**
@@ -110,10 +114,19 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public HasTapHandlers getForwardbutton() {
-		return headerButtonBar.getRightButton();
+		// return headerButtonBar.getRightButton();
+		return null;
 	}
 
-	public HTML getHeaderTapHandlers() {
+	public HasHandlers getHeaderTapHandlers() {
+		return title;
+	}
+
+	/**
+	 * @see com.jettmarks.routes.client.ui.EventView#getTitle()
+	 */
+	@Override
+	public HasText getTitle() {
 		return title;
 	}
 
@@ -122,7 +135,7 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public void enableHomeButton(boolean b) {
-		headerButtonBar.setHomeButtonEnabled(b);
+		// headerButtonBar.setHomeButtonEnabled(b);
 	}
 
 	/**
@@ -130,12 +143,12 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public void enableBackButton(boolean isEnabled) {
-		headerButtonBar.setLeftButtonEnabled(isEnabled);
+		// headerButtonBar.setLeftButtonEnabled(isEnabled);
 	}
 
 	@Override
 	public void enableForwardButton(boolean isEnabled) {
-		headerButtonBar.setRightButtonEnabled(isEnabled);
+		// headerButtonBar.setRightButtonEnabled(isEnabled);
 	}
 
 	/**
@@ -143,7 +156,8 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public HasTapHandlers getHomeButton() {
-		return headerButtonBar.getHomeButton();
+		// return headerButtonBar.getHomeButton();
+		return null;
 	}
 
 	@Override

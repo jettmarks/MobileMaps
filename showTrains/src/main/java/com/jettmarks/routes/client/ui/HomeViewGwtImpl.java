@@ -24,8 +24,8 @@ package com.jettmarks.routes.client.ui;
  */
 public class HomeViewGwtImpl extends NavLinkViewGwtImpl implements HomeView {
 
-    public HomeViewGwtImpl() {
-	scrollPanel.add(linkCellList);
-	headerPanel.setHomeButtonEnabled(false);
-    }
+	public HomeViewGwtImpl() {
+		scrollPanel.add(linkCellList);
+		// headerPanel.setHomeButtonEnabled(false);
+	}
 }

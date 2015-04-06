@@ -19,7 +19,8 @@ package com.jettmarks.routes.client.ui;
 
 import java.util.List;
 
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.event.shared.HasHandlers;
+import com.google.gwt.user.client.ui.HasText;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedHandler;
 import com.jettmarks.routes.client.DetailView;
@@ -69,7 +70,7 @@ public interface EventView extends DetailView {
 	 */
 	public abstract void enableBackButton(boolean b);
 
-	public abstract HTML getHeaderTapHandlers();
+	public abstract HasHandlers getHeaderTapHandlers();
 
 	public abstract HasTapHandlers getHomeButton();
 
@@ -90,5 +91,10 @@ public interface EventView extends DetailView {
 	 * @param b
 	 */
 	public abstract void enableHomeButton(boolean b);
+
+	/**
+	 * @return
+	 */
+	public abstract HasText getTitle();
 
 }

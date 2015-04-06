@@ -17,11 +17,12 @@
  */
 package com.jettmarks.routes.client.ui;
 
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
 import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
@@ -34,8 +35,8 @@ import com.jettmarks.routes.client.NavLink;
  */
 public class NavLinkViewGwtImpl implements NavLinkView {
 	protected RootFlexPanel main;
-	protected HTML title;
-	protected HeaderButtonBar headerPanel;
+	protected HeaderTitle title;
+	protected HeaderPanel headerPanel;
 	protected CellList<NavLink> linkCellList;
 	protected ScrollPanel scrollPanel;
 	protected VerticalPanel imagePanel;
@@ -46,11 +47,11 @@ public class NavLinkViewGwtImpl implements NavLinkView {
 
 	public NavLinkViewGwtImpl() {
 		main = new RootFlexPanel();
-		main.addStyleDependentName("navLink");
-		title = new HTML();
-		headerPanel = new HeaderButtonBar();
-		headerPanel.addStyleDependentName("navLink");
-		headerPanel.setTitle(title);
+		// main.addStyleDependentName("navLink");
+		title = new HeaderTitle();
+		headerPanel = new HeaderPanel();
+		// headerPanel.addStyleDependentName("navLink");
+		headerPanel.add(title);
 		imagePanel = new VerticalPanel();
 		imagePanel.addStyleName("logo-image");
 		scrollPanel = new ScrollPanel();
@@ -82,6 +83,7 @@ public class NavLinkViewGwtImpl implements NavLinkView {
 	 */
 	@Override
 	public HasTapHandlers getHomeButton() {
-		return headerPanel.getHomeButton();
+		// return headerPanel.getHomeButton();
+		return null;
 	}
 }

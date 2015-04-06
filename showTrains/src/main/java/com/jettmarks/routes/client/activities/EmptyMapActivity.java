@@ -19,11 +19,8 @@ package com.jettmarks.routes.client.activities;
 
 import com.google.gwt.event.shared.EventBus;
 import com.google.gwt.user.client.ui.AcceptsOneWidget;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.jettmarks.routes.client.ClientFactory;
 import com.jettmarks.routes.client.DetailActivity;
-import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.ui.EventView;
 
 /**
@@ -36,73 +33,74 @@ import com.jettmarks.routes.client.ui.EventView;
  */
 public class EmptyMapActivity extends DetailActivity {
 
-    private EventView view;
-    private final ClientFactory clientFactory;
+	private EventView view;
+	private final ClientFactory clientFactory;
 
-    /**
-     * @param clientFactory
-     */
-    public EmptyMapActivity(ClientFactory clientFactory) {
-	super(clientFactory.getEventView(), "");
-	view = clientFactory.getEventView();
-	this.clientFactory = clientFactory;
-    }
+	/**
+	 * @param clientFactory
+	 */
+	public EmptyMapActivity(ClientFactory clientFactory) {
+		super(clientFactory.getEventView(), "");
+		view = clientFactory.getEventView();
+		this.clientFactory = clientFactory;
+	}
 
-    /**
-     * @see com.google.gwt.activity.shared.Activity#mayStop()
-     */
-    @Override
-    public String mayStop() {
-	return null;
-    }
+	/**
+	 * @see com.google.gwt.activity.shared.Activity#mayStop()
+	 */
+	@Override
+	public String mayStop() {
+		return null;
+	}
 
-    /**
-     * @see com.google.gwt.activity.shared.Activity#onCancel()
-     */
-    @Override
-    public void onCancel() {
+	/**
+	 * @see com.google.gwt.activity.shared.Activity#onCancel()
+	 */
+	@Override
+	public void onCancel() {
 
-    }
+	}
 
-    /**
-     * @see com.google.gwt.activity.shared.Activity#onStop()
-     */
-    @Override
-    public void onStop() {
-	super.onStop();
-	cancelAllHandlerRegistrations();
-    }
+	/**
+	 * @see com.google.gwt.activity.shared.Activity#onStop()
+	 */
+	@Override
+	public void onStop() {
+		super.onStop();
+		cancelAllHandlerRegistrations();
+	}
 
-    /**
-     * Kicks off the Empty Map View with title and buttons disabled.
-     * 
-     * @see com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
-     *      .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
-     */
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-	view.getHeaderTapHandlers().setText("Select an Event");
-	view.enableBackButton(false);
-	view.enableForwardButton(false);
-	setNavHandlers(view);
-	panel.setWidget(view);
-    }
+	/**
+	 * Kicks off the Empty Map View with title and buttons disabled.
+	 * 
+	 * @see com.google.gwt.activity.shared.Activity#start(com.google.gwt.user.client
+	 *      .ui.AcceptsOneWidget, com.google.gwt.event.shared.EventBus)
+	 */
+	@Override
+	public void start(AcceptsOneWidget panel, EventBus eventBus) {
+		view.getTitle().setText("Select an Event");
+		view.enableBackButton(false);
+		view.enableForwardButton(false);
+		setNavHandlers(view);
+		panel.setWidget(view);
+	}
 
-    /**
-     * @param view2
-     */
-    protected void setNavHandlers(EventView view2) {
-	addHandlerRegistration(view2.getHomeButton().addTapHandler(
-		new TapHandler() {
+	/**
+	 * @param view2
+	 */
+	protected void setNavHandlers(EventView view2) {
+		// Home Button
+		// addHandlerRegistration(view2.getHomeButton().addTapHandler(
+		// new TapHandler() {
+		//
+		// @Override
+		// public void onTap(TapEvent event) {
+		// clientFactory.getPlaceController()
+		// .goTo(new HomePlace());
+		// }
+		//
+		// }));
 
-		    @Override
-		    public void onTap(TapEvent event) {
-			clientFactory.getPlaceController()
-				.goTo(new HomePlace());
-		    }
-
-		}));
-
-    }
+	}
 
 }
