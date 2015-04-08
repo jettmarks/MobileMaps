@@ -27,6 +27,8 @@ import com.google.gwt.user.client.ui.AcceptsOneWidget;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeEvent.ORIENTATION;
 import com.googlecode.mgwt.dom.client.event.orientation.OrientationChangeHandler;
+import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.mvp.client.MGWTAbstractActivity;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedEvent;
@@ -37,6 +39,7 @@ import com.jettmarks.routes.client.bean.DisplayGroupDTO;
 import com.jettmarks.routes.client.bean.DisplayOnlyRoute;
 import com.jettmarks.routes.client.bean.Route;
 import com.jettmarks.routes.client.place.EventPlace;
+import com.jettmarks.routes.client.place.HomePlace;
 import com.jettmarks.routes.client.rep.RouteContainer;
 import com.jettmarks.routes.client.rep.RouteContainerFactory;
 import com.jettmarks.routes.client.rep.RouteContainerImpl;
@@ -208,19 +211,19 @@ public class EventActivity extends MGWTAbstractActivity {
 	 */
 	public void addRegistration(EventView eventView) {
 		// Home Button
-		// addHandlerRegistration(eventView.getHomeButton().addTapHandler(
-		// new TapHandler() {
-		//
-		// @Override
-		// public void onTap(TapEvent event) {
-		// RouteContainerFactory.getRouteContainer()
-		// .setSelectedRoute((Integer) null);
-		// view.clearMap();
-		// clientFactory.getPlaceController()
-		// .goTo(new HomePlace());
-		// }
-		//
-		// }));
+		addHandlerRegistration(eventView.getHomeButton().addTapHandler(
+				new TapHandler() {
+
+					@Override
+					public void onTap(TapEvent event) {
+						RouteContainerFactory.getRouteContainer()
+								.setSelectedRoute((Integer) null);
+						view.clearMap();
+						clientFactory.getPlaceController()
+								.goTo(new HomePlace());
+					}
+
+				}));
 
 		// May not be able to implement the Title Tap at this time
 		// addHandlerRegistration(eventView.getHeaderTapHandlers()

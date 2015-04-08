@@ -27,6 +27,7 @@ import com.googlecode.mgwt.ui.client.widget.button.image.NextitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.button.image.PreviousitemImageButton;
 import com.googlecode.mgwt.ui.client.widget.form.FormEntry;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.input.MEmailTextBox;
 import com.googlecode.mgwt.ui.client.widget.input.MPhoneNumberTextBox;
 import com.googlecode.mgwt.ui.client.widget.input.MTextBox;
@@ -52,7 +53,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 	// protected HeaderButton headerForwardButton;
 	protected NextitemImageButton headerForwardButton;
 
-	protected HTML title;
+	protected HeaderTitle title;
 
 	protected HeaderPanel headerPanel;
 
@@ -108,7 +109,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 	private void setupHeader() {
 		headerButtonBar = new HeaderButtonBar();
 		enableBackButton(true);
-		title = new HTML();
+		title = new HeaderTitle();
 		headerButtonBar.setTitle(title);
 	}
 
@@ -208,7 +209,7 @@ public class RouteDetailsViewGwtImpl implements RouteDetailsView {
 	 * @see com.jettmarks.routes.client.ui.RouteDetailsView#getHeaderTapHandlers()
 	 */
 	@Override
-	public HTML getHeaderTapHandlers() {
+	public HeaderTitle getHeaderTapHandlers() {
 		return title;
 	}
 

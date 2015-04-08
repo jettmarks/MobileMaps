@@ -29,25 +29,27 @@ import com.jettmarks.routes.client.bean.Route;
  */
 public class EventMainActivity extends EventActivity implements Activity {
 
-    /**
-     * @param newPlace
-     * @param clientFactory
-     */
-    public EventMainActivity(Place newPlace, ClientFactory clientFactory) {
-	super(clientFactory.getEventMapView());
-	super.setupInstance(newPlace, clientFactory);
-    }
-
-    /**
-     * @see com.jettmarks.routes.client.activities.EventActivity#setSelectedRoute(java.lang.Integer,
-     *      com.jettmarks.routes.client.bean.Route)
-     */
-    @Override
-    public void setSelectedRoute(Integer newIndex, Route selectedRoute) {
-	super.setSelectedRoute(newIndex, selectedRoute);
-	if (selectedRoute != null) {
-	    view.getHeader().setText("View " + selectedRoute.getDisplayName());
+	/**
+	 * @param newPlace
+	 * @param clientFactory
+	 */
+	public EventMainActivity(Place newPlace, ClientFactory clientFactory) {
+		super(clientFactory.getEventMapView());
+		super.setupInstance(newPlace, clientFactory);
 	}
-    }
+
+	/**
+	 * @see com.jettmarks.routes.client.activities.EventActivity#setSelectedRoute(java.lang.Integer,
+	 *      com.jettmarks.routes.client.bean.Route)
+	 */
+	@Override
+	public void setSelectedRoute(Integer newIndex, Route selectedRoute) {
+		super.setSelectedRoute(newIndex, selectedRoute);
+		if (selectedRoute != null) {
+			// view.getHeader().setText("View " +
+			// selectedRoute.getDisplayName());
+			view.getHeader().setText(selectedRoute.getDisplayName());
+		}
+	}
 
 }

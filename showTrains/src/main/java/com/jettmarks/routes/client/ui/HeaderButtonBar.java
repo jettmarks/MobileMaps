@@ -20,15 +20,16 @@ package com.jettmarks.routes.client.ui;
 import java.util.Iterator;
 
 import com.google.gwt.event.shared.HasHandlers;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HasWidgets;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.widget.button.ButtonBase;
-import com.googlecode.mgwt.ui.client.widget.button.image.HelpImageButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.HeadsetImageButton;
+import com.googlecode.mgwt.ui.client.widget.button.image.NextImageButton;
 import com.googlecode.mgwt.ui.client.widget.button.image.PreviousImageButton;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.panel.flex.FlexSpacer;
 import com.jettmarks.routes.client.css.AppBundle;
 
@@ -38,26 +39,32 @@ import com.jettmarks.routes.client.css.AppBundle;
  * 
  * Fix for Defect #201 - Long Title pushing right-button off the end.
  * 
+ * After moving to mGWT 2.0, found that this would be useful to implement some
+ * of the functionality the app had gotten accustomed to: flex spacers and the
+ * button management.
+ * 
  * @author jett
  */
-public class HeaderButtonBar extends Composite implements HasWidgets {
+public class HeaderButtonBar extends HeaderPanel implements HasText {
 
 	private FlowPanel main;
 	protected final HeaderButtonBarCss css;
 
 	// private ButtonBarButtonBase leftButton = new HomeButton();
 	private ButtonBase leftButton = new PreviousImageButton();
-	private ButtonBase rightButton = new HelpImageButton();
+	private ButtonBase rightButton = new NextImageButton();
 	// private ButtonBarButtonBase rightButton = new ArrowRightButton();
-	private HTML title;
+	private HeaderTitle title = new HeaderTitle();
 	private Widget leftPlaceholder = new FlexSpacer();
-	private Widget titlePlaceholder = new HTML("   ");
+	private Widget titlePlaceholder = new HeaderTitle("   ");
 	private Widget rightPlaceholder = new FlexSpacer();
 
-	private boolean leftButtonEnabled = false;
-	private boolean rightButtonEnabled = false;
+	private boolean leftButtonEnabled = true;
+	private boolean rightButtonEnabled = true;
 	// private ButtonBase homeButton = new HomeImageButton();
-	private ButtonBase homeButton = new HelpImageButton();
+
+	// Something goofball until I can assemble my own Home Button:
+	private ButtonBase homeButton = new HeadsetImageButton();
 	private boolean homeButtonEnabled = true;
 
 	/**
@@ -81,8 +88,11 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 		this.css = css;
 		css.ensureInjected();
 		main = new FlowPanel();
-		initWidget(main);
-		setStylePrimaryName("mgwt-ButtonBar");
+		// initWidget(main);
+
+		// Destroying visibility at this time
+		// setStylePrimaryName("mgwt-ButtonBar");
+
 		refresh();
 	}
 
@@ -152,19 +162,17 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	 * 
 	 * @see
 	 * com.google.gwt.user.client.ui.HasWidgets#add(com.google.gwt.user.client
-	 * .ui.Widget)
+	 * .ui.Widget) //
 	 */
-	@Override
-	public void add(Widget w) {
-		main.add(w);
-	}
+	// Flips back and forth depending on whether we contain or extend
+	// @Override
+	// public void add(Widget w) {
+	// main.add(w);
+	// }
 
 	/**
-	 * @return the main
+	 * @return the main public FlowPanel getMain() { return main; }
 	 */
-	public FlowPanel getMain() {
-		return main;
-	}
 
 	/**
 	 * @param main
@@ -207,7 +215,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	/**
 	 * @return the title
 	 */
-	public HasHandlers getHeaderTitle() {
+	public HasHandlers getTitleHandlers() {
 		return title;
 	}
 
@@ -215,7 +223,7 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	 * @param title
 	 *            the title to set
 	 */
-	public void setTitle(HTML title) {
+	public void setTitle(HeaderTitle title) {
 		this.title = title;
 		refresh();
 	}
@@ -273,5 +281,45 @@ public class HeaderButtonBar extends Composite implements HasWidgets {
 	 */
 	public ButtonBase getHomeButton() {
 		return homeButton;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.google.gwt.user.client.ui.HasText#getText()
+	 */
+	@Override
+	public String getText() {
+		return title.getText();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.google.gwt.user.client.ui.HasText#setText(java.lang.String)
+	 */
+	@Override
+	public void setText(String text) {
+		title.setText(text);
+	}
+
+	/**
+	 * Parent class will provide the hover text; we center our text in header.
+	 * 
+	 * @see com.google.gwt.user.client.ui.UIObject#setTitle(java.lang.String)
+	 * 
+	 *      Use this only if I need to; getTitle is more significant to
+	 *      override.
+	 * 
+	 @Override public void setTitle(String title) { super.setTitle(title);
+	 *           setText(title); }
+	 */
+
+	/**
+	 * Provide our HeaderTitle instead of the string that our parent would
+	 * provide.
+	 */
+	public HasText getHeaderTitle() {
+		return this.title;
 	}
 }

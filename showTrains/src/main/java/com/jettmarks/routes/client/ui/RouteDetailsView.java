@@ -17,8 +17,8 @@
  */
 package com.jettmarks.routes.client.ui;
 
-import com.google.gwt.user.client.ui.HTML;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
+import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.jettmarks.routes.client.DetailView;
 
 /**
@@ -28,43 +28,43 @@ import com.jettmarks.routes.client.DetailView;
  */
 public interface RouteDetailsView extends DetailView {
 
-    public abstract HTML getHeaderTapHandlers();
+	public abstract HeaderTitle getHeaderTapHandlers();
 
-    public abstract void setNotes(String notes);
+	public abstract void setNotes(String notes);
 
-    public abstract String getNotes();
+	public abstract String getNotes();
 
-    public abstract void setDisplayName(String displayName);
+	public abstract void setDisplayName(String displayName);
 
-    public abstract String getDisplayName();
+	public abstract String getDisplayName();
 
-    public abstract void setRouteName(String routeName);
+	public abstract void setRouteName(String routeName);
 
-    public abstract String getRouteName();
+	public abstract String getRouteName();
 
-    public abstract void setLeaderName(String leaderName);
+	public abstract void setLeaderName(String leaderName);
 
-    public abstract String getLeaderName();
+	public abstract String getLeaderName();
 
-    public abstract void setLeaderEmail(String leaderEmail);
+	public abstract void setLeaderEmail(String leaderEmail);
 
-    public abstract String getLeaderEmail();
+	public abstract String getLeaderEmail();
 
-    public abstract void setLeaderPhone(String leaderPhone);
+	public abstract void setLeaderPhone(String leaderPhone);
 
-    public abstract String getLeaderPhone();
+	public abstract String getLeaderPhone();
 
-    public abstract void setDeparture(String departure);
+	public abstract void setDeparture(String departure);
 
-    public abstract String getDeparture();
+	public abstract String getDeparture();
 
-    public abstract void setArrival(String arrival);
+	public abstract void setArrival(String arrival);
 
-    public abstract String getArrival();
+	public abstract String getArrival();
 
-    /**
-     * @return
-     */
-    public abstract HasTapHandlers getHomeButton();
+	/**
+	 * @return
+	 */
+	public abstract HasTapHandlers getHomeButton();
 
 }

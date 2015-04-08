@@ -20,11 +20,9 @@ package com.jettmarks.routes.client;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderButton;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 import com.googlecode.mgwt.ui.client.widget.tabbar.TabPanel;
+import com.jettmarks.routes.client.ui.HeaderButtonBar;
 
 /**
  * Description.
@@ -35,19 +33,18 @@ public abstract class MapDetailViewGwtImpl implements DetailView {
 
 	protected RootFlexPanel main;
 
-	protected HeaderButton headerMainButton;
+	// protected HeaderButton headerMainButton;
+	//
+	// protected HeaderButton headerBackButton;
+	//
+	// protected HeaderButton headerForwardButton;
 
-	protected HeaderButton headerBackButton;
-
-	protected HeaderButton headerForwardButton;
-
-	protected HeaderTitle title;
-
-	protected HeaderPanel headerPanel;
+	protected HeaderButtonBar headerButtonBar = new HeaderButtonBar();
 
 	protected TabPanel tabPanel;
 
 	public MapDetailViewGwtImpl() {
+
 		// main = new LayoutPanel();
 		// main.setSize("100%", "100%");
 		// headerPanel = new HeaderPanel();
@@ -87,7 +84,7 @@ public abstract class MapDetailViewGwtImpl implements DetailView {
 	 */
 	@Override
 	public HasText getHeader() {
-		return title;
+		return headerButtonBar.getHeaderTitle();
 	}
 
 	/**
@@ -95,7 +92,8 @@ public abstract class MapDetailViewGwtImpl implements DetailView {
 	 */
 	@Override
 	public HasText getBackbuttonText() {
-		return headerBackButton;
+		return headerButtonBar.getLeftButton();
+		// return headerBackButton;
 	}
 
 	/**
@@ -103,7 +101,8 @@ public abstract class MapDetailViewGwtImpl implements DetailView {
 	 */
 	@Override
 	public HasText getForwardbuttonText() {
-		return headerForwardButton;
+		// return headerForwardButton;
+		return headerButtonBar.getRightButton();
 	}
 
 	/**
@@ -111,7 +110,7 @@ public abstract class MapDetailViewGwtImpl implements DetailView {
 	 */
 	@Override
 	public HasTapHandlers getBackbutton() {
-		return headerBackButton;
+		return headerButtonBar.getLeftButton();
 	}
 
 	/**
@@ -119,15 +118,17 @@ public abstract class MapDetailViewGwtImpl implements DetailView {
 	 */
 	@Override
 	public HasText getMainButtonText() {
-		return headerMainButton;
+		return headerButtonBar;
 	}
 
 	/**
+	 * I believe this used to be for tapping the title and responding.
+	 * 
 	 * @see com.jettmarks.routes.client.DetailView#getMainButton()
 	 */
 	@Override
 	public HasTapHandlers getMainButton() {
-		return headerMainButton;
+		return null;
 	}
 
 }

@@ -99,7 +99,7 @@ public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-		title.setText(description);
+		headerButtonBar.setText(description);
 	}
 
 	/*
@@ -123,8 +123,8 @@ public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
 	}
 
 	public HasHandlers getHeaderTapHandlers() {
-		return title;
-		// return null;
+		// return title;
+		return null;
 	}
 
 	/**
@@ -194,7 +194,6 @@ public class EventViewListOnlyGwtImpl extends EventViewBaseImpl implements
 	 */
 	@Override
 	public HasTapHandlers getHomeButton() {
-		// return headerButtonBar.getHomeButton();
-		return null;
+		return headerButtonBar.getHomeButton();
 	}
 }

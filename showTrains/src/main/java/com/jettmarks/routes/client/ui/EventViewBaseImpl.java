@@ -9,8 +9,6 @@ import com.google.gwt.maps.client.base.LatLngBounds;
 import com.google.gwt.maps.client.overlays.Marker;
 import com.google.gwt.user.client.ui.HasText;
 import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
-import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellSelectedHandler;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
@@ -32,19 +30,20 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	protected String description;
 	protected String displayGroupName;
 	protected ScrollPanel scrollPanel;
-	protected HeaderPanel headerButtonBar;
 	protected Integer currentIndex;
 
 	public EventViewBaseImpl() {
+		setupHeader();
 	}
 
 	/**
     * 
     */
 	protected void setupHeader() {
-		headerButtonBar = new HeaderPanel();
-		title = new HeaderTitle();
-		headerButtonBar.add(title);
+
+		// headerButtonBar.add(new FlexSpacer());
+		// headerButtonBar.add(title);
+		// headerButtonBar.add(new FlexSpacer());
 	}
 
 	/**
@@ -100,7 +99,8 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-		title.setText(description);
+		// title.setText(description);
+		headerButtonBar.setText(description);
 	}
 
 	@Override
@@ -119,7 +119,7 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	}
 
 	public HasHandlers getHeaderTapHandlers() {
-		return title;
+		return null;
 	}
 
 	/**
@@ -127,7 +127,7 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public HasText getTitle() {
-		return title;
+		return headerButtonBar;
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public void enableHomeButton(boolean b) {
-		// headerButtonBar.setHomeButtonEnabled(b);
+		headerButtonBar.setHomeButtonEnabled(b);
 	}
 
 	/**
@@ -143,12 +143,12 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public void enableBackButton(boolean isEnabled) {
-		// headerButtonBar.setLeftButtonEnabled(isEnabled);
+		headerButtonBar.setLeftButtonEnabled(isEnabled);
 	}
 
 	@Override
 	public void enableForwardButton(boolean isEnabled) {
-		// headerButtonBar.setRightButtonEnabled(isEnabled);
+		headerButtonBar.setRightButtonEnabled(isEnabled);
 	}
 
 	/**
@@ -156,17 +156,17 @@ public class EventViewBaseImpl extends MapDetailViewGwtImpl implements
 	 */
 	@Override
 	public HasTapHandlers getHomeButton() {
-		// return headerButtonBar.getHomeButton();
-		return null;
+		return headerButtonBar.getHomeButton();
 	}
 
 	@Override
 	public void selectRoute(Route route) {
 
 		if (route != null) {
-			title.setText("View " + route.getDisplayName());
+			// headerButtonBar.setText("View " + route.getDisplayName());
+			headerButtonBar.setText(route.getDisplayName());
 		} else {
-			title.setText(getDescription());
+			headerButtonBar.setText(getDescription());
 		}
 	}
 

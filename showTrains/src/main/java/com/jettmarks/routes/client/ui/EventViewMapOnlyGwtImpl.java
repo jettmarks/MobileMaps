@@ -40,6 +40,7 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	private static int currentZoomLevel = 13;
 
 	public EventViewMapOnlyGwtImpl() {
+		super();
 		main = new RootFlexPanel();
 		main.setSize("100%", "100%");
 
@@ -113,7 +114,7 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	 */
 	public void setDescription(String description) {
 		this.description = description;
-		title.setText(description);
+		headerButtonBar.setText(description);
 	}
 
 	/**
@@ -135,8 +136,8 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	}
 
 	public HasHandlers getHeaderTapHandlers() {
-		return title;
-		// return null;
+		// return title;
+		return null;
 	}
 
 	/**
@@ -190,8 +191,7 @@ public class EventViewMapOnlyGwtImpl extends EventViewBaseImpl implements
 	 */
 	@Override
 	public HasTapHandlers getHomeButton() {
-		// return headerButtonBar.getHomeButton();
-		return null;
+		return headerButtonBar.getHomeButton();
 	}
 
 	/**

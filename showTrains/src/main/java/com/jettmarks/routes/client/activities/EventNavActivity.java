@@ -29,26 +29,26 @@ import com.jettmarks.routes.client.ClientFactory;
  * @author jett
  */
 public class EventNavActivity extends EventActivity implements Activity {
-    /**
-     * @param newPlace
-     * @param clientFactory
-     */
-    public EventNavActivity(Place newPlace, ClientFactory clientFactory) {
-	super(clientFactory.getEventListView());
-	super.setupInstance(newPlace, clientFactory);
-    }
+	/**
+	 * @param newPlace
+	 * @param clientFactory
+	 */
+	public EventNavActivity(Place newPlace, ClientFactory clientFactory) {
+		super(clientFactory.getEventListView());
+		super.setupInstance(newPlace, clientFactory);
+	}
 
-    /**
-     * @see com.jettmarks.routes.client.activities.EventActivity#start(com.google.gwt.user.client.ui.AcceptsOneWidget,
-     *      com.google.gwt.event.shared.EventBus)
-     */
-    @Override
-    public void start(AcceptsOneWidget panel, EventBus eventBus) {
-	super.start(panel, eventBus);
-	view.getHeader().setText("Trains");
-	// Nav won't need these buttons
-	view.enableHomeButton(false);
-	view.enableBackButton(false);
-	view.enableForwardButton(false);
-    }
+	/**
+	 * @see com.jettmarks.routes.client.activities.EventActivity#start(com.google.gwt.user.client.ui.AcceptsOneWidget,
+	 *      com.google.gwt.event.shared.EventBus)
+	 */
+	@Override
+	public void start(AcceptsOneWidget panel, EventBus eventBus) {
+		super.start(panel, eventBus);
+		view.getHeader().setText("Trains");
+		// Nav won't need these buttons
+		view.enableHomeButton(false);
+		view.enableBackButton(false);
+		view.enableForwardButton(false);
+	}
 }

@@ -24,6 +24,7 @@ import com.googlecode.mgwt.dom.client.event.tap.HasTapHandlers;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.list.celllist.CellList;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.FlexSpacer;
 import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 import com.googlecode.mgwt.ui.client.widget.panel.scroll.ScrollPanel;
 import com.jettmarks.routes.client.NavLink;
@@ -48,10 +49,14 @@ public class NavLinkViewGwtImpl implements NavLinkView {
 	public NavLinkViewGwtImpl() {
 		main = new RootFlexPanel();
 		// main.addStyleDependentName("navLink");
+
 		title = new HeaderTitle();
 		headerPanel = new HeaderPanel();
 		// headerPanel.addStyleDependentName("navLink");
+		headerPanel.add(new FlexSpacer());
 		headerPanel.add(title);
+		headerPanel.add(new FlexSpacer());
+
 		imagePanel = new VerticalPanel();
 		imagePanel.addStyleName("logo-image");
 		scrollPanel = new ScrollPanel();
