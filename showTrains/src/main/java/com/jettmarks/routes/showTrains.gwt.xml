@@ -10,6 +10,8 @@
 	<inherits name="com.google.gwt.maps.Maps"/>
 	<inherits name="com.google.gwt.resources.Resources"/>
 	
+	<inherits name="com.jettmarks.routes.client.ui.widget.button.ImageHolder"/>
+	
 	<inherits name="com.google.code.p.gwtchismes.GWTChismes" />
 	<stylesheet src="GWTC-compressed.css" />
 	<stylesheet src="css/progressBar.css" />

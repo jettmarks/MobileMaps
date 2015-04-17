@@ -25,13 +25,13 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.widget.button.ButtonBase;
-import com.googlecode.mgwt.ui.client.widget.button.image.HeadsetImageButton;
 import com.googlecode.mgwt.ui.client.widget.button.image.NextImageButton;
 import com.googlecode.mgwt.ui.client.widget.button.image.PreviousImageButton;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderPanel;
 import com.googlecode.mgwt.ui.client.widget.header.HeaderTitle;
 import com.googlecode.mgwt.ui.client.widget.panel.flex.FlexSpacer;
 import com.jettmarks.routes.client.css.AppBundle;
+import com.jettmarks.routes.client.ui.widget.HomeButton;
 
 /**
  * Replacement for ButtonBar where I can better manage the width of the central
@@ -64,7 +64,7 @@ public class HeaderButtonBar extends HeaderPanel implements HasText {
 	// private ButtonBase homeButton = new HomeImageButton();
 
 	// Something goofball until I can assemble my own Home Button:
-	private ButtonBase homeButton = new HeadsetImageButton();
+	private ButtonBase homeButton = new HomeButton();
 	private boolean homeButtonEnabled = true;
 
 	/**

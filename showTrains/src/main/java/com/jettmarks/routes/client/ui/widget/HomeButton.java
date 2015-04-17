@@ -13,28 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Created Sep 7, 2014
+ * Created April 16, 2015
  */
 package com.jettmarks.routes.client.ui.widget;
 
-import com.googlecode.mgwt.ui.client.widget.button.ButtonBase;
-import com.googlecode.mgwt.ui.client.widget.button.ButtonBaseAppearance;
+import com.googlecode.mgwt.ui.client.widget.button.ImageButton;
+import com.jettmarks.routes.client.ui.widget.button.ImageHolder;
 
 /**
- * Description.
+ * Picture of a house.
  * 
  * @author jett
- * @deprecated - may no longer be needed.
  */
-public class HomeButton extends ButtonBase {
-
-	public HomeButton(ButtonBaseAppearance appearance) {
-		super(appearance);
-		// TODO Auto-generated constructor stub
+public class HomeButton extends ImageButton {
+	public HomeButton() {
+		super(ImageHolder.get().home());
 	}
-
-	// public HomeButton() {
-	// // super(AppBundle.INSTANCE.getButtonBarHomeImage());
-	// }
-
 }

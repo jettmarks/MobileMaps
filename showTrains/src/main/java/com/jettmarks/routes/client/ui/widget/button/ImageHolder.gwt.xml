@@ -1,0 +1,15 @@
+
+<module>
+  <replace-with class="com.jettmarks.routes.client.ui.widget.button.ImageHolderDefaultAppearance">
+    <when-type-is class="com.jettmarks.routes.client.ui.widget.button.ImageHolder.Appearance" />
+  </replace-with>
+  <!--   -->
+  <replace-with class="com.jettmarks.routes.client.ui.widget.button.ImageHolderDefaultAppearance">
+    <when-type-is class="com.jettmarks.routes.client.ui.widget.button.ImageHolder.Appearance" />
+      <when-property-is name="mgwt.density" value="high" />
+  </replace-with>
+  <replace-with class="com.jettmarks.routes.client.ui.widget.button.ImageHolderDefaultAppearance">
+    <when-type-is class="com.jettmarks.routes.client.ui.widget.button.ImageHolder.Appearance" />
+      <when-property-is name="mgwt.density" value="xhigh" />
+  </replace-with>
+</module>
